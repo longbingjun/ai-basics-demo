@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>业务人员如何理解 AI</title>
+  <style>
+    :root {
+      --bg: #f4f6fa;
+      --ink: #101827;
+      --muted: #647084;
+      --subtle: #eef2f8;
+      --line: #dbe3ef;
+      --paper: #ffffff;
+      --blue: #2155d9;
+      --blue-soft: #edf3ff;
+      --green: #0f766e;
+      --green-soft: #eaf8f5;
+      --amber: #a8560c;
+      --amber-soft: #fff5e8;
+      --shadow: 0 24px 70px rgba(16, 24, 39, 0.12);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
+      background:
+        linear-gradient(135deg, rgba(33, 85, 217, 0.10), transparent 38%),
+        linear-gradient(315deg, rgba(15, 118, 110, 0.10), transparent 34%),
+        var(--bg);
+    }
+
+    .app {
+      min-height: 100vh;
+      padding: 28px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 18px;
+    }
+
+    header {
+      max-width: 1180px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 36px;
+      line-height: 1.16;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 10px 0 0;
+      max-width: 780px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    button {
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--ink);
+      padding: 0 14px;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(16, 24, 39, 0.07);
+    }
+
+    button.primary {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+    }
+
+    button:focus-visible,
+    .nav-item:focus-visible,
+    .subtab:focus-visible {
+      outline: 3px solid rgba(33, 85, 217, 0.28);
+      outline-offset: 2px;
+    }
+
+    main {
+      max-width: 1180px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 286px minmax(0, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .sidebar,
+    .slide {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(219, 227, 239, 0.92);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .sidebar {
+      padding: 14px;
+      display: grid;
+      align-content: start;
+      gap: 8px;
+    }
+
+    .nav-item {
+      width: 100%;
+      min-height: 78px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      background: transparent;
+      box-shadow: none;
+      text-align: left;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .nav-index {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--subtle);
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .nav-title {
+      display: block;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+
+    .nav-sub {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .nav-item.active {
+      border-color: rgba(33, 85, 217, 0.28);
+      background: var(--blue-soft);
+    }
+
+    .nav-item.active .nav-index {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .slide {
+      min-height: 680px;
+      padding: 30px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 24px;
+    }
+
+    .slide-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: start;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stage-label {
+      display: inline-flex;
+      width: fit-content;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .slide h2 {
+      margin: 0;
+      font-size: 32px;
+      line-height: 1.22;
+      letter-spacing: 0;
+    }
+
+    .slide-desc {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.72;
+      font-size: 16px;
+      max-width: 760px;
+    }
+
+    .progress {
+      min-width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: conic-gradient(var(--blue) var(--progress), #e7ecf5 0);
+      position: relative;
+    }
+
+    .progress::after {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      background: var(--paper);
+    }
+
+    .progress span {
+      position: relative;
+      z-index: 1;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .content {
+      display: grid;
+      align-content: start;
+      gap: 18px;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .concept-card,
+    .info-card,
+    .sample-card,
+    .path-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fbfcff;
+      padding: 18px;
+    }
+
+    .concept-card h3,
+    .info-card h3,
+    .sample-card h3,
+    .path-card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .concept-card p,
+    .info-card p,
+    .sample-card p,
+    .path-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.72;
+      font-size: 15px;
+    }
+
+    .chain {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .chain-card {
+      position: relative;
+      min-height: 138px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fbfcff;
+      padding: 17px;
+    }
+
+    .chain-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .chain-card span {
+      color: var(--muted);
+      line-height: 1.68;
+      font-size: 14px;
+    }
+
+    .subtabs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .subtab {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: none;
+      height: auto;
+      min-height: 68px;
+      padding: 11px 12px;
+      text-align: left;
+    }
+
+    .subtab strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 4px;
+      font-size: 15px;
+    }
+
+    .subtab span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .subtab.active {
+      border-color: rgba(15, 118, 110, 0.36);
+      background: var(--green-soft);
+    }
+
+    .case-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 14px;
+    }
+
+    .sample-box {
+      border: 1px solid #cbd7ef;
+      border-radius: 16px;
+      background: var(--blue-soft);
+      padding: 18px;
+      margin-top: 14px;
+    }
+
+    .sample-label {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .sample-text {
+      font-size: 21px;
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    .result {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 10px;
+      padding: 9px 11px;
+      border-radius: 12px;
+      background: var(--green-soft);
+      color: #145142;
+      font-weight: 900;
+    }
+
+    .tokens {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .token {
+      display: inline-flex;
+      padding: 6px 9px;
+      border: 1px solid #cbd7ef;
+      border-radius: 10px;
+      background: #fff;
+      color: #1e3a8a;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .quote {
+      margin: 0;
+      padding: 15px 16px;
+      border-left: 4px solid var(--green);
+      border-radius: 14px;
+      background: rgba(15, 118, 110, 0.08);
+      color: #24473b;
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .path-card {
+      min-height: 150px;
+    }
+
+    .path-card em {
+      display: inline-flex;
+      font-style: normal;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--soft-amber);
+      color: var(--amber);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .action-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fbfcff;
+      padding: 16px;
+      min-height: 150px;
+    }
+
+    .action-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+      color: var(--ink);
+    }
+
+    .action-card span {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 1020px) {
+      .app { padding: 18px; }
+      header,
+      main,
+      .slide-head,
+      .case-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .controls { justify-content: flex-start; }
+      .sidebar { grid-template-columns: repeat(2, 1fr); }
+      .slide { min-height: auto; }
+      .concept-grid,
+      .chain,
+      .project-grid,
+      .action-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 28px; }
+      .slide h2 { font-size: 25px; }
+      .sidebar,
+      .concept-grid,
+      .chain,
+      .subtabs,
+      .project-grid,
+      .action-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <p class="eyebrow">How to Use AI · 基础认知篇</p>
+        <h1>用更像培训课件的方式理解 AI</h1>
+        <p class="lead">这版不把所有内容堆在一页里，而是按章节点击切换。先讲基础概念，再讲模型链条，再用翻译例子串起来，最后过渡到项目化使用。</p>
+      </div>
+      <div class="controls">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </div>
+    </header>
+
+    <main>
+      <nav id="nav" class="sidebar" aria-label="章节导航"></nav>
+
+      <section class="slide">
+        <div class="slide-head">
+          <div>
+            <span id="stageLabel" class="stage-label"></span>
+            <h2 id="stageTitle"></h2>
+            <p id="stageDesc" class="slide-desc"></p>
+          </div>
+          <div id="progress" class="progress"><span id="progressText"></span></div>
+        </div>
+
+        <div class="content">
+          <div id="stage0" class="stage-pane">
+            <div class="concept-grid">
+              <article class="concept-card"><h3>Token</h3><p>AI 读写文字时使用的小颗粒，不一定等于一个字或一个词。</p></article>
+              <article class="concept-card"><h3>Prompt</h3><p>用户给 AI 的任务说明书，告诉它要做什么、怎么做、不要做什么。</p></article>
+              <article class="concept-card"><h3>上下文</h3><p>AI 当前能看到的信息，包括问题、文件、规则、样例和历史对话。</p></article>
+              <article class="concept-card"><h3>推理</h3><p>模型在使用时，根据输入和上下文生成答案的过程。</p></article>
+              <article class="concept-card"><h3>幻觉</h3><p>AI 生成了看似合理但没有依据或不正确的内容。</p></article>
+              <article class="concept-card"><h3>RAG / 工具调用</h3><p>让 AI 基于指定资料回答，或调用工具读文件、写代码、运行命令。</p></article>
+            </div>
+          </div>
+
+          <div id="stage1" class="stage-pane hidden">
+            <div class="chain">
+              <article class="chain-card"><strong>数据收集</strong><span>模型先接触大量文本、代码、网页、书籍、问答和翻译样例。</span></article>
+              <article class="chain-card"><strong>预训练</strong><span>模型从海量资料中学习语言规律、知识关系和表达模式。</span></article>
+              <article class="chain-card"><strong>后训练</strong><span>模型进一步学习如何按人的指令回答、遵守格式和边界。</span></article>
+              <article class="chain-card"><strong>用户输入</strong><span>用户通过 Prompt 把任务、规则、语气和输出要求交给模型。</span></article>
+              <article class="chain-card"><strong>推理生成</strong><span>模型结合上下文，一步步生成最可能合适的内容。</span></article>
+              <article class="chain-card"><strong>人工复核</strong><span>人检查事实、业务口径、金额、合规和最终判断是否可靠。</span></article>
+            </div>
+          </div>
+
+          <div id="stage2" class="stage-pane hidden">
+            <div id="subtabs" class="subtabs"></div>
+            <div id="case0" class="case-pane">
+              <div class="case-layout">
+                <article class="sample-card">
+                  <h3>一句翻译任务</h3>
+                  <p>用户希望 AI 把一句中文翻译成自然英文，并且不要添加额外含义。</p>
+                  <div class="sample-box">
+                    <span class="sample-label">用户输入</span>
+                    <div class="sample-text">请把“我想要学习英语”翻译成自然英文，不要添加额外含义。</div>
+                    <span class="sample-label">理想输出</span>
+                    <div class="result">I want to learn English.</div>
+                  </div>
+                </article>
+                <aside>
+                  <p class="quote">这个例子足够简单，但能讲清楚 Token、Prompt、上下文、预训练、后训练、推理生成和人工复核。</p>
+                </aside>
+              </div>
+            </div>
+
+            <div id="case1" class="case-pane hidden">
+              <div class="case-layout">
+                <article class="info-card">
+                  <h3>Token 和 Prompt</h3>
+                  <p>Prompt 会被拆成 token，模型再基于这些小颗粒和上下文理解任务。</p>
+                  <p>英文 <strong>I want to learn English.</strong> 可以粗略理解为：</p>
+                  <div class="tokens">
+                    <span class="token">I</span><span class="token">want</span><span class="token">to</span><span class="token">learn</span><span class="token">English</span><span class="token">.</span>
+                  </div>
+                  <p style="margin-top:14px;">中文“我想要学习英语”可以粗略理解为：</p>
+                  <div class="tokens">
+                    <span class="token">我</span><span class="token">想要</span><span class="token">学习</span><span class="token">英语</span>
+                  </div>
+                </article>
+                <aside>
+                  <p class="quote">Token 不需要精确计算，只要知道内容越长，占用上下文越多。Prompt 不是咒语，而是任务说明书。</p>
+                </aside>
+              </div>
+            </div>
+
+            <div id="case2" class="case-pane hidden">
+              <div class="chain">
+                <article class="chain-card"><strong>预训练</strong><span>模型见过大量中英文文本，学到“我想要……”常对应 “I want to ...”，“学习英语”常对应 “learn English”。</span></article>
+                <article class="chain-card"><strong>后训练</strong><span>模型学会了看到“请翻译”就执行翻译任务，而不是随意续写；看到“不要添加额外含义”就避免加 only。</span></article>
+                <article class="chain-card"><strong>推理生成</strong><span>真正使用时，模型结合 Prompt、上下文和语言规律，生成 I want to learn English.</span></article>
+              </div>
+              <article class="info-card" style="margin-top:14px;">
+                <h3>为什么不是唯一答案？</h3>
+                <p>I want to learn English 自然通用；I would like to learn English 更礼貌；I want to study English 更偏课程学习；I only want to study English 多了“只想”的含义，不适合普通翻译。</p>
+              </article>
+            </div>
+          </div>
+
+          <div id="stage3" class="stage-pane hidden">
+            <div class="project-grid">
+              <article class="path-card"><em>能动手</em><h3>Agent</h3><p>大模型加上工具、权限和执行循环，能读文件、写脚本、跑任务、迭代修正。</p></article>
+              <article class="path-card"><em>能稳定</em><h3>Script</h3><p>把确定、重复、规则清楚的步骤写成可执行代码。</p></article>
+              <article class="path-card"><em>能重复</em><h3>Workflow</h3><p>一套固定做事流程，适合经常重复执行的任务。</p></article>
+              <article class="path-card"><em>有依据</em><h3>Reference</h3><p>执行任务时必须遵守或查询的标准依据，如字段定义、术语表、业务规则。</p></article>
+              <article class="path-card"><em>可复用</em><h3>Skill</h3><p>把触发条件、流程、规则、样例和工具打包成可复用能力。</p></article>
+              <article class="path-card"><em>可回退</em><h3>Git</h3><p>记录代码、规则和文档变化，方便协作、审查和回退。</p></article>
+            </div>
+          </div>
+
+          <div id="stage4" class="stage-pane hidden">
+            <div class="action-grid">
+              <article class="action-card"><strong>1. 说清目标</strong><span>明确你要 AI 做什么，而不是只说“帮我看看”。</span></article>
+              <article class="action-card"><strong>2. 给足上下文</strong><span>提供规则、文件、样例、术语表和限制条件。</span></article>
+              <article class="action-card"><strong>3. 写明边界</strong><span>说明哪些不要擅自判断，哪些必须人工确认。</span></article>
+              <article class="action-card"><strong>4. 先计划再执行</strong><span>复杂任务先让 AI 说明步骤，再授权它动手。</span></article>
+              <article class="action-card"><strong>5. 复核并沉淀</strong><span>重要结果要检查，重复任务要变成 Workflow 或 Skill。</span></article>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const stages = [
+      {
+        label: "第一部分",
+        title: "基础概念",
+        desc: "用一句话讲清楚使用 AI 必须知道的几个基本词。",
+        nav: "基础概念",
+        sub: "先认识零件"
+      },
+      {
+        label: "第二部分",
+        title: "大模型从训练到输出",
+        desc: "把大模型理解成一条链：先学习语言规律，再学习听指令，最后根据用户输入生成答案。",
+        nav: "模型链条",
+        sub: "训练到输出"
+      },
+      {
+        label: "第三部分",
+        title: "用翻译例子串起整个过程",
+        desc: "用“我想要学习英语”这个简单例子，把 Token、Prompt、训练和生成过程讲清楚。",
+        nav: "具体例子",
+        sub: "翻译任务"
+      },
+      {
+        label: "第四部分",
+        title: "从简单问答到项目化使用",
+        desc: "当任务从一句话变成一个项目，就需要 Agent、Script、Workflow、Reference、Skill 和 Git。",
+        nav: "项目化使用",
+        sub: "能力成熟路径"
+      },
+      {
+        label: "第五部分",
+        title: "用户行动原则",
+        desc: "业务人员真正需要掌握的是怎么说清目标、给足上下文、控制边界、复核结果。",
+        nav: "行动原则",
+        sub: "用户怎么做"
+      }
+    ];
+
+    const caseTabs = [
+      ["翻译任务", "一个简单例子"],
+      ["Token / Prompt", "AI 怎么读输入"],
+      ["训练到生成", "为什么会翻译"]
+    ];
+
+    const nav = document.getElementById("nav");
+    const panes = [...document.querySelectorAll(".stage-pane")];
+    const stageLabel = document.getElementById("stageLabel");
+    const stageTitle = document.getElementById("stageTitle");
+    const stageDesc = document.getElementById("stageDesc");
+    const progress = document.getElementById("progress");
+    const progressText = document.getElementById("progressText");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const subtabs = document.getElementById("subtabs");
+    const casePanes = [...document.querySelectorAll(".case-pane")];
+    let active = 0;
+    let activeCase = 0;
+
+    function buildNav() {
+      nav.innerHTML = stages.map((stage, index) => `
+        <button class="nav-item" data-index="${index}">
+          <span class="nav-index">${index + 1}</span>
+          <span>
+            <span class="nav-title">${stage.nav}</span>
+            <span class="nav-sub">${stage.sub}</span>
+          </span>
+        </button>
+      `).join("");
+      document.querySelectorAll(".nav-item").forEach(item => {
+        item.addEventListener("click", () => setStage(Number(item.dataset.index)));
+      });
+    }
+
+    function buildCaseTabs() {
+      subtabs.innerHTML = caseTabs.map((tab, index) => `
+        <button class="subtab" data-case="${index}">
+          <strong>${tab[0]}</strong>
+          <span>${tab[1]}</span>
+        </button>
+      `).join("");
+      document.querySelectorAll(".subtab").forEach(item => {
+        item.addEventListener("click", () => setCase(Number(item.dataset.case)));
+      });
+    }
+
+    function setStage(index) {
+      active = Math.max(0, Math.min(index, stages.length - 1));
+      const stage = stages[active];
+      panes.forEach((pane, idx) => pane.classList.toggle("hidden", idx !== active));
+      document.querySelectorAll(".nav-item").forEach((item, idx) => item.classList.toggle("active", idx === active));
+      stageLabel.textContent = stage.label;
+      stageTitle.textContent = stage.title;
+      stageDesc.textContent = stage.desc;
+      progressText.textContent = `${active + 1}/${stages.length}`;
+      progress.style.setProperty("--progress", `${((active + 1) / stages.length) * 100}%`);
+    }
+
+    function setCase(index) {
+      activeCase = Math.max(0, Math.min(index, caseTabs.length - 1));
+      casePanes.forEach((pane, idx) => pane.classList.toggle("hidden", idx !== activeCase));
+      document.querySelectorAll(".subtab").forEach((item, idx) => item.classList.toggle("active", idx === activeCase));
+    }
+
+    prevBtn.addEventListener("click", () => setStage(active - 1));
+    nextBtn.addEventListener("click", () => setStage(active + 1));
+    document.addEventListener("keydown", event => {
+      if (event.key === "ArrowRight") setStage(active + 1);
+      if (event.key === "ArrowLeft") setStage(active - 1);
+    });
+
+    buildNav();
+    buildCaseTabs();
+    setStage(0);
+    setCase(0);
+  </script>
+</body>
+</html>
