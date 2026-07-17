@@ -60,11 +60,7 @@
       font-weight: 700;
     }
 
-    h1 {
-      margin: 0;
-      font-size: 36px;
-      line-height: 1.16;
-    }
+    h1 { margin: 0; font-size: 36px; line-height: 1.16; }
 
     .lead {
       margin: 10px 0 0;
@@ -101,7 +97,9 @@
 
     button:focus-visible,
     .nav-item:focus-visible,
-    .subtab:focus-visible {
+    .subtab:focus-visible,
+    .step-btn:focus-visible,
+    .mini-tab:focus-visible {
       outline: 3px solid rgba(33, 85, 217, 0.28);
       outline-offset: 2px;
     }
@@ -212,11 +210,7 @@
       margin-bottom: 12px;
     }
 
-    .slide h2 {
-      margin: 0;
-      font-size: 32px;
-      line-height: 1.22;
-    }
+    .slide h2 { margin: 0; font-size: 32px; line-height: 1.22; }
 
     .slide-desc {
       margin: 10px 0 0;
@@ -257,37 +251,142 @@
       gap: 18px;
     }
 
-    .concept-grid {
+    /* 左步骤 + 右 Tab 布局 */
+    .split-pane {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      grid-template-columns: 210px minmax(0, 1fr);
+      gap: 16px;
+      align-items: stretch;
     }
 
-    .concept-card,
-    .info-card,
-    .sample-card,
-    .path-card,
-    .chain-card,
-    .action-card {
+    .step-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 4px;
+      border-right: 1px solid var(--line);
+      padding-right: 14px;
+    }
+
+    .step-btn {
+      width: 100%;
+      height: auto;
+      min-height: 52px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      background: transparent;
+      box-shadow: none;
+      text-align: left;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .step-btn .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--subtle);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .step-btn .step-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .step-btn .step-hint {
+      grid-column: 2;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-top: -2px;
+    }
+
+    .step-btn.active {
+      border-color: rgba(33, 85, 217, 0.28);
+      background: var(--blue-soft);
+    }
+
+    .step-btn.active .step-num {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .step-main {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 14px;
+      min-height: 420px;
+    }
+
+    .step-headline h3 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    .mini-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mini-tab {
+      height: 36px;
+      padding: 0 16px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: none;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .mini-tab.active {
+      border-color: rgba(15, 118, 110, 0.36);
+      background: var(--green-soft);
+      color: #145142;
+    }
+
+    .tab-body {
       border: 1px solid var(--line);
       border-radius: 16px;
       background: #fbfcff;
-      padding: 18px;
+      padding: 20px;
+      overflow-y: auto;
+      max-height: 380px;
     }
 
-    .concept-card.wide { grid-column: 1 / -1; }
-
-    .concept-card h3,
-    .info-card h3,
-    .sample-card h3,
-    .path-card h3 {
+    .tab-body p {
       margin: 0 0 10px;
-      font-size: 18px;
-      line-height: 1.35;
+      color: var(--muted);
+      line-height: 1.72;
+      font-size: 15px;
     }
+
+    .tab-body p:last-child { margin-bottom: 0; }
+
+    .step-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 4px;
+      border-top: 1px solid var(--line);
+    }
+
+    .step-footer button { min-width: 120px; }
 
     .essence {
-      margin: 0 0 10px;
+      margin: 0;
       padding: 10px 12px;
       border-radius: 12px;
       background: var(--blue-soft);
@@ -297,33 +396,16 @@
       line-height: 1.65;
     }
 
-    .essence::before {
-      content: "本质 · ";
-      color: var(--blue);
+    .link-ref {
+      margin: 0;
+      padding: 12px 14px;
+      border-left: 4px solid var(--green);
+      border-radius: 12px;
+      background: rgba(15, 118, 110, 0.08);
+      color: #24473b;
+      font-size: 14px;
+      line-height: 1.7;
     }
-
-    .concept-card p,
-    .info-card p,
-    .sample-card p,
-    .path-card p {
-      margin: 0 0 10px;
-      color: var(--muted);
-      line-height: 1.72;
-      font-size: 15px;
-    }
-
-    .concept-card p:last-child,
-    .info-card p:last-child { margin-bottom: 0; }
-
-    .example-label {
-      display: block;
-      margin: 12px 0 6px;
-      color: var(--green);
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .example-label::before { content: "例子 · "; }
 
     .inline-tokens {
       display: flex;
@@ -376,43 +458,30 @@
       opacity: 0.8;
     }
 
-    .phase-block { display: grid; gap: 12px; }
-
-    .phase-title {
-      margin: 0;
-      padding: 8px 14px;
-      border-radius: 12px;
-      background: var(--subtle);
-      color: var(--ink);
-      font-size: 15px;
-      font-weight: 800;
+    .info-card,
+    .sample-card,
+    .path-card,
+    .action-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fbfcff;
+      padding: 18px;
     }
 
-    .chain {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+    .info-card h3,
+    .sample-card h3,
+    .path-card h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
     }
 
-    .chain-card strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 17px;
-    }
-
-    .chain-card .essence-mini {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--blue);
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1.55;
-    }
-
-    .chain-card span {
+    .info-card p,
+    .sample-card p,
+    .path-card p {
+      margin: 0 0 10px;
       color: var(--muted);
-      line-height: 1.68;
-      font-size: 14px;
+      line-height: 1.72;
+      font-size: 15px;
     }
 
     .bridge-note {
@@ -521,28 +590,13 @@
       font-weight: 800;
     }
 
-    .quote {
-      margin: 0;
-      padding: 15px 16px;
-      border-left: 4px solid var(--green);
-      border-radius: 14px;
-      background: rgba(15, 118, 110, 0.08);
-      color: #24473b;
-      line-height: 1.75;
-      font-size: 15px;
-    }
-
-    .maturity-list {
-      display: grid;
-      gap: 10px;
-    }
+    .maturity-list { display: grid; gap: 10px; }
 
     .path-card {
       display: grid;
       grid-template-columns: 52px 140px 1fr;
       gap: 14px;
       align-items: start;
-      min-height: auto;
     }
 
     .path-step {
@@ -570,7 +624,6 @@
     }
 
     .path-card h3 { margin: 0 0 6px; }
-
     .path-card p { margin: 0; }
 
     .file-tag {
@@ -611,18 +664,29 @@
       .controls { justify-content: flex-start; }
       .sidebar { grid-template-columns: repeat(2, 1fr); }
       .slide { min-height: auto; }
-      .concept-grid, .chain, .action-grid, .subtabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .split-pane { grid-template-columns: 1fr; }
+      .step-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        border-right: none;
+        padding-right: 0;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 12px;
+      }
+      .step-btn { width: auto; min-width: 140px; }
+      .action-grid, .subtabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .path-card { grid-template-columns: 44px 1fr; }
       .path-card > div:nth-child(2) { grid-column: 2; }
       .path-card > div:nth-child(3) { grid-column: 1 / -1; }
       .compare { grid-template-columns: 1fr; }
+      .tab-body { max-height: none; }
     }
 
     @media (max-width: 640px) {
       h1 { font-size: 28px; }
       .slide h2 { font-size: 25px; }
-      .sidebar, .concept-grid, .chain, .subtabs, .action-grid { grid-template-columns: 1fr; }
-      .concept-card.wide { grid-column: auto; }
+      .sidebar, .subtabs, .action-grid { grid-template-columns: 1fr; }
+      .step-btn { width: 100%; }
     }
   </style>
 </head>
@@ -632,7 +696,7 @@
       <div>
         <p class="eyebrow">How to Use AI · 基础认知篇</p>
         <h1>业务人员如何理解 AI</h1>
-        <p class="lead">按章节逐步理解：先掌握核心概念，再看模型从训练到输出的链条，用翻译例子串起概率生成机制，最后了解从简单对话到项目化使用的演进路径。</p>
+        <p class="lead">按章节逐步理解：先按顺序掌握使用侧概念，再看模型从出厂到使用的完整链条，用翻译例子串起概率生成机制，最后了解项目化路径。</p>
       </div>
       <div class="controls">
         <button id="prevBtn">上一步</button>
@@ -654,135 +718,43 @@
         </div>
 
         <div class="content">
-          <!-- 第一部分：基础概念 -->
-          <div id="stage0" class="stage-pane">
-            <div class="concept-grid">
-              <article class="concept-card">
-                <h3>Token</h3>
-                <p class="essence">模型读写文字时的最小单位，来自一张固定的「词表」，不等于一个字或一个词。</p>
-                <p><strong>划分依据：</strong>词表里的条目，是训练前从海量文本中<strong>统计高频片段</strong>得到的。切分时从左到右，<strong>优先匹配词表中最长的片段</strong>——常见词/短语整段保留，少见词拆成更小的片段。</p>
-                <span class="example-label">英文</span>
-                <p><code>Hello world</code> → 常见词，通常整段匹配：</p>
-                <div class="inline-tokens">
-                  <span class="token">Hello</span><span class="token"> world</span>
-                </div>
-                <p><code>uncharacteristically</code> → 少见长词，词表里没有整词，拆成子片段：</p>
-                <div class="inline-tokens">
-                  <span class="token">un</span><span class="token">character</span><span class="token">istically</span>
-                </div>
-                <span class="example-label">中文</span>
-                <p><code>我想要学习英语</code> → 同一规则，高频片段优先：</p>
-                <div class="inline-tokens">
-                  <span class="token">我</span><span class="token">想要</span><span class="token">学习</span><span class="token">英语</span>
-                </div>
-                <p>「想要」「英语」在语料中出现频率高，容易成为独立 token；不是按新华字典的「字」来切。</p>
-              </article>
-
-              <article class="concept-card">
-                <h3>Prompt</h3>
-                <p class="essence">你发给模型的完整任务说明，告诉它做什么、怎么做、不要做什么。</p>
-                <span class="example-label">日常对比</span>
-                <div class="compare">
-                  <div class="compare-item bad">
-                    <strong>不清楚</strong>
-                    帮我写个生日祝福。
-                  </div>
-                  <div class="compare-item good">
-                    <strong>清楚</strong>
-                    给我妈写一段 80 字以内的生日祝福，语气温馨不要太正式，不要提到年龄。
-                  </div>
-                </div>
-                <p style="margin-top:10px;">Prompt 不是「魔法咒语」，而是把需求说清楚。说得越具体，模型越知道该输出什么风格和内容。</p>
-              </article>
-
-              <article class="concept-card">
-                <h3>上下文</h3>
-                <p class="essence">模型在当前这一轮对话里能「看见」的全部信息，且有长度上限。</p>
-                <span class="example-label">日常构成</span>
-                <p>你这次的问题 + 之前的聊天记录 + 系统设定（如「你是一个翻译助手」）。内容越长，占用的 token 越多；超过上限时，最早的内容会被挤掉。</p>
-              </article>
-
-              <article class="concept-card">
-                <h3>推理（概率生成）</h3>
-                <p class="essence">大模型是概率输出模型：根据当前已有的 token，逐个预测下一个最可能出现的 token，直到生成结束。</p>
-                <span class="example-label">翻译时的内部过程（简化）</span>
-                <p>模型已经输出了 <code>I</code>，接下来要在词表里选下一个 token。在预训练和后训练见过的语料中，<code>I</code> 后面跟 <code>want</code> 的情况非常多，所以 <code>want</code> 的预测概率最高，模型就选择输出 <code>want</code>。然后基于 <code>I want</code> 继续预测下一个，如此循环，直到输出句号。</p>
-                <p>因此模型不是在「查标准答案库」，而是在做<strong>概率最高的连续选择</strong>——这就是为什么同一个问题可能有多种合理回答。</p>
-              </article>
-
-              <article class="concept-card">
-                <h3>幻觉</h3>
-                <p class="essence">模型用流畅、自信的语言，输出了错误、编造或缺乏依据的内容。</p>
-                <p><strong>为什么会发生？</strong></p>
-                <p>① 模型的本职是「预测看起来合理的下一段文字」，不是「核实事实是否正确」——即使上下文里没有可靠信息，它仍会输出统计上最像答案的内容。</p>
-                <p>② 训练数据本身可能有错误、过时或互相矛盾的信息，模型学到的是「文本中的规律」，不是「经过验证的真值」。③ 当被问到具体细节（人名、日期、数据）而模型没有足够依据时，它倾向于「补全」一个听起来合理的说法，而不是回答「我不知道」。</p>
-                <span class="example-label">日常例子</span>
-                <p>问 AI「某小众餐厅昨天有没有营业」——模型可能编造一个具体答案，因为它在预测「这类问题后面通常跟着怎样的回答」，而不是去查营业记录。</p>
-              </article>
-
-              <article class="concept-card wide">
-                <h3>RAG（检索增强生成）</h3>
-                <p class="essence">Retrieval-Augmented Generation：在模型生成回答之前，先从外部资料库中检索相关内容，再把检索结果放进 Prompt，让模型「带着依据」来回答。</p>
-                <p><strong>实现过程的本质（四步）：</strong></p>
-                <p>① 用户提问 → ② 系统从文档库中<strong>检索</strong>与问题最相关的段落 → ③ 把检索到的段落<strong>插入 Prompt</strong>（作为上下文的一部分）→ ④ 大模型基于这些段落<strong>生成</strong>回答。</p>
-                <p><strong>与大模型的关系：</strong>RAG 不替代大模型，也不改变它的概率生成机制。大模型仍然是一个 token 一个 token 地预测输出；RAG 做的是在生成前给它<strong>「开卷资料」</strong>，让预测有材料可依，而不是只靠模型内部的「记忆」。</p>
-                <p><strong>与幻觉的关系：</strong>当问题的答案确实存在于资料库中，且检索到了正确段落时，模型有据可查，幻觉会明显减少。但如果资料库没有相关内容、检索不准、或资料本身有误，模型仍可能编造——RAG 是<strong>降低</strong>幻觉的手段，不能<strong>彻底消除</strong>幻觉。</p>
-                <p style="margin-top:8px;color:var(--muted);font-size:14px;">补充：「工具调用」是让模型能读文件、运行程序、访问外部系统；RAG 解决「依据从哪来」，工具调用解决「手能不能伸出去做事」——两者常配合使用。</p>
-              </article>
-            </div>
-          </div>
-
-          <!-- 第二部分：模型链条 -->
-          <div id="stage1" class="stage-pane hidden">
-            <div class="phase-block">
-              <p class="phase-title">出厂前：模型怎么被做出来</p>
-              <div class="chain">
-                <article class="chain-card">
-                  <strong>数据收集</strong>
-                  <span class="essence-mini">收集海量文本作为模型的「阅读材料」</span>
-                  <span>网页、书籍、代码、问答、翻译对照等。材料越多样，模型见过的语言场景越广。</span>
-                </article>
-                <article class="chain-card">
-                  <strong>预训练</strong>
-                  <span class="essence-mini">Next Token Prediction：给定前面的 token，猜下一个 token</span>
-                  <span>在海量文本上重复这一任务亿万次。模型逐渐学会语法、常识和知识之间的统计关联——例如「I」后面常跟「want」，「学习」和「learn」常出现在类似位置。</span>
-                </article>
-                <article class="chain-card">
-                  <strong>后训练</strong>
-                  <span class="essence-mini">在「会续写」的基础上，学会听指令、守格式</span>
-                  <span>用指令-回答样例教模型：看到「请翻译」就执行翻译，而不是随意续写；看到「不要添加额外含义」就遵守约束。本质是调整概率偏好，让输出更符合人类期望。</span>
-                </article>
+          <!-- 第一部分 -->
+          <div id="stage0" class="stage-pane split-pane">
+            <nav id="p1StepNav" class="step-nav" aria-label="概念步骤"></nav>
+            <div class="step-main">
+              <div class="step-headline">
+                <h3 id="p1Title"></h3>
+                <p id="p1Essence" class="essence"></p>
               </div>
-            </div>
-
-            <p class="bridge-note">预训练和您使用时的推理，底层机制相同——都是 next token prediction。区别是：预训练读的是整个互联网，推理时读的是您的 Prompt 和上下文。</p>
-
-            <div class="phase-block">
-              <p class="phase-title">使用时：你提问后发生什么</p>
-              <div class="chain">
-                <article class="chain-card">
-                  <strong>用户输入</strong>
-                  <span class="essence-mini">把任务、规则和要求打包成 Prompt</span>
-                  <span>Prompt 被切成 token 序列，连同历史对话一起进入模型的上下文窗口。</span>
-                </article>
-                <article class="chain-card">
-                  <strong>推理生成</strong>
-                  <span class="essence-mini">在您的上下文后面，逐个 token 做概率预测并输出</span>
-                  <span>每一步都在所有候选 token 中选概率最高的（或按策略采样）。直到生成结束标记或达到长度限制。</span>
-                </article>
-                <article class="chain-card">
-                  <strong>人工复核</strong>
-                  <span class="essence-mini">模型输出的是「概率上合理」的文本，不是「已验收的结论」</span>
-                  <span>涉及事实、数字、合规的内容，必须有人确认。这也是幻觉存在的根本原因——模型不会自行核实。</span>
-                </article>
+              <div id="p1TabBar" class="mini-tabs"></div>
+              <div id="p1TabBody" class="tab-body"></div>
+              <div class="step-footer">
+                <button id="p1PrevStep">← 上一概念</button>
+                <button id="p1NextStep" class="primary">下一概念 →</button>
               </div>
             </div>
           </div>
 
-          <!-- 第三部分：翻译例子 -->
+          <!-- 第二部分 -->
+          <div id="stage1" class="stage-pane split-pane hidden">
+            <nav id="p2StepNav" class="step-nav" aria-label="链条步骤"></nav>
+            <div class="step-main">
+              <div class="step-headline">
+                <h3 id="p2Title"></h3>
+                <p id="p2Essence" class="essence"></p>
+              </div>
+              <div id="p2TabBar" class="mini-tabs"></div>
+              <div id="p2TabBody" class="tab-body"></div>
+              <div class="step-footer">
+                <button id="p2PrevStep">← 上一步</button>
+                <button id="p2NextStep" class="primary">下一步 →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 第三部分 -->
           <div id="stage2" class="stage-pane hidden">
             <div id="subtabs" class="subtabs"></div>
-
             <div id="case0" class="case-pane">
               <article class="sample-card">
                 <h3>Step 1 · 你写了什么（Prompt）</h3>
@@ -793,22 +765,20 @@
                   <span class="sample-label">期望输出</span>
                   <div class="result">I want to learn English.</div>
                 </div>
-                <p style="margin-top:14px;">这就是一份任务说明书：做什么（翻译）、翻译什么（「我想要学习英语」）、约束是什么（自然英文、不加额外含义）。</p>
+                <p style="margin-top:14px;">这就是一份任务说明书：做什么（翻译）、翻译什么、约束是什么（自然英文、不加额外含义）。</p>
               </article>
             </div>
-
             <div id="case1" class="case-pane hidden">
               <article class="info-card">
                 <h3>Step 2 · 模型先「读」（切分与编码）</h3>
                 <p>整句 Prompt 被切成 token，模型先读完所有输入，再开始生成。</p>
-                <span class="example-label">Prompt 中的中文部分</span>
+                <p><strong>Prompt 中的中文部分：</strong></p>
                 <div class="inline-tokens">
                   <span class="token">我</span><span class="token">想要</span><span class="token">学习</span><span class="token">英语</span>
                 </div>
-                <p>切分依据与第一部分相同：按词表匹配高频片段。读入完成后，模型对整句任务形成内部表示——可以理解为「它看全了再动笔写」。</p>
+                <p>切分依据与第一部分 Step 2 相同：按词表匹配高频片段。读入完成后，模型对整句任务形成内部表示——可以理解为「它看全了再动笔写」。</p>
               </article>
             </div>
-
             <div id="case2" class="case-pane hidden">
               <article class="info-card">
                 <h3>Step 3 · 模型再「写」（逐 token 概率生成）</h3>
@@ -830,7 +800,7 @@
                     <tr>
                       <td>I</td>
                       <td class="highlight">want</td>
-                      <td>预训练语料中 I 后接 want 频率极高；「想要」→ want 的对应关系统计上最常见</td>
+                      <td>语料中 I 后接 want 频率极高；「想要」→ want 的对应关系统计上最常见</td>
                     </tr>
                     <tr>
                       <td>I want</td>
@@ -854,10 +824,9 @@
                     </tr>
                   </tbody>
                 </table>
-                <p style="margin-top:14px;">这就是第一部分的「推理（概率生成）」在实际任务中的完整展开——不是查词典，而是逐步做概率最高的选择。</p>
+                <p style="margin-top:14px;">这就是第一部分的「概率生成」在实际任务中的完整展开——不是查词典，而是逐步做概率最高的选择。</p>
               </article>
             </div>
-
             <div id="case3" class="case-pane hidden">
               <article class="info-card">
                 <h3>Step 4 · 这些能力从哪来？为什么不是唯一答案？</h3>
@@ -867,7 +836,7 @@
             </div>
           </div>
 
-          <!-- 第四部分：项目化使用 -->
+          <!-- 第四部分 -->
           <div id="stage3" class="stage-pane hidden">
             <p class="bridge-note" style="margin-bottom:4px;">下面是从「聊一句」到「做成套」的演进路径——不是一开始就要全用上，而是任务变复杂、变重复时，逐步引入对应能力。</p>
             <div class="maturity-list">
@@ -928,7 +897,7 @@
             </div>
           </div>
 
-          <!-- 第五部分：行动原则 -->
+          <!-- 第五部分 -->
           <div id="stage4" class="stage-pane hidden">
             <div class="action-grid">
               <article class="action-card"><strong>1. 说清目标</strong><span>明确你要 AI 做什么，而不是只说「帮我看看」。</span></article>
@@ -948,16 +917,16 @@
       {
         label: "第一部分",
         title: "基础概念",
-        desc: "每个概念先讲本质，再举简单例子。重点理解 Token 怎么切、模型怎么概率生成、幻觉为什么发生、RAG 如何减少幻觉。",
+        desc: "按 0→6 顺序阅读：先认识大模型，再学 Prompt、Token、上下文、概率生成、幻觉和 RAG。每个概念分 Tab 展示，避免一次信息过多。",
         nav: "基础概念",
-        sub: "本质 + 例子"
+        sub: "左步骤 + 右 Tab"
       },
       {
         label: "第二部分",
-        title: "大模型从训练到输出",
-        desc: "分两段理解：出厂前（数据 → 预训练 → 后训练）和使用时（输入 → 概率生成 → 人工复核）。预训练和推理的底层机制相同。",
+        title: "大模型从出厂到使用",
+        desc: "先走完出厂链（数据 → 预训练 → 后训练），再走完使用链（输入 → 生成 → 复核）。每步回指第一部分已讲概念。",
         nav: "模型链条",
-        sub: "出厂 vs 使用"
+        sub: "左步骤 + 右 Tab"
       },
       {
         label: "第三部分",
@@ -982,6 +951,308 @@
       }
     ];
 
+    const part1 = [
+      {
+        title: "大模型是什么",
+        hint: "先建立整体印象",
+        essence: "一种读懂文字、生成文字的程序——你输入文字，它输出文字；不是搜索引擎，也不是存满答案的数据库。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p><strong>大模型</strong>（Large Language Model，LLM）的核心能力就两件事：<strong>读懂你写的文字，再生成一段文字作为回应</strong>。</p>
+              <p>它不像百度/Google 那样去网页里检索链接；也不像 Excel 那样按公式精确计算。它是在大量文本上学到的「语言规律」基础上，<strong>一段一段地生成</strong>回答。</p>
+              <p>你在 ChatGPT、Copilot 等工具里对话，背后就是大模型在工作。</p>`
+          },
+          {
+            label: "例子",
+            html: `<p><strong>日常类比：</strong>大模型像一个<strong>读过很多书、会写文章的同事</strong>——你给他布置任务（稍后讲 Prompt），他用文字回复你。</p>
+              <p>他<strong>不是</strong>：</p>
+              <p>· 数据库：不能指望「每条记录都准确可查」<br>· 搜索引擎：不是返回链接列表，而是直接「写」出一段答案<br>· 计算器：不保证每个数字都精确无误</p>
+              <p>理解这一点，后面「概率生成」和「幻觉」就更容易接受。</p>`
+          }
+        ]
+      },
+      {
+        title: "Prompt",
+        hint: "你怎么跟它说话",
+        essence: "你发给大模型的完整任务说明，告诉它做什么、怎么做、不要做什么。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p>每次你在对话框里输入的内容（包括问题和要求），整体就是一份 <strong>Prompt</strong>。</p>
+              <p>Prompt 不是「魔法咒语」——没有固定格式必须背下来。它的作用等同于<strong>给同事写工单</strong>：任务越清楚，对方越知道该怎么交付。</p>`
+          },
+          {
+            label: "例子",
+            html: `<div class="compare">
+              <div class="compare-item bad"><strong>不清楚</strong>帮我写个生日祝福。</div>
+              <div class="compare-item good"><strong>清楚</strong>给我妈写一段 80 字以内的生日祝福，语气温馨不要太正式，不要提到年龄。</div>
+            </div>
+            <p style="margin-top:12px;">第二句明确了：对象（我妈）、长度（80 字）、风格（温馨不正式）、边界（不提年龄）。模型更容易给出符合预期的结果。</p>`
+          },
+          {
+            label: "关联",
+            html: `<p class="link-ref">↩ 你通过 <strong>Prompt</strong> 跟<strong>大模型（Step 0）</strong>沟通。后面所有概念，都发生在你发出 Prompt 之后。</p>`
+          }
+        ]
+      },
+      {
+        title: "Token",
+        hint: "它怎么读文字",
+        essence: "大模型处理文字时的最小单位，来自一张预先准备好的「词表」，不等于一个字或一个词。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p>你写的 Prompt 不会整段直接「吞进去」，而是先被切成一个个 <strong>token</strong>，模型再逐个处理。</p>
+              <p><strong>划分依据：</strong>大模型内部有一张固定的<strong>词表</strong>（几万个常用片段）。切分时从左到右，<strong>优先匹配词表中最长的片段</strong>——常见词/短语整段保留，少见词拆成更小的片段。</p>
+              <p>词表是模型出厂前就准备好的（第二部分会讲它怎么来的）。这里只需知道：<strong>不是按新华字典的「字」来切，而是按词表里「有谁」来切。</strong></p>`
+          },
+          {
+            label: "例子",
+            html: `<p><strong>英文</strong> <code>Hello world</code> → 常见词，通常整段匹配：</p>
+              <div class="inline-tokens"><span class="token">Hello</span><span class="token"> world</span></div>
+              <p><strong>英文</strong> <code>uncharacteristically</code> → 少见长词，拆成子片段：</p>
+              <div class="inline-tokens"><span class="token">un</span><span class="token">character</span><span class="token">istically</span></div>
+              <p><strong>中文</strong> <code>我想要学习英语</code> → 高频片段优先：</p>
+              <div class="inline-tokens"><span class="token">我</span><span class="token">想要</span><span class="token">学习</span><span class="token">英语</span></div>`
+          },
+          {
+            label: "关联",
+            html: `<p class="link-ref">↩ 你的 <strong>Prompt（Step 1）</strong> 发送后，会被切成 token。内容越长，占用的 token 越多——这与下一步「上下文」的长度上限直接相关。</p>`
+          }
+        ]
+      },
+      {
+        title: "上下文",
+        hint: "它一次能看多少",
+        essence: "大模型在当前这一轮对话里能「看见」的全部信息，且有长度上限。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p><strong>上下文</strong> = 你这次的问题 + 之前的聊天记录 + 系统设定（如「你是一个翻译助手」）。</p>
+              <p>上下文里的所有文字都会占用 token。超过上限时，<strong>最早的内容会被挤掉</strong>——所以重要规则要么写进当前 Prompt，要么通过 RAG 等方式重新注入。</p>`
+          },
+          {
+            label: "例子",
+            html: `<p>你连续问了 5 个问题，又粘贴了一段长文章，再上传了一份 PDF 摘要——这些<strong>全部</strong>都在上下文里。</p>
+              <p>如果总量接近上限，模型可能「忘记」你最早说的要求。这就是为什么复杂任务需要把规则写清楚、写进当前 Prompt 或外部文档。</p>`
+          },
+          {
+            label: "关联",
+            html: `<p class="link-ref">↩ 上下文由 <strong>Prompt（Step 1）</strong> 和对话历史组成，所有内容都以 <strong>token（Step 2）</strong> 计量。模型后续的「概率生成」是在整个上下文的基础上进行的。</p>`
+          }
+        ]
+      },
+      {
+        title: "概率生成",
+        hint: "它怎么写出回答",
+        essence: "大模型是概率输出模型：根据当前已有的 token，逐个预测下一个最可能出现的 token，直到生成结束。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p>大模型<strong>不是查标准答案库</strong>，而是<strong>一个 token 一个 token 地「猜」下一个最可能是什么</strong>，猜完一个再猜下一个，直到结束。</p>
+              <p>每一步，模型都会给词表中所有候选 token 一个概率，然后选出概率最高的（或按策略采样）。这就是<strong>概率生成</strong>，也叫<strong>推理</strong>。</p>
+              <p>因此同一个问题可能有多种合理回答——因为每一步都有多个「概率较高」的选项。</p>`
+          },
+          {
+            label: "例子",
+            html: `<p><strong>接龙造句（不涉及翻译）：</strong></p>
+              <p>已有文字：<code>今天天气很</code></p>
+              <p>模型预测下一个 token：<strong>好</strong>（概率最高）→ 输出「好」</p>
+              <p>已有文字：<code>今天天气很好，适合</code></p>
+              <p>模型预测下一个 token：<strong>出</strong>（概率最高）→ 继续输出……</p>
+              <p>整个过程就是：看已有 token → 预测下一个 → 输出 → 再看 → 再预测，循环往复。</p>`
+          },
+          {
+            label: "关联",
+            html: `<p class="link-ref">↩ 概率生成发生在模型读完 <strong>上下文（Step 3）</strong> 之后。它基于上下文中全部 <strong>token（Step 2）</strong> 做预测。下一步「幻觉」正是这种机制带来的必然风险。</p>`
+          }
+        ]
+      },
+      {
+        title: "幻觉",
+        hint: "为什么说错话",
+        essence: "大模型用流畅、自信的语言，输出了错误、编造或缺乏依据的内容。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p><strong>为什么会发生？</strong></p>
+              <p>① 模型的本职是「预测看起来合理的下一段文字」，不是「核实事实是否正确」——即使上下文里没有可靠信息，它仍会输出统计上最像答案的内容。</p>
+              <p>② 它学到的是文本中的统计规律，不是「经过验证的真值」。③ 当被问到具体细节而缺乏依据时，它倾向于「补全」一个听起来合理的说法，而不是回答「我不知道」。</p>`
+          },
+          {
+            label: "例子",
+            html: `<p>问 AI：「XX 路那家小众餐厅，昨天有没有营业？」</p>
+              <p>模型可能回答：「昨天正常营业，营业时间是 10:00–22:00。」——语气非常确定。</p>
+              <p>但实际上它<strong>没有去查</strong>营业记录，只是在预测「这类问题后面通常跟着怎样的回答」。这就是幻觉。</p>`
+          },
+          {
+            label: "关联",
+            html: `<p class="link-ref">↩ 幻觉是 <strong>概率生成（Step 4）</strong> 的必然副产品——模型优先「猜得像真的」，而非「核实真假」。下一步 RAG 是一种常见的应对手段。</p>`
+          }
+        ]
+      },
+      {
+        title: "RAG",
+        hint: "怎么减少瞎编",
+        essence: "Retrieval-Augmented Generation（检索增强生成）：在生成回答之前，先从外部资料库检索相关内容，再放进 Prompt，让模型「带着依据」来回答。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p><strong>RAG 不替代大模型</strong>，也不改变它的概率生成机制。它做的是：在模型开始「猜 token」之前，先把相关文档<strong>检索出来，塞进 Prompt/上下文</strong>，相当于给它「开卷资料」。</p>
+              <p>全称：Retrieval-Augmented Generation，中文常译「检索增强生成」。</p>`
+          },
+          {
+            label: "怎么做",
+            html: `<p><strong>四步本质：</strong></p>
+              <p>① 用户提问 → ② 系统从文档库中<strong>检索</strong>与问题最相关的段落 → ③ 把检索到的段落<strong>插入 Prompt</strong>（成为上下文的一部分）→ ④ 大模型基于这些段落做<strong>概率生成</strong>，输出回答。</p>
+              <p style="margin-top:10px;color:var(--muted);font-size:14px;">补充：「工具调用」让模型能读文件、运行程序；RAG 解决「依据从哪来」，工具调用解决「手能不能伸出去做事」——两者常配合使用。</p>`
+          },
+          {
+            label: "关联",
+            html: `<p class="link-ref">↩ RAG 把外部资料注入 <strong>Prompt/上下文（Step 1、3）</strong>，让 <strong>概率生成（Step 4）</strong> 有材料可依，从而<strong>降低幻觉（Step 5）</strong>。但若资料库没有相关内容、检索不准或资料有误，模型仍可能编造——RAG 是降低手段，不能彻底消除幻觉。</p>`
+          }
+        ]
+      }
+    ];
+
+    const part2 = [
+      {
+        title: "本部分概览",
+        hint: "先知道要讲什么",
+        essence: "第一部分讲了「使用时你会遇到什么」。这一部分回答：大模型的能力从哪来？从出厂到您提问，完整走一遍。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p>大模型不是一开始就会听指令的。它的能力来自两个阶段的「出厂加工」：</p>
+              <p><strong>出厂链：</strong>数据收集 → 预训练 → 后训练<br><strong>使用链：</strong>用户输入 → 推理生成 → 人工复核</p>
+              <p>下面按顺序逐步展开。每步都会<strong>回指</strong>第一部分已讲的概念，不重复引入新词。</p>`
+          },
+          {
+            label: "关联",
+            html: `<p class="link-ref">↩ 建议先完整读完第一部分 0→6，再来读这一部分。第三部分翻译例子会把两部分的概念串起来做实战演示。</p>`
+          }
+        ]
+      },
+      {
+        title: "数据收集",
+        hint: "出厂第 1 步",
+        essence: "收集海量文本作为大模型的「阅读材料」——这是它一切能力的原料。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p>在训练开始之前，需要先准备<strong>大量文本</strong>：网页、书籍、代码、问答、翻译对照等。</p>
+              <p>材料越多样，模型见过的语言场景越广。这一步不涉及 token 或 Prompt——只是准备「原材料」。</p>`
+          },
+          {
+            label: "关联",
+            html: `<p class="link-ref">↩ 数据收集本身不直接对应第一部分的某个概念。它的产出会在下一步「预训练」中被切成 token 并用于学习。</p>`
+          }
+        ]
+      },
+      {
+        title: "预训练",
+        hint: "出厂第 2 步",
+        essence: "Next Token Prediction：给定前面的 token，猜下一个 token——在海量文本上重复亿万次，学会语言规律和知识关联。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p><strong>预训练</strong>是大模型能力的根基。核心任务只有一个：<strong>Next Token Prediction（下一个 token 预测）</strong>。</p>
+              <p>做法：拿海量文本，切成 token，然后让模型反复练习「给定前面的 token，猜下一个是什么」。练习次数以亿计。</p>
+              <p>练完之后，模型学会了语法、常识和知识之间的<strong>统计关联</strong>——例如「I」后面常跟「want」，「学习」和「learn」常出现在类似位置。</p>
+              <p>同时，训练过程中<strong>高频片段会被收入词表</strong>——这就是第一部分 Step 2 讲的 token 划分依据的来源。</p>`
+          },
+          {
+            label: "关联",
+            html: `<p class="link-ref">↩ 预训练的机制和第一部分 <strong>Step 4 概率生成</strong> 完全相同——都是 next token prediction。区别只是：预训练读的是整个互联网级别的文本，使用时读的是你的 Prompt 和上下文。</p>`
+          }
+        ]
+      },
+      {
+        title: "后训练",
+        hint: "出厂第 3 步",
+        essence: "在「会续写」的基础上，教会大模型听 Prompt 指令、守格式、更安全地回应。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p>仅经过预训练的模型，更像一个「续写机器」——你给它一段文字，它会接着写，但<strong>不一定会按你的指令做事</strong>。</p>
+              <p><strong>后训练</strong>用大量「指令 → 回答」样例教模型：看到「请翻译」就执行翻译，而不是随意续写；看到「不要添加额外含义」就遵守约束。</p>
+              <p>本质是调整概率偏好——让某些 token 序列（符合人类期望的回答）更容易被选中。</p>`
+          },
+          {
+            label: "关联",
+            html: `<p class="link-ref">↩ 后训练让大模型能看懂并执行你的 <strong>Prompt（第一部分 Step 1）</strong>。没有后训练，模型可能无视你的任务要求，只是接着文字往下编。</p>`
+          }
+        ]
+      },
+      {
+        title: "机制衔接",
+        hint: "出厂 → 使用",
+        essence: "预训练和后训练，与使用时的概率生成，底层机制相同——都是 next token prediction。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p>可以把大模型的一生理解为：</p>
+              <p><strong>出厂时</strong>（预训练 + 后训练）：在海量文本上练习 next token prediction，学会语言规律和听指令。<br>
+              <strong>使用时</strong>（推理生成）：在你的 Prompt 和上下文后面，用同样的机制逐个 token 输出回答。</p>
+              <p>区别只是「读的材料不同」——出厂读互联网，使用读你的 Prompt。</p>`
+          },
+          {
+            label: "关联",
+            html: `<p class="link-ref">↩ 这条衔接把第一部分的 <strong>Step 4 概率生成</strong> 和本部分的 <strong>预训练、后训练</strong> 连起来了。下面进入「使用时」链条。</p>`
+          }
+        ]
+      },
+      {
+        title: "用户输入",
+        hint: "使用第 1 步",
+        essence: "你把任务、规则和要求打包成 Prompt，发送给大模型。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p>你在对话框里输入 Prompt，点击发送。系统把 Prompt 切成 <strong>token</strong>，连同历史对话一起放入<strong>上下文窗口</strong>。</p>
+              <p>至此，大模型「看全了」你的任务，准备开始生成回答。</p>`
+          },
+          {
+            label: "关联",
+            html: `<p class="link-ref">↩ 对应第一部分 <strong>Step 1 Prompt</strong>、<strong>Step 2 Token</strong>、<strong>Step 3 上下文</strong>——这三者在此汇合。</p>`
+          }
+        ]
+      },
+      {
+        title: "推理生成",
+        hint: "使用第 2 步",
+        essence: "同第一部分的「概率生成」——在上下文后面，逐个 token 预测并输出，直到回答结束。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p>大模型在读完你的上下文后，开始<strong>一个 token 一个 token 地输出</strong>。每一步选概率最高的候选，直到生成结束。</p>
+              <p>第三部分会用翻译例子逐步展示这个过程。这里不再重复展开机制。</p>`
+          },
+          {
+            label: "关联",
+            html: `<p class="link-ref">↩ 就是第一部分 <strong>Step 4 概率生成</strong> 的实际运行。预训练提供了语言规律，后训练提供了听指令的能力——两者共同决定了模型在这一步的输出质量。</p>`
+          }
+        ]
+      },
+      {
+        title: "人工复核",
+        hint: "使用第 3 步",
+        essence: "模型输出的是「概率上合理」的文本，不是「已验收的结论」——关键内容必须有人确认。",
+        tabs: [
+          {
+            label: "是什么",
+            html: `<p>大模型生成完毕后，输出交到你手上。涉及<strong>事实、数字、合规</strong>的内容，必须有人核实——模型不会自行检验对错。</p>
+              <p>如果用了 RAG，还要确认检索到的资料是否准确、是否相关。复核不是可选项，是使用 AI 的必要环节。</p>`
+          },
+          {
+            label: "关联",
+            html: `<p class="link-ref">↩ 复核之所以必要，是因为第一部分 <strong>Step 5 幻觉</strong>——概率生成不保证事实正确。如果任务重复出现，可考虑 RAG（Step 6）或第四部分的文档化路径来降低风险。</p>`
+          }
+        ]
+      }
+    ];
+
     const caseTabs = [
       ["Step 1", "Prompt 任务说明"],
       ["Step 2", "读入与切分"],
@@ -1000,8 +1271,82 @@
     const nextBtn = document.getElementById("nextBtn");
     const subtabs = document.getElementById("subtabs");
     const casePanes = [...document.querySelectorAll(".case-pane")];
+
     let active = 0;
     let activeCase = 0;
+    let p1Step = 0;
+    let p1Tab = 0;
+    let p2Step = 0;
+    let p2Tab = 0;
+
+    function buildSplitPanel(config, stepNavId, titleId, essenceId, tabBarId, tabBodyId, stepIndex, tabIndex) {
+      const stepNav = document.getElementById(stepNavId);
+      stepNav.innerHTML = config.map((item, i) => `
+        <button class="step-btn" data-step="${i}">
+          <span class="step-num">${i}</span>
+          <span class="step-name">${item.title}</span>
+          <span class="step-hint">${item.hint}</span>
+        </button>
+      `).join("");
+      stepNav.querySelectorAll(".step-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const idx = Number(btn.dataset.step);
+          if (stepNavId === "p1StepNav") setP1Step(idx, 0);
+          else setP2Step(idx, 0);
+        });
+      });
+
+      renderSplitContent(config, titleId, essenceId, tabBarId, tabBodyId, stepIndex, tabIndex, stepNavId);
+    }
+
+    function renderSplitContent(config, titleId, essenceId, tabBarId, tabBodyId, stepIndex, tabIndex, stepNavId) {
+      const item = config[stepIndex];
+      document.getElementById(titleId).textContent = item.title;
+      document.getElementById(essenceId).textContent = item.essence;
+
+      const tabBar = document.getElementById(tabBarId);
+      tabBar.innerHTML = item.tabs.map((tab, i) => `
+        <button class="mini-tab" data-tab="${i}">${tab.label}</button>
+      `).join("");
+      tabBar.querySelectorAll(".mini-tab").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const idx = Number(btn.dataset.tab);
+          if (stepNavId === "p1StepNav") setP1Tab(idx);
+          else setP2Tab(idx);
+        });
+      });
+
+      document.getElementById(tabBodyId).innerHTML = item.tabs[tabIndex].html;
+
+      document.getElementById(stepNavId).querySelectorAll(".step-btn").forEach((btn, i) => {
+        btn.classList.toggle("active", i === stepIndex);
+      });
+      tabBar.querySelectorAll(".mini-tab").forEach((btn, i) => {
+        btn.classList.toggle("active", i === tabIndex);
+      });
+    }
+
+    function setP1Step(step, tab = 0) {
+      p1Step = Math.max(0, Math.min(step, part1.length - 1));
+      p1Tab = Math.max(0, Math.min(tab, part1[p1Step].tabs.length - 1));
+      renderSplitContent(part1, "p1Title", "p1Essence", "p1TabBar", "p1TabBody", p1Step, p1Tab, "p1StepNav");
+    }
+
+    function setP1Tab(tab) {
+      p1Tab = Math.max(0, Math.min(tab, part1[p1Step].tabs.length - 1));
+      renderSplitContent(part1, "p1Title", "p1Essence", "p1TabBar", "p1TabBody", p1Step, p1Tab, "p1StepNav");
+    }
+
+    function setP2Step(step, tab = 0) {
+      p2Step = Math.max(0, Math.min(step, part2.length - 1));
+      p2Tab = Math.max(0, Math.min(tab, part2[p2Step].tabs.length - 1));
+      renderSplitContent(part2, "p2Title", "p2Essence", "p2TabBar", "p2TabBody", p2Step, p2Tab, "p2StepNav");
+    }
+
+    function setP2Tab(tab) {
+      p2Tab = Math.max(0, Math.min(tab, part2[p2Step].tabs.length - 1));
+      renderSplitContent(part2, "p2Title", "p2Essence", "p2TabBar", "p2TabBody", p2Step, p2Tab, "p2StepNav");
+    }
 
     function buildNav() {
       nav.innerHTML = stages.map((stage, index) => `
@@ -1048,15 +1393,22 @@
       document.querySelectorAll(".subtab").forEach((item, idx) => item.classList.toggle("active", idx === activeCase));
     }
 
+    document.getElementById("p1PrevStep").addEventListener("click", () => setP1Step(p1Step - 1, 0));
+    document.getElementById("p1NextStep").addEventListener("click", () => setP1Step(p1Step + 1, 0));
+    document.getElementById("p2PrevStep").addEventListener("click", () => setP2Step(p2Step - 1, 0));
+    document.getElementById("p2NextStep").addEventListener("click", () => setP2Step(p2Step + 1, 0));
+
     prevBtn.addEventListener("click", () => setStage(active - 1));
     nextBtn.addEventListener("click", () => setStage(active + 1));
     document.addEventListener("keydown", event => {
-      if (event.key === "ArrowRight") setStage(active + 1);
-      if (event.key === "ArrowLeft") setStage(active - 1);
+      if (event.key === "ArrowRight" && active !== 0 && active !== 1) setStage(active + 1);
+      if (event.key === "ArrowLeft" && active !== 0 && active !== 1) setStage(active - 1);
     });
 
     buildNav();
     buildCaseTabs();
+    buildSplitPanel(part1, "p1StepNav", "p1Title", "p1Essence", "p1TabBar", "p1TabBody", 0, 0);
+    buildSplitPanel(part2, "p2StepNav", "p2Title", "p2Essence", "p2TabBar", "p2TabBody", 0, 0);
     setStage(0);
     setCase(0);
   </script>
