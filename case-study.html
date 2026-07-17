@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Case Study · 业务与数据处理如何配合</title>
+  <style>
+    :root {
+      --bg: #f4f6fa;
+      --ink: #101827;
+      --muted: #647084;
+      --subtle: #eef2f8;
+      --line: #dbe3ef;
+      --paper: #ffffff;
+      --blue: #2155d9;
+      --blue-soft: #edf3ff;
+      --green: #0f766e;
+      --green-soft: #eaf8f5;
+      --amber: #a8560c;
+      --amber-soft: #fff5e8;
+      --shadow: 0 24px 70px rgba(16, 24, 39, 0.12);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
+      background:
+        linear-gradient(135deg, rgba(33, 85, 217, 0.10), transparent 38%),
+        linear-gradient(315deg, rgba(15, 118, 110, 0.10), transparent 34%),
+        var(--bg);
+    }
+
+    .app {
+      min-height: 100vh;
+      padding: 28px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 18px;
+    }
+
+    header {
+      max-width: 1180px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    h1 { margin: 0; font-size: 34px; line-height: 1.18; }
+
+    .lead {
+      margin: 10px 0 0;
+      max-width: 780px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .goal-banner {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--green-soft);
+      color: #145142;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.6;
+      max-width: 780px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    a.home-link {
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--muted);
+      padding: 0 14px;
+      font-size: 14px;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(16, 24, 39, 0.07);
+    }
+
+    button {
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--ink);
+      padding: 0 14px;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(16, 24, 39, 0.07);
+    }
+
+    button.primary {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+    }
+
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    button:focus-visible,
+    .nav-item:focus-visible {
+      outline: 3px solid rgba(33, 85, 217, 0.28);
+      outline-offset: 2px;
+    }
+
+    main {
+      max-width: 1180px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 258px minmax(0, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .sidebar,
+    .slide {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(219, 227, 239, 0.92);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .sidebar {
+      padding: 14px;
+      display: grid;
+      align-content: start;
+      gap: 8px;
+    }
+
+    .nav-item {
+      width: 100%;
+      min-height: 78px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      background: transparent;
+      box-shadow: none;
+      text-align: left;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .nav-index {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--subtle);
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .nav-title {
+      display: block;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+
+    .nav-sub {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .nav-item.active {
+      border-color: rgba(33, 85, 217, 0.28);
+      background: var(--blue-soft);
+    }
+
+    .nav-item.active .nav-index {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .slide {
+      min-height: 680px;
+      padding: 30px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 24px;
+    }
+
+    .slide-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: start;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stage-label {
+      display: inline-flex;
+      width: fit-content;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .slide h2 { margin: 0; font-size: 30px; line-height: 1.22; }
+
+    .slide-desc {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.72;
+      font-size: 16px;
+      max-width: 760px;
+    }
+
+    .progress {
+      min-width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: conic-gradient(var(--blue) var(--progress), #e7ecf5 0);
+      position: relative;
+    }
+
+    .progress::after {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      background: var(--paper);
+    }
+
+    .progress span {
+      position: relative;
+      z-index: 1;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .content {
+      display: grid;
+      align-content: start;
+      gap: 18px;
+    }
+
+    .diagram-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fbfcff;
+      padding: 20px;
+      overflow-x: auto;
+    }
+
+    .diagram-card .mermaid { display: flex; justify-content: center; }
+
+    .info-card,
+    .action-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fbfcff;
+      padding: 18px;
+    }
+
+    .info-card h3,
+    .action-card strong {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: var(--ink);
+      display: block;
+    }
+
+    .info-card p,
+    .action-card span {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.72;
+      font-size: 15px;
+    }
+
+    .level-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .level-card {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fbfcff;
+      padding: 16px 18px;
+    }
+
+    .level-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-weight: 900;
+      font-size: 17px;
+    }
+
+    .level-card h3 { margin: 0 0 6px; font-size: 16px; }
+
+    .level-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .level-card.loop {
+      border-style: dashed;
+      background: var(--amber-soft);
+    }
+
+    .level-card.loop .level-num { background: var(--amber-soft); color: var(--amber); }
+
+    .role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .role-card {
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid var(--line);
+    }
+
+    .role-card.biz { background: var(--blue-soft); border-color: rgba(33,85,217,0.24); }
+    .role-card.eng { background: var(--green-soft); border-color: rgba(15,118,110,0.28); }
+
+    .role-card h3 { margin: 0 0 10px; font-size: 17px; }
+    .role-card.biz h3 { color: #1e3a8a; }
+    .role-card.eng h3 { color: #145142; }
+
+    .role-card ul { margin: 0; padding-left: 18px; }
+    .role-card li { margin-bottom: 8px; line-height: 1.6; font-size: 14.5px; color: var(--ink); }
+    .role-card li:last-child { margin-bottom: 0; }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .example-card {
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .example-tag {
+      display: inline-flex;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .example-tag.q { background: #fff5f5; color: #7f1d1d; }
+    .example-tag.a { background: var(--green-soft); color: #145142; }
+
+    .example-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.72;
+      font-size: 14.5px;
+    }
+
+    .hidden { display: none; }
+
+    footer.note {
+      max-width: 1180px;
+      margin: 0 auto;
+      width: 100%;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      padding: 6px 0 2px;
+    }
+
+    @media (max-width: 1020px) {
+      .app { padding: 18px; }
+      header, main, .slide-head { grid-template-columns: 1fr; }
+      .controls { justify-content: flex-start; }
+      .sidebar { grid-template-columns: repeat(3, 1fr); }
+      .slide { min-height: auto; }
+      .role-grid, .example-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 26px; }
+      .slide h2 { font-size: 23px; }
+      .sidebar { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <p class="eyebrow">Case Study · AI 协作实录</p>
+        <h1>业务与数据处理，怎么配合把一件事做成</h1>
+        <p class="lead">取材于一次真实的财务成本还原项目：每月都要重复做、有历史底稿可核对。这里不讲具体业务细节，只讲把这件事做成的两种看法——按时间顺序怎么推进，以及业务和数据处理两个角色各自该扛什么。</p>
+        <p class="goal-banner">看点：AI / 数据处理能替业务做什么，不能替业务做什么，边界在哪</p>
+      </div>
+      <div class="controls">
+        <a class="home-link" href="index.html">← 返回首页</a>
+        <button id="prevBtn">上一节</button>
+        <button id="nextBtn" class="primary">下一节</button>
+      </div>
+    </header>
+
+    <main>
+      <nav id="nav" class="sidebar" aria-label="章节导航"></nav>
+
+      <section class="slide">
+        <div class="slide-head">
+          <div>
+            <span id="stageLabel" class="stage-label"></span>
+            <h2 id="stageTitle"></h2>
+            <p id="stageDesc" class="slide-desc"></p>
+          </div>
+          <div id="progress" class="progress"><span id="progressText"></span></div>
+        </div>
+
+        <div class="content">
+          <!-- 第一部分：这是什么项目 -->
+          <div id="stage0" class="stage-pane">
+            <div class="info-card">
+              <h3>一句话说明</h3>
+              <p>这是一个跨境采购/委托生产场景下的<strong>成本还原</strong>项目——把交易双方之间被税费、加工损耗等因素掺杂在一起的表面价格，还原成一份可比、可信的真实成本价差。</p>
+            </div>
+            <div class="info-card">
+              <h3>为什么值得拿出来讲</h3>
+              <p>这类工作的知识大多在业务人员脑子里，没有写下来；每次接手都要重新问一遍。这个案例记录的是：<strong>用 AI 辅助访谈+梳理</strong>的方式，把这些知识结构化地提取出来，同时观察 AI 在"整理数据规律"和"业务拍板判断"之间，分工的边界到底在哪。</p>
+            </div>
+            <div class="info-card">
+              <h3>怎么读这份 case study</h3>
+              <p>后面两节分别对应两种看这件事的角度：<strong>时间顺序</strong>（先做什么、再做什么）和<strong>角色分工</strong>（业务方 vs 数据处理方，各自负责什么、怎么配合）。两者是同一件事的两个切面，不是两件不同的事。</p>
+            </div>
+          </div>
+
+          <!-- 第二部分：四个阶段 -->
+          <div id="stage1" class="stage-pane hidden">
+            <div class="diagram-card">
+              <pre class="mermaid">
+flowchart LR
+    A["① 了解背景<br/>图什么、输入输出是什么"] --> B["② 梳理环节<br/>上下游各交接什么"]
+    B --> C["③ 拆解执行<br/>能同时做的同时做<br/>+ 跟老底稿核对"]
+    C --> D["④ 处理意外情况<br/>反复澄清、反复调整"]
+    D -. 发现新情况，回头再调 .-> C
+              </pre>
+            </div>
+            <div class="level-list">
+              <article class="level-card">
+                <div class="level-num">1</div>
+                <div>
+                  <h3>了解背景</h3>
+                  <p>先搞清楚这件事图什么——最终是为了还原一份可信、可比的成本价差。输入是各环节的原始单据，产出是一张干净的结果表。</p>
+                </div>
+              </article>
+              <article class="level-card">
+                <div class="level-num">2</div>
+                <div>
+                  <h3>梳理环节</h3>
+                  <p>想清楚这件事要经过哪几手——谁的产出是下一步的原料，交接的时候要讲清楚"这张表长什么样、每一列是什么意思"，不能含糊过去让下一步自己猜。</p>
+                </div>
+              </article>
+              <article class="level-card">
+                <div class="level-num">3</div>
+                <div>
+                  <h3>拆解执行</h3>
+                  <p>能同时做的同时做（几条互不相关的原始数据可以分头处理），有先后依赖的按顺序做。这个项目每月重复做，攒了不少人工核算过的老底稿——每做完一块，都直接拿老底稿去对一遍，对上了才算真正做完，不是"感觉应该没问题"就算了。</p>
+                </div>
+              </article>
+              <article class="level-card loop">
+                <div class="level-num">4</div>
+                <div>
+                  <h3>处理意外情况</h3>
+                  <p>过程中一定会冒出没预料到的情况，不可能一次全解决。发现一个就去问清楚、拿到答案、调整，然后接着做——是一个反复来回的过程，不是走直线。</p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- 第三部分：业务与数据处理的分工 -->
+          <div id="stage2" class="stage-pane hidden">
+            <div class="diagram-card">
+              <pre class="mermaid">
+flowchart LR
+    biz["业务方<br/>定目标 · 定规矩<br/>拍板异常怎么算"] -->|讲清楚规矩| eng["数据处理方<br/>做成不走样的操作步骤"]
+    eng -->|按老底稿核对结果| biz
+    eng -->|规矩没盖住的情况| biz
+    biz -->|补充澄清| eng
+              </pre>
+            </div>
+            <div class="role-grid">
+              <article class="role-card biz">
+                <h3>业务方扛的是"图什么、按什么规矩来"</h3>
+                <ul>
+                  <li>说清楚这件事最终为了什么，不是为了做而做</li>
+                  <li>定规矩——什么算"该处理的"，什么算例外，边界不清楚时怎么归类</li>
+                  <li>拿老底稿当尺子——结果对不对，最终靠人工核算过的老结果去比，不是靠感觉</li>
+                </ul>
+              </article>
+              <article class="role-card eng">
+                <h3>数据处理方扛的是"怎么让规矩不走样"</h3>
+                <ul>
+                  <li>把业务方讲的规矩，变成一套写死的步骤——换谁来做、做多少次，结果都一样</li>
+                  <li>把复杂的事拆清楚——哪些能一起做、哪些必须按顺序做</li>
+                  <li>碰到规矩没讲清楚的情况，不能自己瞎猜着处理——必须原样摆出来，交回业务判断</li>
+                </ul>
+              </article>
+            </div>
+            <div class="info-card">
+              <h3>两边不是各干各的，是一个来回的过程</h3>
+              <p>业务定的规矩，数据处理方做成步骤后开始跑；跑的过程中发现有些情况规矩没盖住，就回头问业务；业务补充清楚了，数据处理方再调整——这个来回会反复发生，直到没有新情况冒出来。下面两个真实例子，方向正好相反：</p>
+            </div>
+            <div class="example-grid">
+              <article class="example-card">
+                <span class="example-tag q">数据处理 → 反馈业务</span>
+                <p>某个环节按规则一层层核对时，有一小部分记录怎么也对不上——不是步骤写错了，是这批数据本身有业务没预料到的情况。数据处理方能做的，是把这部分单独挑出来说清楚，不能自己编个答案填进去，必须交回业务判断该怎么算。</p>
+              </article>
+              <article class="example-card">
+                <span class="example-tag a">数据处理 → 证实业务的担心</span>
+                <p>业务方一开始担心某个环节里，同一样东西出现好几行会不会导致数量被重复算。数据处理方把实际步骤摆出来，证明系统会先分组再各自加总、不会混在一起重复计算——不是替业务做决定，而是把业务一个凭感觉的担心，变成了一个有把握的结论。</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="note">同一件事的两个切面：时间顺序怎么推进 · 角色分工怎么配合——不是两套互相独立的方法</footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "base",
+      themeVariables: {
+        primaryColor: "#edf3ff",
+        primaryTextColor: "#101827",
+        primaryBorderColor: "#2155d9",
+        lineColor: "#647084",
+        fontFamily: "Microsoft YaHei, PingFang SC, Segoe UI, Arial, sans-serif"
+      }
+    });
+
+    const stages = [
+      { label: "第一节", title: "这是一个什么项目", desc: "一句话背景 + 为什么值得拿出来讲 + 怎么读这份 case study。", nav: "背景介绍", sub: "1 分钟读完" },
+      { label: "第二节", title: "处理这件事的四个阶段", desc: "按时间顺序：了解背景 → 梳理环节 → 拆解执行（含跟老底稿核对）→ 处理意外情况。", nav: "四个阶段", sub: "时间顺序视角" },
+      { label: "第三节", title: "业务与数据处理，怎么配合", desc: "两个角色各自扛什么、怎么来回补位，配两个方向相反的真实例子。", nav: "角色分工", sub: "分工协作视角" }
+    ];
+
+    const nav = document.getElementById("nav");
+    const panes = [...document.querySelectorAll(".stage-pane")];
+    const stageLabel = document.getElementById("stageLabel");
+    const stageTitle = document.getElementById("stageTitle");
+    const stageDesc = document.getElementById("stageDesc");
+    const progress = document.getElementById("progress");
+    const progressText = document.getElementById("progressText");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    let active = 0;
+
+    function buildNav() {
+      nav.innerHTML = stages.map((stage, index) => `
+        <button class="nav-item" data-index="${index}">
+          <span class="nav-index">${index + 1}</span>
+          <span>
+            <span class="nav-title">${stage.nav}</span>
+            <span class="nav-sub">${stage.sub}</span>
+          </span>
+        </button>
+      `).join("");
+      document.querySelectorAll(".nav-item").forEach(item => {
+        item.addEventListener("click", () => setStage(Number(item.dataset.index)));
+      });
+    }
+
+    function setStage(index) {
+      active = Math.max(0, Math.min(index, stages.length - 1));
+      const stage = stages[active];
+      panes.forEach((pane, idx) => pane.classList.toggle("hidden", idx !== active));
+      document.querySelectorAll(".nav-item").forEach((item, idx) => item.classList.toggle("active", idx === active));
+      stageLabel.textContent = stage.label;
+      stageTitle.textContent = stage.title;
+      stageDesc.textContent = stage.desc;
+      progressText.textContent = `${active + 1}/${stages.length}`;
+      progress.style.setProperty("--progress", `${((active + 1) / stages.length) * 100}%`);
+      prevBtn.disabled = active === 0;
+      nextBtn.disabled = active === stages.length - 1;
+    }
+
+    prevBtn.addEventListener("click", () => setStage(active - 1));
+    nextBtn.addEventListener("click", () => setStage(active + 1));
+    document.addEventListener("keydown", event => {
+      if (event.key === "ArrowRight") setStage(active + 1);
+      if (event.key === "ArrowLeft") setStage(active - 1);
+    });
+
+    buildNav();
+    setStage(0);
+  </script>
+</body>
+</html>
