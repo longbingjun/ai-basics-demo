@@ -783,12 +783,12 @@
                 <article class="action-card"><strong>2. 给足上下文</strong><span>提供规则、文件、样例和限制条件；内容太长时，最早的要求可能被挤掉。</span></article>
                 <article class="action-card"><strong>3. 写明边界</strong><span>说明哪些不要擅自判断，哪些必须人工确认。</span></article>
                 <article class="action-card"><strong>4. 先计划再执行</strong><span>复杂任务先让 AI 说明步骤，再授权它动手。</span></article>
-                <article class="action-card"><strong>5. 复核结果</strong><span>涉及事实、数字、合规的内容，必须有人核实——模型不会自行检验对错。</span></article>
+                <article class="action-card"><strong>5. 复核并沉淀</strong><span>涉及事实、数字、合规的内容，必须有人核实。重复出现的任务，可沉淀为 Workflow 或 Skill，不必每次重新描述。</span></article>
                 <article class="action-card"><strong>6. 需要依据时</strong><span>把相关资料放进 Prompt，或使用 RAG（检索增强生成：先从文档库找段落，再让模型回答），可降低瞎编风险。</span></article>
               </div>
             </div>
             <div id="p3Panel1" class="tab-body hidden" style="max-height:none;">
-              <p style="margin-bottom:14px;">任务变复杂、变重复时，按下面三级逐步演进——<strong>不是一开始就要全用上</strong>。</p>
+              <p style="margin-bottom:14px;">任务变复杂、变重复时，按下面六级逐步演进——<strong>不是一开始就要全用上</strong>。</p>
               <div class="level-list">
                 <article class="level-card">
                   <div class="level-num">1</div>
@@ -800,24 +800,60 @@
                 <article class="level-card">
                   <div class="level-num">2</div>
                   <div>
-                    <h3>文档化（Documents）</h3>
-                    <p>把规则、术语、输出格式写进固定文档（如 .md / .txt），给人和 AI 共同阅读，不用每次在聊天里重复粘贴。</p>
+                    <h3>带上下文的使用</h3>
+                    <p>上传文件或多轮补充背景，让模型「看到更多」。适合基于某份材料分析、总结或回答。</p>
                   </div>
                 </article>
                 <article class="level-card">
                   <div class="level-num">3</div>
                   <div>
+                    <h3>文档化（Documents）</h3>
+                    <p>把规则、术语、输出格式写进固定文档（如 .md / .txt），给人和 AI 共同阅读，不用每次在聊天里重复粘贴。</p>
+                  </div>
+                </article>
+                <article class="level-card">
+                  <div class="level-num">4</div>
+                  <div>
                     <h3>流程化（Workflow）</h3>
-                    <p>多步骤、常重复的任务，把顺序和规则固化成固定流程或 checklist，减少每次重新描述。</p>
+                    <p>多步骤、常重复、顺序固定的做事流程。适合每周都要跑的同类任务，用 checklist 或工具固化步骤。</p>
+                  </div>
+                </article>
+                <article class="level-card">
+                  <div class="level-num">5</div>
+                  <div>
+                    <h3>技能包（Skill）</h3>
+                    <p>把「何时触发 + 用什么文档 + 什么步骤 + 什么工具」打包，下次直接复用。适合个人或团队要统一做法的场景。</p>
+                  </div>
+                </article>
+                <article class="level-card">
+                  <div class="level-num">6</div>
+                  <div>
+                    <h3>智能体（Agent）</h3>
+                    <p>大模型 + 工具 + 权限 + 执行循环：能自己规划步骤、读文件、跑脚本、迭代修正。适合步骤多、需读写文件的复杂任务。</p>
                   </div>
                 </article>
               </div>
             </div>
             <div id="p3Panel2" class="tab-body hidden" style="max-height:none;">
-              <p class="optional-note">
-                <strong>选读 · 知道名字即可</strong><br>
-                Reference（参考依据）、Script（脚本）、Skill（技能包）、Agent（智能体）、Git（版本管理）——属于更深入的工程化能力，入门培训不必展开。当你已经稳定使用文档和流程后，再按需了解。
-              </p>
+              <p style="margin-bottom:14px;color:var(--muted);font-size:15px;">以下术语<strong>不必当场全讲</strong>，知道名字和用途即可；与「能力进阶」和「行动原则」配合理解。</p>
+              <div class="action-grid">
+                <article class="action-card">
+                  <strong>Reference（参考依据）</strong>
+                  <span>执行任务时必须查的权威来源，常来自 Documents 中的术语表、业务规则、字段定义。配合 RAG 检索后喂给模型，减少幻觉。</span>
+                </article>
+                <article class="action-card">
+                  <strong>Script（脚本）</strong>
+                  <span>规则完全确定、不需要 AI「发挥」的步骤，写成可执行代码（如 .py、.ps1、Excel 公式）。常作为 Workflow 里不变的那几步。</span>
+                </article>
+                <article class="action-card">
+                  <strong>Git（版本管理）</strong>
+                  <span>记录文档、Skill、脚本改了什么，方便协作、审查和回退。多人维护同一套规则或 Skill 时使用。</span>
+                </article>
+                <article class="action-card">
+                  <strong>RAG（检索增强生成）</strong>
+                  <span>见「行动原则」第 6 条：先从文档库检索相关段落，再让模型基于这些材料回答——Reference 常是 RAG 检索的对象。</span>
+                </article>
+              </div>
             </div>
           </div>
         </div>
@@ -844,7 +880,7 @@
       {
         label: "第三部分",
         title: "怎么用、怎么进阶",
-        desc: "行动原则（含 RAG 一句）+ 三级能力路径；进阶术语放在选读页，不必当场讲。",
+        desc: "行动原则（含 RAG）+ 六级能力路径（至 Agent）+ 术语速查（Reference / Script / Git 等）。",
         nav: "怎么用",
         sub: "原则 + 路径"
       }
@@ -934,7 +970,7 @@
     const part3Tabs = [
       { label: "行动原则", panel: "p3Panel0" },
       { label: "能力进阶", panel: "p3Panel1" },
-      { label: "选读", panel: "p3Panel2" }
+      { label: "术语速查", panel: "p3Panel2" }
     ];
 
     const nav = document.getElementById("nav");
