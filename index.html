@@ -64,7 +64,6 @@
       margin: 0;
       font-size: 36px;
       line-height: 1.16;
-      letter-spacing: 0;
     }
 
     .lead {
@@ -217,7 +216,6 @@
       margin: 0;
       font-size: 32px;
       line-height: 1.22;
-      letter-spacing: 0;
     }
 
     .slide-desc {
@@ -268,30 +266,126 @@
     .concept-card,
     .info-card,
     .sample-card,
-    .path-card {
+    .path-card,
+    .chain-card,
+    .action-card {
       border: 1px solid var(--line);
       border-radius: 16px;
       background: #fbfcff;
       padding: 18px;
     }
 
+    .concept-card.wide { grid-column: 1 / -1; }
+
     .concept-card h3,
     .info-card h3,
     .sample-card h3,
     .path-card h3 {
-      margin: 0 0 8px;
+      margin: 0 0 10px;
       font-size: 18px;
       line-height: 1.35;
+    }
+
+    .essence {
+      margin: 0 0 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--blue-soft);
+      color: #1e3a8a;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.65;
+    }
+
+    .essence::before {
+      content: "本质 · ";
+      color: var(--blue);
     }
 
     .concept-card p,
     .info-card p,
     .sample-card p,
     .path-card p {
-      margin: 0;
+      margin: 0 0 10px;
       color: var(--muted);
       line-height: 1.72;
       font-size: 15px;
+    }
+
+    .concept-card p:last-child,
+    .info-card p:last-child { margin-bottom: 0; }
+
+    .example-label {
+      display: block;
+      margin: 12px 0 6px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .example-label::before { content: "例子 · "; }
+
+    .inline-tokens {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 8px 0;
+    }
+
+    .inline-tokens .token {
+      display: inline-flex;
+      padding: 4px 8px;
+      border: 1px solid #cbd7ef;
+      border-radius: 8px;
+      background: #fff;
+      color: #1e3a8a;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .compare-item {
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .compare-item.bad {
+      background: #fff5f5;
+      border: 1px solid #fecaca;
+      color: #7f1d1d;
+    }
+
+    .compare-item.good {
+      background: var(--green-soft);
+      border: 1px solid #99d5c8;
+      color: #145142;
+    }
+
+    .compare-item strong {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 4px;
+      opacity: 0.8;
+    }
+
+    .phase-block { display: grid; gap: 12px; }
+
+    .phase-title {
+      margin: 0;
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: var(--subtle);
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 800;
     }
 
     .chain {
@@ -300,19 +394,19 @@
       gap: 12px;
     }
 
-    .chain-card {
-      position: relative;
-      min-height: 138px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: #fbfcff;
-      padding: 17px;
-    }
-
     .chain-card strong {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       font-size: 17px;
+    }
+
+    .chain-card .essence-mini {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.55;
     }
 
     .chain-card span {
@@ -321,9 +415,20 @@
       font-size: 14px;
     }
 
+    .bridge-note {
+      margin: 0;
+      padding: 14px 16px;
+      border-left: 4px solid var(--blue);
+      border-radius: 14px;
+      background: var(--blue-soft);
+      color: #1e3a8a;
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
     .subtabs {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
     }
 
@@ -342,7 +447,7 @@
       display: block;
       color: var(--ink);
       margin-bottom: 4px;
-      font-size: 15px;
+      font-size: 14px;
     }
 
     .subtab span {
@@ -354,12 +459,6 @@
     .subtab.active {
       border-color: rgba(15, 118, 110, 0.36);
       background: var(--green-soft);
-    }
-
-    .case-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 320px;
-      gap: 14px;
     }
 
     .sample-box {
@@ -378,8 +477,8 @@
     }
 
     .sample-text {
-      font-size: 21px;
-      font-weight: 900;
+      font-size: 20px;
+      font-weight: 800;
       line-height: 1.45;
     }
 
@@ -394,21 +493,31 @@
       font-weight: 900;
     }
 
-    .tokens {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+    .gen-table {
+      width: 100%;
+      border-collapse: collapse;
       margin-top: 12px;
+      font-size: 14px;
     }
 
-    .token {
-      display: inline-flex;
-      padding: 6px 9px;
-      border: 1px solid #cbd7ef;
-      border-radius: 10px;
-      background: #fff;
-      color: #1e3a8a;
-      font-size: 13px;
+    .gen-table th,
+    .gen-table td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .gen-table th {
+      background: var(--subtle);
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .gen-table td { color: var(--muted); line-height: 1.6; }
+
+    .gen-table .highlight {
+      color: var(--blue);
       font-weight: 800;
     }
 
@@ -423,14 +532,29 @@
       font-size: 15px;
     }
 
-    .project-grid {
+    .maturity-list {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 13px;
+      gap: 10px;
     }
 
     .path-card {
-      min-height: 150px;
+      display: grid;
+      grid-template-columns: 52px 140px 1fr;
+      gap: 14px;
+      align-items: start;
+      min-height: auto;
+    }
+
+    .path-step {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-weight: 900;
+      font-size: 18px;
     }
 
     .path-card em {
@@ -438,25 +562,32 @@
       font-style: normal;
       padding: 4px 8px;
       border-radius: 999px;
-      background: var(--soft-amber);
+      background: var(--amber-soft);
       color: var(--amber);
       font-size: 12px;
       font-weight: 800;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
+    }
+
+    .path-card h3 { margin: 0 0 6px; }
+
+    .path-card p { margin: 0; }
+
+    .file-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      background: var(--subtle);
+      color: var(--muted);
+      font-size: 12px;
+      font-family: Consolas, "Courier New", monospace;
     }
 
     .action-grid {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 12px;
-    }
-
-    .action-card {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: #fbfcff;
-      padding: 16px;
-      min-height: 150px;
     }
 
     .action-card strong {
@@ -476,35 +607,22 @@
 
     @media (max-width: 1020px) {
       .app { padding: 18px; }
-      header,
-      main,
-      .slide-head,
-      .case-layout {
-        grid-template-columns: 1fr;
-      }
-
+      header, main, .slide-head { grid-template-columns: 1fr; }
       .controls { justify-content: flex-start; }
       .sidebar { grid-template-columns: repeat(2, 1fr); }
       .slide { min-height: auto; }
-      .concept-grid,
-      .chain,
-      .project-grid,
-      .action-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+      .concept-grid, .chain, .action-grid, .subtabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .path-card { grid-template-columns: 44px 1fr; }
+      .path-card > div:nth-child(2) { grid-column: 2; }
+      .path-card > div:nth-child(3) { grid-column: 1 / -1; }
+      .compare { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 640px) {
       h1 { font-size: 28px; }
       .slide h2 { font-size: 25px; }
-      .sidebar,
-      .concept-grid,
-      .chain,
-      .subtabs,
-      .project-grid,
-      .action-grid {
-        grid-template-columns: 1fr;
-      }
+      .sidebar, .concept-grid, .chain, .subtabs, .action-grid { grid-template-columns: 1fr; }
+      .concept-card.wide { grid-column: auto; }
     }
   </style>
 </head>
@@ -513,8 +631,8 @@
     <header>
       <div>
         <p class="eyebrow">How to Use AI · 基础认知篇</p>
-        <h1>用更像培训课件的方式理解 AI</h1>
-        <p class="lead">这版不把所有内容堆在一页里，而是按章节点击切换。先讲基础概念，再讲模型链条，再用翻译例子串起来，最后过渡到项目化使用。</p>
+        <h1>业务人员如何理解 AI</h1>
+        <p class="lead">按章节逐步理解：先掌握核心概念，再看模型从训练到输出的链条，用翻译例子串起概率生成机制，最后了解从简单对话到项目化使用的演进路径。</p>
       </div>
       <div class="controls">
         <button id="prevBtn">上一步</button>
@@ -536,95 +654,284 @@
         </div>
 
         <div class="content">
+          <!-- 第一部分：基础概念 -->
           <div id="stage0" class="stage-pane">
             <div class="concept-grid">
-              <article class="concept-card"><h3>Token</h3><p>AI 读写文字时使用的小颗粒，不一定等于一个字或一个词。</p></article>
-              <article class="concept-card"><h3>Prompt</h3><p>用户给 AI 的任务说明书，告诉它要做什么、怎么做、不要做什么。</p></article>
-              <article class="concept-card"><h3>上下文</h3><p>AI 当前能看到的信息，包括问题、文件、规则、样例和历史对话。</p></article>
-              <article class="concept-card"><h3>推理</h3><p>模型在使用时，根据输入和上下文生成答案的过程。</p></article>
-              <article class="concept-card"><h3>幻觉</h3><p>AI 生成了看似合理但没有依据或不正确的内容。</p></article>
-              <article class="concept-card"><h3>RAG / 工具调用</h3><p>让 AI 基于指定资料回答，或调用工具读文件、写代码、运行命令。</p></article>
-            </div>
-          </div>
+              <article class="concept-card">
+                <h3>Token</h3>
+                <p class="essence">模型读写文字时的最小单位，来自一张固定的「词表」，不等于一个字或一个词。</p>
+                <p><strong>划分依据：</strong>词表里的条目，是训练前从海量文本中<strong>统计高频片段</strong>得到的。切分时从左到右，<strong>优先匹配词表中最长的片段</strong>——常见词/短语整段保留，少见词拆成更小的片段。</p>
+                <span class="example-label">英文</span>
+                <p><code>Hello world</code> → 常见词，通常整段匹配：</p>
+                <div class="inline-tokens">
+                  <span class="token">Hello</span><span class="token"> world</span>
+                </div>
+                <p><code>uncharacteristically</code> → 少见长词，词表里没有整词，拆成子片段：</p>
+                <div class="inline-tokens">
+                  <span class="token">un</span><span class="token">character</span><span class="token">istically</span>
+                </div>
+                <span class="example-label">中文</span>
+                <p><code>我想要学习英语</code> → 同一规则，高频片段优先：</p>
+                <div class="inline-tokens">
+                  <span class="token">我</span><span class="token">想要</span><span class="token">学习</span><span class="token">英语</span>
+                </div>
+                <p>「想要」「英语」在语料中出现频率高，容易成为独立 token；不是按新华字典的「字」来切。</p>
+              </article>
 
-          <div id="stage1" class="stage-pane hidden">
-            <div class="chain">
-              <article class="chain-card"><strong>数据收集</strong><span>模型先接触大量文本、代码、网页、书籍、问答和翻译样例。</span></article>
-              <article class="chain-card"><strong>预训练</strong><span>模型从海量资料中学习语言规律、知识关系和表达模式。</span></article>
-              <article class="chain-card"><strong>后训练</strong><span>模型进一步学习如何按人的指令回答、遵守格式和边界。</span></article>
-              <article class="chain-card"><strong>用户输入</strong><span>用户通过 Prompt 把任务、规则、语气和输出要求交给模型。</span></article>
-              <article class="chain-card"><strong>推理生成</strong><span>模型结合上下文，一步步生成最可能合适的内容。</span></article>
-              <article class="chain-card"><strong>人工复核</strong><span>人检查事实、业务口径、金额、合规和最终判断是否可靠。</span></article>
-            </div>
-          </div>
-
-          <div id="stage2" class="stage-pane hidden">
-            <div id="subtabs" class="subtabs"></div>
-            <div id="case0" class="case-pane">
-              <div class="case-layout">
-                <article class="sample-card">
-                  <h3>一句翻译任务</h3>
-                  <p>用户希望 AI 把一句中文翻译成自然英文，并且不要添加额外含义。</p>
-                  <div class="sample-box">
-                    <span class="sample-label">用户输入</span>
-                    <div class="sample-text">请把“我想要学习英语”翻译成自然英文，不要添加额外含义。</div>
-                    <span class="sample-label">理想输出</span>
-                    <div class="result">I want to learn English.</div>
+              <article class="concept-card">
+                <h3>Prompt</h3>
+                <p class="essence">你发给模型的完整任务说明，告诉它做什么、怎么做、不要做什么。</p>
+                <span class="example-label">日常对比</span>
+                <div class="compare">
+                  <div class="compare-item bad">
+                    <strong>不清楚</strong>
+                    帮我写个生日祝福。
                   </div>
-                </article>
-                <aside>
-                  <p class="quote">这个例子足够简单，但能讲清楚 Token、Prompt、上下文、预训练、后训练、推理生成和人工复核。</p>
-                </aside>
-              </div>
-            </div>
-
-            <div id="case1" class="case-pane hidden">
-              <div class="case-layout">
-                <article class="info-card">
-                  <h3>Token 和 Prompt</h3>
-                  <p>Prompt 会被拆成 token，模型再基于这些小颗粒和上下文理解任务。</p>
-                  <p>英文 <strong>I want to learn English.</strong> 可以粗略理解为：</p>
-                  <div class="tokens">
-                    <span class="token">I</span><span class="token">want</span><span class="token">to</span><span class="token">learn</span><span class="token">English</span><span class="token">.</span>
+                  <div class="compare-item good">
+                    <strong>清楚</strong>
+                    给我妈写一段 80 字以内的生日祝福，语气温馨不要太正式，不要提到年龄。
                   </div>
-                  <p style="margin-top:14px;">中文“我想要学习英语”可以粗略理解为：</p>
-                  <div class="tokens">
-                    <span class="token">我</span><span class="token">想要</span><span class="token">学习</span><span class="token">英语</span>
-                  </div>
-                </article>
-                <aside>
-                  <p class="quote">Token 不需要精确计算，只要知道内容越长，占用上下文越多。Prompt 不是咒语，而是任务说明书。</p>
-                </aside>
-              </div>
-            </div>
+                </div>
+                <p style="margin-top:10px;">Prompt 不是「魔法咒语」，而是把需求说清楚。说得越具体，模型越知道该输出什么风格和内容。</p>
+              </article>
 
-            <div id="case2" class="case-pane hidden">
-              <div class="chain">
-                <article class="chain-card"><strong>预训练</strong><span>模型见过大量中英文文本，学到“我想要……”常对应 “I want to ...”，“学习英语”常对应 “learn English”。</span></article>
-                <article class="chain-card"><strong>后训练</strong><span>模型学会了看到“请翻译”就执行翻译任务，而不是随意续写；看到“不要添加额外含义”就避免加 only。</span></article>
-                <article class="chain-card"><strong>推理生成</strong><span>真正使用时，模型结合 Prompt、上下文和语言规律，生成 I want to learn English.</span></article>
-              </div>
-              <article class="info-card" style="margin-top:14px;">
-                <h3>为什么不是唯一答案？</h3>
-                <p>I want to learn English 自然通用；I would like to learn English 更礼貌；I want to study English 更偏课程学习；I only want to study English 多了“只想”的含义，不适合普通翻译。</p>
+              <article class="concept-card">
+                <h3>上下文</h3>
+                <p class="essence">模型在当前这一轮对话里能「看见」的全部信息，且有长度上限。</p>
+                <span class="example-label">日常构成</span>
+                <p>你这次的问题 + 之前的聊天记录 + 系统设定（如「你是一个翻译助手」）。内容越长，占用的 token 越多；超过上限时，最早的内容会被挤掉。</p>
+              </article>
+
+              <article class="concept-card">
+                <h3>推理（概率生成）</h3>
+                <p class="essence">大模型是概率输出模型：根据当前已有的 token，逐个预测下一个最可能出现的 token，直到生成结束。</p>
+                <span class="example-label">翻译时的内部过程（简化）</span>
+                <p>模型已经输出了 <code>I</code>，接下来要在词表里选下一个 token。在预训练和后训练见过的语料中，<code>I</code> 后面跟 <code>want</code> 的情况非常多，所以 <code>want</code> 的预测概率最高，模型就选择输出 <code>want</code>。然后基于 <code>I want</code> 继续预测下一个，如此循环，直到输出句号。</p>
+                <p>因此模型不是在「查标准答案库」，而是在做<strong>概率最高的连续选择</strong>——这就是为什么同一个问题可能有多种合理回答。</p>
+              </article>
+
+              <article class="concept-card">
+                <h3>幻觉</h3>
+                <p class="essence">模型用流畅、自信的语言，输出了错误、编造或缺乏依据的内容。</p>
+                <p><strong>为什么会发生？</strong></p>
+                <p>① 模型的本职是「预测看起来合理的下一段文字」，不是「核实事实是否正确」——即使上下文里没有可靠信息，它仍会输出统计上最像答案的内容。</p>
+                <p>② 训练数据本身可能有错误、过时或互相矛盾的信息，模型学到的是「文本中的规律」，不是「经过验证的真值」。③ 当被问到具体细节（人名、日期、数据）而模型没有足够依据时，它倾向于「补全」一个听起来合理的说法，而不是回答「我不知道」。</p>
+                <span class="example-label">日常例子</span>
+                <p>问 AI「某小众餐厅昨天有没有营业」——模型可能编造一个具体答案，因为它在预测「这类问题后面通常跟着怎样的回答」，而不是去查营业记录。</p>
+              </article>
+
+              <article class="concept-card wide">
+                <h3>RAG（检索增强生成）</h3>
+                <p class="essence">Retrieval-Augmented Generation：在模型生成回答之前，先从外部资料库中检索相关内容，再把检索结果放进 Prompt，让模型「带着依据」来回答。</p>
+                <p><strong>实现过程的本质（四步）：</strong></p>
+                <p>① 用户提问 → ② 系统从文档库中<strong>检索</strong>与问题最相关的段落 → ③ 把检索到的段落<strong>插入 Prompt</strong>（作为上下文的一部分）→ ④ 大模型基于这些段落<strong>生成</strong>回答。</p>
+                <p><strong>与大模型的关系：</strong>RAG 不替代大模型，也不改变它的概率生成机制。大模型仍然是一个 token 一个 token 地预测输出；RAG 做的是在生成前给它<strong>「开卷资料」</strong>，让预测有材料可依，而不是只靠模型内部的「记忆」。</p>
+                <p><strong>与幻觉的关系：</strong>当问题的答案确实存在于资料库中，且检索到了正确段落时，模型有据可查，幻觉会明显减少。但如果资料库没有相关内容、检索不准、或资料本身有误，模型仍可能编造——RAG 是<strong>降低</strong>幻觉的手段，不能<strong>彻底消除</strong>幻觉。</p>
+                <p style="margin-top:8px;color:var(--muted);font-size:14px;">补充：「工具调用」是让模型能读文件、运行程序、访问外部系统；RAG 解决「依据从哪来」，工具调用解决「手能不能伸出去做事」——两者常配合使用。</p>
               </article>
             </div>
           </div>
 
-          <div id="stage3" class="stage-pane hidden">
-            <div class="project-grid">
-              <article class="path-card"><em>能动手</em><h3>Agent</h3><p>大模型加上工具、权限和执行循环，能读文件、写脚本、跑任务、迭代修正。</p></article>
-              <article class="path-card"><em>能稳定</em><h3>Script</h3><p>把确定、重复、规则清楚的步骤写成可执行代码。</p></article>
-              <article class="path-card"><em>能重复</em><h3>Workflow</h3><p>一套固定做事流程，适合经常重复执行的任务。</p></article>
-              <article class="path-card"><em>有依据</em><h3>Reference</h3><p>执行任务时必须遵守或查询的标准依据，如字段定义、术语表、业务规则。</p></article>
-              <article class="path-card"><em>可复用</em><h3>Skill</h3><p>把触发条件、流程、规则、样例和工具打包成可复用能力。</p></article>
-              <article class="path-card"><em>可回退</em><h3>Git</h3><p>记录代码、规则和文档变化，方便协作、审查和回退。</p></article>
+          <!-- 第二部分：模型链条 -->
+          <div id="stage1" class="stage-pane hidden">
+            <div class="phase-block">
+              <p class="phase-title">出厂前：模型怎么被做出来</p>
+              <div class="chain">
+                <article class="chain-card">
+                  <strong>数据收集</strong>
+                  <span class="essence-mini">收集海量文本作为模型的「阅读材料」</span>
+                  <span>网页、书籍、代码、问答、翻译对照等。材料越多样，模型见过的语言场景越广。</span>
+                </article>
+                <article class="chain-card">
+                  <strong>预训练</strong>
+                  <span class="essence-mini">Next Token Prediction：给定前面的 token，猜下一个 token</span>
+                  <span>在海量文本上重复这一任务亿万次。模型逐渐学会语法、常识和知识之间的统计关联——例如「I」后面常跟「want」，「学习」和「learn」常出现在类似位置。</span>
+                </article>
+                <article class="chain-card">
+                  <strong>后训练</strong>
+                  <span class="essence-mini">在「会续写」的基础上，学会听指令、守格式</span>
+                  <span>用指令-回答样例教模型：看到「请翻译」就执行翻译，而不是随意续写；看到「不要添加额外含义」就遵守约束。本质是调整概率偏好，让输出更符合人类期望。</span>
+                </article>
+              </div>
+            </div>
+
+            <p class="bridge-note">预训练和您使用时的推理，底层机制相同——都是 next token prediction。区别是：预训练读的是整个互联网，推理时读的是您的 Prompt 和上下文。</p>
+
+            <div class="phase-block">
+              <p class="phase-title">使用时：你提问后发生什么</p>
+              <div class="chain">
+                <article class="chain-card">
+                  <strong>用户输入</strong>
+                  <span class="essence-mini">把任务、规则和要求打包成 Prompt</span>
+                  <span>Prompt 被切成 token 序列，连同历史对话一起进入模型的上下文窗口。</span>
+                </article>
+                <article class="chain-card">
+                  <strong>推理生成</strong>
+                  <span class="essence-mini">在您的上下文后面，逐个 token 做概率预测并输出</span>
+                  <span>每一步都在所有候选 token 中选概率最高的（或按策略采样）。直到生成结束标记或达到长度限制。</span>
+                </article>
+                <article class="chain-card">
+                  <strong>人工复核</strong>
+                  <span class="essence-mini">模型输出的是「概率上合理」的文本，不是「已验收的结论」</span>
+                  <span>涉及事实、数字、合规的内容，必须有人确认。这也是幻觉存在的根本原因——模型不会自行核实。</span>
+                </article>
+              </div>
             </div>
           </div>
 
+          <!-- 第三部分：翻译例子 -->
+          <div id="stage2" class="stage-pane hidden">
+            <div id="subtabs" class="subtabs"></div>
+
+            <div id="case0" class="case-pane">
+              <article class="sample-card">
+                <h3>Step 1 · 你写了什么（Prompt）</h3>
+                <p>用户希望 AI 把一句中文翻译成自然英文，并且不要添加额外含义。</p>
+                <div class="sample-box">
+                  <span class="sample-label">Prompt</span>
+                  <div class="sample-text">请把「我想要学习英语」翻译成自然英文，不要添加额外含义。</div>
+                  <span class="sample-label">期望输出</span>
+                  <div class="result">I want to learn English.</div>
+                </div>
+                <p style="margin-top:14px;">这就是一份任务说明书：做什么（翻译）、翻译什么（「我想要学习英语」）、约束是什么（自然英文、不加额外含义）。</p>
+              </article>
+            </div>
+
+            <div id="case1" class="case-pane hidden">
+              <article class="info-card">
+                <h3>Step 2 · 模型先「读」（切分与编码）</h3>
+                <p>整句 Prompt 被切成 token，模型先读完所有输入，再开始生成。</p>
+                <span class="example-label">Prompt 中的中文部分</span>
+                <div class="inline-tokens">
+                  <span class="token">我</span><span class="token">想要</span><span class="token">学习</span><span class="token">英语</span>
+                </div>
+                <p>切分依据与第一部分相同：按词表匹配高频片段。读入完成后，模型对整句任务形成内部表示——可以理解为「它看全了再动笔写」。</p>
+              </article>
+            </div>
+
+            <div id="case2" class="case-pane hidden">
+              <article class="info-card">
+                <h3>Step 3 · 模型再「写」（逐 token 概率生成）</h3>
+                <p>模型在 Prompt 后面，一个 token 一个 token 地预测输出。每一步都在候选词中选概率最高的：</p>
+                <table class="gen-table">
+                  <thead>
+                    <tr>
+                      <th>已生成的内容</th>
+                      <th>预测的下一个 token</th>
+                      <th>为什么概率高</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>（空，准备开始翻译）</td>
+                      <td class="highlight">I</td>
+                      <td>翻译「我（想要）……」的英文句，常以 I 开头</td>
+                    </tr>
+                    <tr>
+                      <td>I</td>
+                      <td class="highlight">want</td>
+                      <td>预训练语料中 I 后接 want 频率极高；「想要」→ want 的对应关系统计上最常见</td>
+                    </tr>
+                    <tr>
+                      <td>I want</td>
+                      <td class="highlight">to</td>
+                      <td>want 后接 to 是英文高频搭配</td>
+                    </tr>
+                    <tr>
+                      <td>I want to</td>
+                      <td class="highlight">learn</td>
+                      <td>「学习」在类似语境中常对应 learn</td>
+                    </tr>
+                    <tr>
+                      <td>I want to learn</td>
+                      <td class="highlight">English</td>
+                      <td>「英语」→ English 的直接对应</td>
+                    </tr>
+                    <tr>
+                      <td>I want to learn English</td>
+                      <td class="highlight">.</td>
+                      <td>完整句子，句号结束</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p style="margin-top:14px;">这就是第一部分的「推理（概率生成）」在实际任务中的完整展开——不是查词典，而是逐步做概率最高的选择。</p>
+              </article>
+            </div>
+
+            <div id="case3" class="case-pane hidden">
+              <article class="info-card">
+                <h3>Step 4 · 这些能力从哪来？为什么不是唯一答案？</h3>
+                <p><strong>预训练</strong>提供了中英文之间的统计规律（I want to learn English 是高频模式）。<strong>后训练</strong>让模型看到「请翻译……不要添加额外含义」时，执行翻译任务而非乱续写。</p>
+                <p><strong>为什么有多种合理英文？</strong>因为每一步都在多个候选中选「概率较高」的，不是查唯一标准答案。例如 <code>I would like to learn English</code> 也合理（更礼貌），<code>I want to study English</code> 也通顺（study 更偏「攻读」）。若模型在某一步选了不同的高概率 token，整句就会变化——这再次说明需要人工复核，也可以在 Prompt 里进一步约束风格。</p>
+              </article>
+            </div>
+          </div>
+
+          <!-- 第四部分：项目化使用 -->
+          <div id="stage3" class="stage-pane hidden">
+            <p class="bridge-note" style="margin-bottom:4px;">下面是从「聊一句」到「做成套」的演进路径——不是一开始就要全用上，而是任务变复杂、变重复时，逐步引入对应能力。</p>
+            <div class="maturity-list">
+              <article class="path-card">
+                <div class="path-step">1</div>
+                <div><em>起点</em><h3>聊天式使用</h3></div>
+                <div><p>在对话框里问一句、答一句，靠 Prompt 临时说明需求。适合探索性、一次性的任务。</p></div>
+              </article>
+              <article class="path-card">
+                <div class="path-step">2</div>
+                <div><em>加材料</em><h3>带上下文的使用</h3></div>
+                <div><p>上传文件或多轮补充背景，让模型「看到更多」。适合分析一份材料、基于特定内容回答。</p></div>
+              </article>
+              <article class="path-card">
+                <div class="path-step">3</div>
+                <div><em>写清楚</em><h3>Documents（文档）</h3></div>
+                <div>
+                  <p>给人和 AI 共同阅读的说明文件，把规则、术语、输出格式写进固定文档，不用每次在聊天里重复粘贴。</p>
+                  <span class="file-tag">术语表.md · 输出格式说明.md · 流程指引.txt</span>
+                </div>
+              </article>
+              <article class="path-card">
+                <div class="path-step">4</div>
+                <div><em>有依据</em><h3>Reference（参考依据）</h3></div>
+                <div><p>AI 执行任务时必须查的权威来源——通常是上面的文档加上业务规则、字段定义。对应第一部分的 RAG：把资料检索出来再让模型回答，减少幻觉。</p></div>
+              </article>
+              <article class="path-card">
+                <div class="path-step">5</div>
+                <div><em>能重复</em><h3>Workflow（工作流）</h3></div>
+                <div><p>多步骤、常重复、顺序固定的做事流程。适合每周都要跑的同类任务，用文档或工具固化步骤。</p></div>
+              </article>
+              <article class="path-card">
+                <div class="path-step">6</div>
+                <div><em>能稳定</em><h3>Script（脚本）</h3></div>
+                <div>
+                  <p>规则完全确定、不需要 AI「发挥」的步骤，写成可执行代码。</p>
+                  <span class="file-tag">process.py · run.ps1 · Excel 公式</span>
+                </div>
+              </article>
+              <article class="path-card">
+                <div class="path-step">7</div>
+                <div><em>可复用</em><h3>Skill（技能包）</h3></div>
+                <div>
+                  <p>把「何时触发 + 用什么文档 + 什么步骤 + 什么工具」打包，下次直接复用。</p>
+                  <span class="file-tag">SKILL.md + 样例 + 模板</span>
+                </div>
+              </article>
+              <article class="path-card">
+                <div class="path-step">8</div>
+                <div><em>能动手</em><h3>Agent（智能体）</h3></div>
+                <div><p>大模型 + 工具 + 权限 + 执行循环：能自己规划步骤、读文件、跑脚本、迭代修正。适合步骤不确定、需要多轮操作的复杂任务。</p></div>
+              </article>
+              <article class="path-card">
+                <div class="path-step">9</div>
+                <div><em>可回退</em><h3>Git（版本管理）</h3></div>
+                <div><p>记录文档、脚本、规则改了什么，方便协作、审查和回退。多人维护同一套规则或脚本时使用。</p></div>
+              </article>
+            </div>
+          </div>
+
+          <!-- 第五部分：行动原则 -->
           <div id="stage4" class="stage-pane hidden">
             <div class="action-grid">
-              <article class="action-card"><strong>1. 说清目标</strong><span>明确你要 AI 做什么，而不是只说“帮我看看”。</span></article>
+              <article class="action-card"><strong>1. 说清目标</strong><span>明确你要 AI 做什么，而不是只说「帮我看看」。</span></article>
               <article class="action-card"><strong>2. 给足上下文</strong><span>提供规则、文件、样例、术语表和限制条件。</span></article>
               <article class="action-card"><strong>3. 写明边界</strong><span>说明哪些不要擅自判断，哪些必须人工确认。</span></article>
               <article class="action-card"><strong>4. 先计划再执行</strong><span>复杂任务先让 AI 说明步骤，再授权它动手。</span></article>
@@ -641,44 +948,45 @@
       {
         label: "第一部分",
         title: "基础概念",
-        desc: "用一句话讲清楚使用 AI 必须知道的几个基本词。",
+        desc: "每个概念先讲本质，再举简单例子。重点理解 Token 怎么切、模型怎么概率生成、幻觉为什么发生、RAG 如何减少幻觉。",
         nav: "基础概念",
-        sub: "先认识零件"
+        sub: "本质 + 例子"
       },
       {
         label: "第二部分",
         title: "大模型从训练到输出",
-        desc: "把大模型理解成一条链：先学习语言规律，再学习听指令，最后根据用户输入生成答案。",
+        desc: "分两段理解：出厂前（数据 → 预训练 → 后训练）和使用时（输入 → 概率生成 → 人工复核）。预训练和推理的底层机制相同。",
         nav: "模型链条",
-        sub: "训练到输出"
+        sub: "出厂 vs 使用"
       },
       {
         label: "第三部分",
-        title: "用翻译例子串起整个过程",
-        desc: "用“我想要学习英语”这个简单例子，把 Token、Prompt、训练和生成过程讲清楚。",
-        nav: "具体例子",
-        sub: "翻译任务"
+        title: "用翻译例子走一遍完整过程",
+        desc: "按时间顺序：Prompt → 读入切分 → 逐 token 概率生成 → 回扣训练与多种译法。",
+        nav: "翻译走查",
+        sub: "四步串讲"
       },
       {
         label: "第四部分",
-        title: "从简单问答到项目化使用",
-        desc: "当任务从一句话变成一个项目，就需要 Agent、Script、Workflow、Reference、Skill 和 Git。",
-        nav: "项目化使用",
-        sub: "能力成熟路径"
+        title: "从简单对话到项目化使用",
+        desc: "任务变复杂、变重复时，逐步引入 Documents、Reference、Workflow、Script、Skill、Agent 和 Git。",
+        nav: "项目化路径",
+        sub: "能力演进"
       },
       {
         label: "第五部分",
         title: "用户行动原则",
-        desc: "业务人员真正需要掌握的是怎么说清目标、给足上下文、控制边界、复核结果。",
+        desc: "业务人员真正需要掌握的是：说清目标、给足上下文、控制边界、复核结果。",
         nav: "行动原则",
         sub: "用户怎么做"
       }
     ];
 
     const caseTabs = [
-      ["翻译任务", "一个简单例子"],
-      ["Token / Prompt", "AI 怎么读输入"],
-      ["训练到生成", "为什么会翻译"]
+      ["Step 1", "Prompt 任务说明"],
+      ["Step 2", "读入与切分"],
+      ["Step 3", "逐 token 生成"],
+      ["Step 4", "能力来源"]
     ];
 
     const nav = document.getElementById("nav");
