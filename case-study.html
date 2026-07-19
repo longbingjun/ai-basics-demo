@@ -360,8 +360,8 @@
       <div>
         <p class="eyebrow">Case Study · Buy-Sell 成本还原</p>
         <h1>业务梳理 × AI 协作：一次真实项目的处理实录</h1>
-        <p class="lead">教一件事：怎么结合业务和产出表把环节解耦，再进环节执行、发现问题、解决问题。</p>
-        <p class="goal-banner">先拆 Part 1·2·3 → 再拆子环节 → 从最终表倒推 → 试跑对老底稿 → 补规则</p>
+        <p class="lead">Buy-Sell 实录 + 《项目实用操作手册》里的协作方法：先拆业务，再按手册 Plan → 试跑 → 对老底稿 → 沉淀。</p>
+        <p class="goal-banner">业务定规矩 · AI 帮整理和执行 · 老底稿当尺子 · 规则写进文档可复用</p>
       </div>
       <div class="controls">
         <a class="home-link" href="index.html">← 返回首页</a>
@@ -396,6 +396,10 @@ flowchart LR
               </pre>
             </div>
             <div class="quote">业务定规矩 · AI 帮整理和执行 · 老底稿当尺子</div>
+            <div class="callout ai-tip" style="margin-top:12px;border-color:rgba(33,85,217,.22);background:var(--blue-soft)">
+              <strong style="color:#1e3a8a">操作手册 · 前提</strong>
+              <p style="color:#1e3a8a;margin:0">Agent 在降低执行门槛，<strong>没有降低专业判断的重要性</strong>。受益的是能把目标、规则和边界讲清楚，并能<strong>复核 AI 结果</strong>的人。</p>
+            </div>
           </div>
 
           <!-- 1 背景 -->
@@ -407,6 +411,15 @@ flowchart LR
             <div class="info-card">
               <h3>最终要落到表上</h3>
               <p>不是口头算完就结束——要产出<strong>可核对、可交接</strong>的明细表（如 BOM 明细、价差表、型号汇总表）。<strong>表的结构，决定你怎么拆环节。</strong></p>
+            </div>
+            <div class="info-card">
+              <h3>操作手册 · 开工前先讲清蓝图（四问）</h3>
+              <ul style="margin:0;padding-left:18px;color:var(--muted);line-height:1.75;font-size:14px">
+                <li><strong style="color:var(--ink)">解决什么问题</strong> — 还原集团视角的真实材料消耗成本</li>
+                <li><strong style="color:var(--ink)">输入是什么</strong> — 缴库/采购/销货/核价单/手搓老底稿等</li>
+                <li><strong style="color:var(--ink)">输出是什么</strong> — Part 1·2·3 各阶段明细表与汇总表</li>
+                <li><strong style="color:var(--ink)">验收标准</strong> — 与手搓底稿一致或可解释的差异清单</li>
+              </ul>
             </div>
           </div>
 
@@ -475,10 +488,11 @@ flowchart LR
               </tbody>
             </table>
             <div class="ai-tip">
-              <h3>本页 · AI 用法</h3>
+              <h3>本页 · AI 用法（操作手册 2.1）</h3>
               <ul>
-                <li>Plan 模式：先拆 Part 1/2/3，再拆某一 Part 的子环节——<strong>只出拆分表，不写文件</strong></li>
-                <li>让 AI 标清：哪些可并行、哪些必须按顺序</li>
+                <li>Plan 模式 / Prompt 写明：<strong>「不要直接生成文件，目前仅为方案规划」</strong></li>
+                <li>先拆 Part 1/2/3，再拆子环节——只出拆分表，不写代码</li>
+                <li>标清并行 vs 串行；中间产物、最终产物格式先定好</li>
               </ul>
             </div>
           </div>
@@ -514,6 +528,10 @@ flowchart TB
 
           <!-- 5 计划准备 -->
           <div id="stage5" class="stage-pane hidden">
+            <div class="callout ai-tip" style="margin-bottom:12px">
+              <strong style="color:#1e3a8a">操作手册核心</strong>
+              <p style="color:#1e3a8a;margin:0">先把业务流程讲完整，再让 AI 结构化拆分环节——<strong>不要一开始就要求写代码</strong>。</p>
+            </div>
             <div class="diagram-card">
               <pre class="mermaid">
 flowchart LR
@@ -523,22 +541,47 @@ flowchart LR
   C -.有问题.-> P
               </pre>
             </div>
-            <div class="level-list">
-              <article class="level-card">
-                <div class="level-num">1</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">每个环节开工前写清三件事</h3><p>输入是什么 · 输出长什么样 · 怎样算做对（跟手搓 / 业务确认）</p></div>
-              </article>
-              <article class="level-card">
-                <div class="level-num">2</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">方案定稿前两类审查</h3><p>业务审查（口径对不对）· 复核与落地审查（能否复跑、异常可见）</p></div>
-              </article>
+            <table class="data-table">
+              <thead>
+                <tr><th>环节内要答清</th><th>你要准备什么（What / Why / How）</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="hl">What · 任务定义</td>
+                  <td>业务目标、数据来源、输出结果、处理规则；存疑处让 AI 整理「待业务确认清单」</td>
+                </tr>
+                <tr>
+                  <td class="hl">Why · 方案选择</td>
+                  <td>为何用 AI、为何某种匹配规则、哪些异常必须人工复核——不必懂技术，但要能选方案</td>
+                </tr>
+                <tr>
+                  <td class="hl">How · 执行与复核</td>
+                  <td>怎么跑、怎么查结果、异常怎么处理、规则怎么迭代</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="review-grid" style="margin-top:12px">
+              <div class="review-box biz">
+                <h4>方案审查 · 成本 / 业务口径</h4>
+                <ul>
+                  <li>字段口径、计算逻辑是否符合业务</li>
+                  <li>异常是否会被静默丢掉</li>
+                </ul>
+              </div>
+              <div class="review-box chk">
+                <h4>方案审查 · 审计复核</h4>
+                <ul>
+                  <li>能否跟手搓底稿对上</li>
+                  <li>差异是否有清单、可追溯</li>
+                </ul>
+              </div>
             </div>
-            <div class="ai-tip">
-              <h3>本页 · AI 用法</h3>
+            <div class="review-box" style="margin-top:12px;border-color:rgba(33,85,217,.2);background:var(--blue-soft)">
+              <h4 style="color:#1e3a8a;margin:0 0 8px">方案审查 · 落地 / 可重复执行</h4>
               <ul>
-                <li>Plan 模式：「目前仅为方案规划，不要生成文件」</li>
-                <li>逻辑修正：引用 AI 原话 + 你的纠正 + 请按纠正后重述</li>
-                <li>拆完 Part 1/2/3 后，<strong>新开对话</strong>只谈某一个子环节（如 Part 2-1）</li>
+                <li>输入、输出、验收标准是否写死</li>
+                <li>换月份是否只换数据、不重写逻辑</li>
+                <li>Prompt 示例：「你是数据工程师，先找方案 bug 和改进点，<strong>不要一开始写代码</strong>」</li>
               </ul>
             </div>
           </div>
@@ -560,15 +603,15 @@ flowchart LR
               </article>
               <article class="level-card">
                 <div class="level-num">③</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">本环节结束 → 沉淀</h3><p>口径、输入输出、核对结论写进文档；未定项进「待业务确认」。</p></div>
+                <div><h3 style="margin:0 0 6px;font-size:15px;">本环节结束 → 沉淀（操作手册 2.2.3）</h3><p>业务背景、计算口径、输入输出、核对结论写进 <strong>docs</strong>；未定项进「待业务确认」。</p></div>
               </article>
             </div>
             <div class="ai-tip">
-              <h3>本页 · AI 用法</h3>
+              <h3>本页 · 复核方式（操作手册 2.2.1）</h3>
               <ul>
-                <li>「先只处理 N 条，不要全量」</li>
-                <li>「请说明数据来源和计算过程，不要贴代码」——方便拉业务一起听</li>
-                <li>换环节新开对话；只读最新版本文件夹</li>
+                <li>「先只处理约 10 条，不要全量」</li>
+                <li><strong>打开表看</strong> + 问 AI：「请说明数据来源、计算过程、加工逻辑，不要贴代码」</li>
+                <li>产出符合预期再全量；换环节<strong>新开对话</strong>，只读最新版本文件夹</li>
               </ul>
             </div>
           </div>
@@ -576,7 +619,7 @@ flowchart LR
           <!-- 7 发现问题解决问题 -->
           <div id="stage7" class="stage-pane hidden">
             <div class="info-card">
-              <p>对不上老底稿时<strong>先分三类</strong>，再决定改理解、等业务拍板、还是补规则。差异本身也是问业务的清单。</p>
+              <p>对不上老底稿时<strong>先分三类</strong>（对应操作手册 2.2.2）。差异本身也是问业务的清单。</p>
             </div>
             <table class="data-table">
               <thead>
@@ -585,18 +628,18 @@ flowchart LR
               <tbody>
                 <tr>
                   <td class="hl">① 理解偏差</td>
-                  <td>核对方式错了、误解「一行代表什么」</td>
-                  <td>让 AI 说明处理逻辑 → 你纠正 → 小样本重试</td>
+                  <td>AI 拆解逻辑有误（操作手册·情境一）</td>
+                  <td>引用对话问「你为什么这样处理」→ 纠正 → 小样本重试</td>
                 </tr>
                 <tr>
                   <td class="hl">② 规则未定</td>
-                  <td>两种老做法都说得通，业务还没拍板</td>
-                  <td>进「待业务确认」，不擅自选一种</td>
+                  <td>多种做法都说得通，业务未拍板</td>
+                  <td>整理「待业务确认清单.md」，不擅自选口径</td>
                 </tr>
                 <tr>
                   <td class="hl">③ 缺匹配 / 需补规则</td>
-                  <td>源表对不上，或现有规则覆盖不到</td>
-                  <td>列异常明细；常需<strong>补充新规则</strong>（如替代料关系）</td>
+                  <td>全量后大量异常原因未明（操作手册·情境二）</td>
+                  <td>先让 AI 做异常归类与可能原因；逻辑错→情境一；业务待定→清单；缺规则→补规则（如替代料、汇率）</td>
                 </tr>
               </tbody>
             </table>
@@ -624,13 +667,28 @@ flowchart TB
     A2 --> A3[产出表字段倒推]
   end
   subgraph 怎么做
-    B1[规划] --> B2[单环节试跑]
+    B1[规划 What/Why/How] --> B2[单环节试跑]
     B2 --> B3[对老底稿]
     B3 --> B4[发现问题补规则]
+    B4 --> B5[沉淀文档+版本]
   end
               </pre>
             </div>
-            <div class="summary-table">
+            <div class="info-card">
+              <h3>Buy-Sell · Part 2 阶段性成果（操作手册 4.2）</h3>
+              <p style="margin:0 0 10px;font-size:14px;color:var(--muted)">输入输出规则已标准化，2026 年 1–5 月脚本跑批 + 手搓核对闭环，<strong>后续月份可复用</strong>（约 30 秒内跑完价差）。</p>
+            </div>
+            <table class="data-table summary-table">
+              <thead>
+                <tr><th>产出</th><th>品号数</th><th>与手搓一致</th><th>状态</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>国内立讯价差</td><td>844</td><td>844（100%）</td><td>已定稿</td></tr>
+                <tr><td>越南立讯价差</td><td>656</td><td>639（97.4%）· 17 条已解释（含汇率四舍五入等）</td><td>已定稿</td></tr>
+                <tr><td>品号综合价差</td><td>1282</td><td>1270（99.1%）</td><td>逻辑已验证</td></tr>
+              </tbody>
+            </table>
+            <div class="summary-table" style="margin-top:12px">
               <table class="data-table">
                 <thead>
                   <tr><th>阶段</th><th>你要做的</th><th>AI 配合</th></tr>
@@ -641,10 +699,15 @@ flowchart TB
                   <tr><td>解耦</td><td>从最终表一行倒推字段来源</td><td>字段依赖表</td></tr>
                   <tr><td>执行</td><td>单环节：小样本 → 全量 → 对老底稿</td><td>口述逻辑、新开对话</td></tr>
                   <tr><td>排错</td><td>分三类；待定进清单；补规则</td><td>差异对比、整理待确认</td></tr>
+                  <tr><td>沉淀</td><td>口径进 docs；原始数据隔离；Git 管版本</td><td>规范业务文档、变更记录</td></tr>
                 </tbody>
               </table>
             </div>
-            <p class="quote" style="margin-top:14px;">业务定规矩，AI 帮整理和执行，老底稿当尺子。</p>
+            <div class="callout" style="margin-top:12px">
+              <strong>操作手册 · 项目类型对照</strong>
+              <p>Buy-Sell 属于<strong>长期维护项目</strong> → 适合 Skill + Workflow + Script + Git；Part 2 价差计算已走通「改规则 → 小样本复核 → 定稿脚本」的维护路径。</p>
+            </div>
+            <p class="quote" style="margin-top:14px">短期任务重在快速可复核；长期项目重在可复用、可追溯、可维护。</p>
           </div>
         </div>
       </section>
@@ -668,15 +731,15 @@ flowchart TB
     });
 
     const stages = [
-      { label: "第 1 页", title: "怎么读这份材料", desc: "五步：拆 Part → 拆子环节 → 倒推解耦 → 执行 → 排错。", nav: "导览", sub: "总路线图" },
-      { label: "第 2 页", title: "项目在回答什么", desc: "业务目标 + 最终要落到可核对的表上。", nav: "背景", sub: "为何要做" },
+      { label: "第 1 页", title: "怎么读这份材料", desc: "Buy-Sell 业务线 + 操作手册协作法：拆 → 规划 → 试跑 → 排错 → 沉淀。", nav: "导览", sub: "总路线图" },
+      { label: "第 2 页", title: "项目在回答什么", desc: "业务目标 + 产出表 + 操作手册「蓝图四问」。", nav: "背景", sub: "为何要做" },
       { label: "第 3 页", title: "第一层：为什么拆成 Part 1 / 2 / 3", desc: "各 Part 产出什么、为什么单独成块、谁可并行。", nav: "Part 1·2·3", sub: "为什么这样分" },
-      { label: "第 4 页", title: "第二层：Part 2 子环节怎么拆", desc: "2-1 → 2-2 → 2-3，子环节拆分示例。", nav: "Part 2 子环节", sub: "第二层示例" },
+      { label: "第 4 页", title: "第二层：Part 2 子环节怎么拆", desc: "2-1 → 2-2 → 2-3；Plan 阶段只谈拆分。", nav: "Part 2 子环节", sub: "第二层示例" },
       { label: "第 5 页", title: "怎么解耦：业务 + 产出表倒推", desc: "五步法 + 越南立讯一行字段依赖。", nav: "解耦方法", sub: "字段倒推" },
-      { label: "第 6 页", title: "规划：每个环节开工前要定什么", desc: "输入输出、验收标准、两类审查。", nav: "规划", sub: "Plan" },
-      { label: "第 7 页", title: "执行：一个环节一个环节做", desc: "小样本 → 全量 → 对老底稿 → 沉淀。", nav: "执行", sub: "单环节" },
-      { label: "第 8 页", title: "发现问题 → 解决问题", desc: "三类异常 + 汇率折算实录。", nav: "排错", sub: "三类+汇率" },
-      { label: "第 9 页", title: "总结", desc: "怎么拆 + 怎么做。", nav: "总结", sub: "收束" }
+      { label: "第 6 页", title: "规划：What / Why / How + 三类审查", desc: "操作手册 2.1：先讲流程再写代码；业务 / 审计 / 落地审查。", nav: "规划", sub: "Plan" },
+      { label: "第 7 页", title: "执行：一个环节一个环节做", desc: "小样本 → 全量 → 对老底稿 → 沉淀（操作手册 2.2.1）。", nav: "执行", sub: "单环节" },
+      { label: "第 8 页", title: "发现问题 → 解决问题", desc: "三类异常（对齐手册情境一/二）+ 汇率实录。", nav: "排错", sub: "三类+汇率" },
+      { label: "第 9 页", title: "总结：成果与沉淀", desc: "Part 2 核对结果 + 怎么拆/怎么做 + 长期维护。", nav: "总结", sub: "成果+沉淀" }
     ];
 
     const nav = document.getElementById("nav");
