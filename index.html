@@ -724,6 +724,45 @@
 
     .clarify-box strong { color: #92400e; }
 
+    .check-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .check-list li {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--muted);
+      padding-left: 22px;
+      position: relative;
+    }
+
+    .check-list li::before {
+      content: "✅";
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .output-box {
+      border-radius: 14px;
+      border: 1px solid rgba(5, 150, 105, 0.25);
+      background: var(--green-soft);
+      padding: 14px 16px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .output-box .label {
+      font-size: 12px;
+      font-weight: 800;
+      color: #047857;
+      margin-bottom: 8px;
+    }
+
     .cta-box {
       display: flex;
       align-items: center;
@@ -798,21 +837,13 @@
         hint: "弄懂答案怎么来",
         slides: [
           {
-            tab: "Prompt · Token",
-            title: "Prompt · 上下文 · Token",
-            desc: "你给了什么、模型能看到什么、文字怎么被读入——三个基础概念。",
+            tab: "Token · Prompt",
+            title: "Token · Prompt · 上下文",
+            desc: "模型先怎么读文字，再是你说了什么、这一轮它能看见什么。",
             html: `
-              <div class="card accent-blue">
-                <h3>Prompt（任务说明）</h3>
-                <p>你发给模型的一整段要求：做什么、怎么做、不要做什么。越清楚，回答越不跑偏。</p>
-              </div>
-              <div class="card accent-green">
-                <h3>上下文</h3>
-                <p>这一轮模型能看到的全部内容 = Prompt + 历史对话 + 系统设定。太长时<strong>最早的内容会被挤掉</strong>，模型就「看不见」了。</p>
-              </div>
               <div class="card accent-violet">
                 <h3>Token（模型读文字的单位）</h3>
-                <p style="margin-bottom:12px">不是「一个字」或「一个英文单词」那么简单，而是切分后的<strong>最小处理单位</strong>。Prompt 和上下文都会先变成 token，模型再处理。</p>
+                <p style="margin-bottom:12px">文字会先被切成 token——不是「一个字」或「一个英文单词」那么简单，而是模型内部的<strong>最小处理单位</strong>。</p>
               </div>
               <div class="card-grid two">
                 <div class="token-demo">
@@ -836,6 +867,14 @@
                     <span class="token-chip split"> English</span>
                   </div>
                 </div>
+              </div>
+              <div class="card accent-blue">
+                <h3>Prompt（任务说明）</h3>
+                <p>你发给模型的一整段要求：做什么、怎么做、不要做什么。Prompt 会先被切成 token 再进入模型。越清楚，回答越不跑偏。</p>
+              </div>
+              <div class="card accent-green">
+                <h3>上下文</h3>
+                <p>这一轮模型能看到的<strong>全部 token</strong> = 你的 Prompt + 历史对话 + 系统设定。太长时<strong>最早的内容会被挤掉</strong>，模型就「看不见」了。</p>
               </div>
             `
           },
@@ -950,9 +989,24 @@
           {
             tab: "助手 vs Agent",
             title: "AI 助手 与 Agent",
-            desc: "",
+            desc: "两类 AI 工具，用途不同。",
             html: `
-              <div class="hero-img-wrap">
+              <div class="card accent-blue">
+                <h3>AI 助手</h3>
+                <p style="margin-bottom:10px">以<strong>对话和知识整理</strong>为主。</p>
+                <ul class="check-list">
+                  <li>适合答疑、总结和思路梳理</li>
+                </ul>
+                <p style="margin:10px 0 0;font-size:13px;color:var(--muted)">例：豆包、千问</p>
+              </div>
+              <div class="card accent-violet" style="margin-top:12px">
+                <h3>Agent</h3>
+                <p style="margin-bottom:10px">能听懂你安排活（<strong>意图识别</strong>）、自己琢磨怎么干（<strong>任务规划</strong>）、动手分步干完（<strong>多步执行</strong>），中间遇到不确定还会主动问你并不断修正（<strong>反馈迭代</strong>）的「数字实习生」。</p>
+                <ul class="check-list">
+                  <li>适合处理文件、写代码脚本、执行任务和迭代修正</li>
+                </ul>
+              </div>
+              <div class="hero-img-wrap" style="margin-top:12px">
                 <img src="assets/agent-flow.png" alt="Agent 执行过程：意图识别、任务规划、多步执行、反馈迭代">
               </div>
               <p class="boundary">
@@ -965,53 +1019,54 @@
           {
             tab: "Workflow",
             title: "Workflow 是什么",
-            desc: "和 Agent 的关系：步骤固定 vs 现场规划。",
+            desc: "步骤固定的「标准路线」；Agent 可以按这条路线跑。",
             html: `
-              <div class="card-grid two">
-                <div class="card accent-violet">
-                  <h3>Workflow</h3>
-                  <p>步骤<strong>固定</strong>、顺序<strong>固定</strong>：先做什么、再做什么，每月重复都一样。<br><br>例：拉数 → 清洗 → 对老底稿 → 出表。</p>
+              <p class="big-idea" style="font-size:16px">Workflow = 步骤<strong>固定</strong>、顺序<strong>固定</strong>的任务路线。Agent 会<strong>根据现场规划</strong>；Workflow 是人先把路线写死，适合每月重复、口径不变的事。</p>
+              <div class="card accent-violet">
+                <h3>成熟例子：电商订单履约 Workflow</h3>
+                <p style="margin-bottom:12px">大促后每天处理昨日订单，路线不变：</p>
+                <div class="flow-mini">
+                  <span>拉取订单</span><span class="arrow">→</span>
+                  <span>校验库存</span><span class="arrow">→</span>
+                  <span>生成拣货单</span><span class="arrow">→</span>
+                  <span>对接物流</span><span class="arrow">→</span>
+                  <span>回写发货状态</span><span class="arrow">→</span>
+                  <span>异常单单独列表</span>
                 </div>
-                <div class="card">
-                  <h3>和 Agent 的区别</h3>
-                  <p>Agent 会<strong>根据任务现场规划</strong>步骤；Workflow 是人（或项目）先把路线写死。<br><br>常见用法：<strong>Agent 按 Workflow 跑</strong>，但在某一步里临时问你、改计划。</p>
-                </div>
+                <p style="margin:12px 0 0;font-size:13px;color:var(--muted);line-height:1.6">每一步输入输出都事先定义好；换一天只是换订单数据，<strong>不重写流程</strong>。Agent 可以按这条 Workflow 逐步执行，在某步遇到缺货时再问你。</p>
+              </div>
+              <div class="card">
+                <h3>和 Skill 的分工</h3>
+                <p>Workflow 定<strong>先做什么、后做什么</strong>；Skill 定<strong>某一步按什么业务规则做</strong>。</p>
               </div>
             `
           },
           {
             tab: "Skill",
             title: "Skill 是什么",
-            desc: "不是另一种大模型，而是 Agent 的「岗位手册 + 工具箱」。",
+            desc: "把重复任务的规则写进手册，让 Agent 每次按同一套规矩做。",
             html: `
+              <p class="big-idea" style="font-size:16px;background:var(--violet-soft);border-color:rgba(124,58,237,.2);color:#5b21b6">
+                Skill 的本质：<strong>把一类任务的规则打包成 Agent 能加载的「岗位手册」</strong>，避免每次重新口述、漏规则、口径不一致。
+              </p>
               <div class="card accent-blue">
-                <h3>Skill 的三件事</h3>
-                <p style="font-size:15px;line-height:1.7;color:var(--ink)">
+                <h3>Skill 里通常有什么</h3>
+                <p style="font-size:14px;line-height:1.7;color:var(--ink);margin:0">
                   ① <strong>什么时候该用</strong>（触发描述）<br>
-                  ② <strong>按什么规则做</strong>（SKILL.md + reference 文档）<br>
-                  ③ <strong>哪几步不必 AI 发挥</strong>（如固定脚本 parse_sku.py）
+                  ② <strong>按什么规则做</strong>（SKILL.md + reference）<br>
+                  ③ <strong>哪几步交给脚本</strong>（规则完全确定的部分，如 parse_sku.py）
                 </p>
               </div>
-              <table class="table-simple">
-                <tr><th>对比</th><th>说明</th></tr>
-                <tr><th>Skill vs Workflow</th><td>Workflow 定<strong>先做什么后做什么</strong>；Skill 定<strong>这一步按什么规矩做</strong>。典型：Workflow 定环节，每环节挂对应 Skill。</td></tr>
-                <tr><th>Skill vs Agent</th><td>没有 Skill：每次重新口述规则，易漏易混。有 Skill：Agent 加载手册 → 按规则执行 → 不确定的标「待确认」。</td></tr>
-                <tr><th>Reference / Script</th><td>Reference = Skill 里的规则文档；Script = 规则完全确定、交给代码跑的部分。</td></tr>
-              </table>
-            `
-          },
-          {
-            tab: "答案从哪来",
-            title: "我为什么得到这个答案？",
-            desc: "一张表收束 Part 1 + Part 2。",
-            html: `
-              <table class="table-simple">
-                <tr><th>你在用什么</th><th>答案主要由什么决定</th></tr>
-                <tr><th>助手聊天</th><td>Prompt + 上下文 + next token 猜测</td></tr>
-                <tr><th>Agent（无 Skill）</th><td>同上 + 它的规划 + 工具读到的文件内容（更容易漏规则）</td></tr>
-                <tr><th>Agent + Skill</th><td>同上 + <strong>Skill 里的规则与脚本</strong></td></tr>
-                <tr><th>Agent + Skill + 文档/老底稿</th><td>同上 + <strong>可核对的依据</strong>（财务最该追求的状态）</td></tr>
-              </table>
+              <div class="card-grid two">
+                <div class="card">
+                  <h3>Skill vs Workflow</h3>
+                  <p>Workflow 定环节顺序；Skill 定<strong>这一步的规矩</strong>。</p>
+                </div>
+                <div class="card">
+                  <h3>Skill vs 纯 Agent</h3>
+                  <p>没有 Skill：每次重讲规则。有 Skill：加载手册 → 按规则执行 → 不确定的标「待确认」。</p>
+                </div>
+              </div>
             `
           }
         ]
@@ -1036,25 +1091,37 @@
           {
             tab: "韶音 SKU",
             title: "例子：韶音 SKU Skill",
-            desc: "看一次完整链路 —— 答案从 Skill 规则 + 脚本 + 待确认清单来。",
+            desc: "从一句指令到一张解析结果表——规则从哪来、产出是什么。",
             html: `
-              <div class="flow-mini">
-                <span>你：解析 SKU T511-ST-BK-US-326-WAL</span>
-                <span class="arrow">→</span>
-                <span>加载 shokz-product-sku</span>
-                <span class="arrow">→</span>
-                <span>读 SKILL + reference</span>
-                <span class="arrow">→</span>
-                <span>跑 parse_sku.py</span>
-                <span class="arrow">→</span>
-                <span>输出型号/系列/产品线</span>
+              <div class="sample-box">
+                <div class="label">你的指令（Prompt）</div>
+                <div class="text">用 shokz-product-sku 解析 SKU：B-CL120A-BK-TL</div>
               </div>
-              <table class="table-simple" style="margin-top:12px">
-                <tr><th>输出字段</th><th>规则从哪来</th></tr>
-                <tr><td>物理性质（裸机/整机/物料）</td><td>SKU 前缀 B- / 0- 等 → SKILL 规则</td></tr>
-                <tr><td>型号 / 系列 / 产品线</td><td>按「-」分段 + T/E/S/C 开头判断 → reference</td></tr>
-                <tr><td>项目简称不确定</td><td>列候选集，<strong>标注待人工确认</strong> — 不擅自定论</td></tr>
-              </table>
+              <div class="card accent-violet">
+                <h3>Agent 按 Skill 做了什么</h3>
+                <p style="font-size:14px;line-height:1.65;color:var(--muted);margin:0">
+                  ① 识别到「解析 SKU」→ 加载 <strong>shokz-product-sku</strong><br>
+                  ② 读 SKILL.md：<code style="font-size:12px">B-</code> 开头 → 物理性质 = <strong>裸机</strong>；按 <code style="font-size:12px">-</code> 分段取型号<br>
+                  ③ 跑 <strong>parse_sku.py</strong>（规则固定的部分交给脚本）<br>
+                  ④ 产品线三级若 mapping 表对不上 → 标<strong>待确认</strong>，不擅自定论
+                </p>
+              </div>
+              <div class="output-box">
+                <div class="label">最终产出（解析结果表）</div>
+                <table class="table-simple" style="background:#fff">
+                  <tr><th>字段</th><th>结果</th><th>依据规则</th></tr>
+                  <tr><td>物理性质</td><td><strong>裸机</strong></td><td>SKU 以 B- 开头</td></tr>
+                  <tr><td>产品型号</td><td><strong>CL120A</strong></td><td>B- 后第一段</td></tr>
+                  <tr><td>产品系列</td><td><strong>CL12A</strong></td><td>型号去掉末位数字</td></tr>
+                  <tr><td>产品线（一级）</td><td><strong>通讯线</strong></td><td>型号 C 开头 → reference</td></tr>
+                  <tr><td>颜色段</td><td><strong>BK</strong></td><td>分段解析</td></tr>
+                  <tr><td>尾号段</td><td><strong>TL</strong></td><td>分段解析；业务含义待人工确认</td></tr>
+                </table>
+              </div>
+              <div class="card">
+                <h3>和「助手聊天」的区别</h3>
+                <p>纯聊天可能猜错分段规则；有 Skill 后，<strong>答案来自 SKILL + reference + 脚本</strong>，可对照规则复核，不是模型随口编的。</p>
+              </div>
             `
           },
           {
