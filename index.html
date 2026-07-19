@@ -3,23 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI基础知识入门</title>
+  <title>AI 基础知识入门</title>
   <style>
     :root {
-      --bg: #f4f6fa;
-      --ink: #101827;
-      --muted: #647084;
-      --subtle: #eef2f8;
-      --line: #dbe3ef;
+      --bg: #f0f4fc;
+      --ink: #0f172a;
+      --muted: #5c6b82;
+      --line: #d8e2f0;
       --paper: #ffffff;
-      --blue: #2155d9;
-      --blue-soft: #edf3ff;
-      --green: #0f766e;
-      --green-soft: #eaf8f5;
-      --amber: #a8560c;
-      --amber-soft: #fff5e8;
-      --shadow: 0 24px 70px rgba(16, 24, 39, 0.12);
-      --radius: 18px;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --blue-deep: #1e40af;
+      --green: #059669;
+      --green-soft: #ecfdf5;
+      --amber: #d97706;
+      --amber-soft: #fffbeb;
+      --violet: #7c3aed;
+      --violet-soft: #f5f3ff;
+      --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      --radius: 20px;
     }
 
     * { box-sizing: border-box; }
@@ -28,644 +30,348 @@
       margin: 0;
       min-height: 100vh;
       color: var(--ink);
-      font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
-      background:
-        linear-gradient(135deg, rgba(33, 85, 217, 0.10), transparent 38%),
-        linear-gradient(315deg, rgba(15, 118, 110, 0.10), transparent 34%),
-        var(--bg);
+      font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 10% 0%, rgba(37, 99, 235, 0.12), transparent 45%),
+                  radial-gradient(circle at 90% 10%, rgba(5, 150, 105, 0.08), transparent 40%),
+                  var(--bg);
     }
 
     .app {
       min-height: 100vh;
-      padding: 28px;
+      padding: 24px 28px 32px;
       display: grid;
       grid-template-rows: auto 1fr;
-      gap: 18px;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     header {
-      max-width: 1180px;
-      width: 100%;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 18px;
-      align-items: end;
-    }
-
-    .eyebrow {
-      margin: 0 0 8px;
-      color: var(--blue);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    h1 { margin: 0; font-size: 36px; line-height: 1.16; }
-
-    .lead {
-      margin: 10px 0 0;
-      max-width: 780px;
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.7;
-    }
-
-    .goal-banner {
-      margin-top: 12px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      background: var(--green-soft);
-      color: #145142;
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 1.6;
-      max-width: 780px;
-    }
-
-    .controls {
       display: flex;
-      gap: 8px;
-      justify-content: flex-end;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
       flex-wrap: wrap;
     }
 
-    button {
-      height: 40px;
+    .eyebrow { margin: 0 0 6px; color: var(--blue); font-size: 13px; font-weight: 800; letter-spacing: 0.02em; }
+    h1 { margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -0.02em; }
+    .lead { margin: 8px 0 0; color: var(--muted); font-size: 15px; max-width: 560px; line-height: 1.6; }
+
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    a.link-btn, button {
+      height: 42px;
+      padding: 0 16px;
+      border-radius: 12px;
       border: 1px solid var(--line);
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.92);
-      color: var(--ink);
-      padding: 0 14px;
+      background: var(--paper);
       font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 8px 20px rgba(16, 24, 39, 0.07);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+      text-decoration: none;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
     }
 
-    button.primary {
-      border-color: var(--blue);
-      background: var(--blue);
-      color: #fff;
-    }
-
-    button:focus-visible,
-    .nav-item:focus-visible,
-    .subtab:focus-visible,
-    .step-btn:focus-visible,
-    .mini-tab:focus-visible {
-      outline: 3px solid rgba(33, 85, 217, 0.28);
-      outline-offset: 2px;
-    }
+    button.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+    button:disabled { opacity: 0.35; cursor: not-allowed; }
 
     main {
-      max-width: 1180px;
-      width: 100%;
-      margin: 0 auto;
       display: grid;
-      grid-template-columns: 286px minmax(0, 1fr);
+      grid-template-columns: 220px 1fr;
       gap: 18px;
       align-items: stretch;
     }
 
-    .sidebar,
-    .slide {
-      background: rgba(255, 255, 255, 0.88);
-      border: 1px solid rgba(219, 227, 239, 0.92);
+    .sidebar {
+      background: var(--paper);
+      border: 1px solid var(--line);
       border-radius: var(--radius);
+      padding: 12px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
+      display: grid;
+      gap: 6px;
+      align-content: start;
     }
 
-    .sidebar {
-      padding: 14px;
-      display: grid;
-      align-content: start;
-      gap: 8px;
+    .part-label {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 8px 10px 4px;
     }
 
     .nav-item {
       width: 100%;
-      min-height: 78px;
-      border: 1px solid transparent;
-      border-radius: 14px;
+      border: none;
       background: transparent;
-      box-shadow: none;
       text-align: left;
-      display: grid;
-      grid-template-columns: 34px 1fr;
-      gap: 10px;
-      align-items: center;
-      padding: 10px;
-    }
-
-    .nav-index {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: var(--subtle);
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    .nav-title {
-      display: block;
-      font-size: 15px;
-      font-weight: 800;
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
       color: var(--ink);
-      margin-bottom: 3px;
+      line-height: 1.35;
     }
 
-    .nav-sub {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.45;
-    }
-
-    .nav-item.active {
-      border-color: rgba(33, 85, 217, 0.28);
-      background: var(--blue-soft);
-    }
-
-    .nav-item.active .nav-index {
-      background: var(--blue);
-      color: #fff;
-    }
+    .nav-item.active { background: var(--blue-soft); color: var(--blue-deep); }
+    .nav-item .sub { display: block; font-size: 11px; font-weight: 500; color: var(--muted); margin-top: 2px; }
 
     .slide {
-      min-height: 680px;
-      padding: 30px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 32px;
+      min-height: 580px;
       display: grid;
       grid-template-rows: auto 1fr;
-      gap: 24px;
+      gap: 20px;
     }
 
     .slide-head {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 18px;
-      align-items: start;
-      padding-bottom: 18px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .stage-label {
-      display: inline-flex;
-      width: fit-content;
-      padding: 6px 11px;
-      border-radius: 999px;
-      background: var(--blue-soft);
-      color: var(--blue);
-      font-size: 13px;
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-
-    .slide h2 { margin: 0; font-size: 32px; line-height: 1.22; }
-
-    .slide-desc {
-      margin: 10px 0 0;
-      color: var(--muted);
-      line-height: 1.72;
-      font-size: 16px;
-      max-width: 760px;
-    }
-
-    .progress {
-      min-width: 92px;
-      height: 92px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: conic-gradient(var(--blue) var(--progress), #e7ecf5 0);
-      position: relative;
-    }
-
-    .progress::after {
-      content: "";
-      position: absolute;
-      inset: 8px;
-      border-radius: 50%;
-      background: var(--paper);
-    }
-
-    .progress span {
-      position: relative;
-      z-index: 1;
-      font-weight: 900;
-      color: var(--ink);
-    }
-
-    .content {
-      display: grid;
-      align-content: start;
-      gap: 18px;
-    }
-
-    .split-pane {
-      display: grid;
-      grid-template-columns: 190px minmax(0, 1fr);
-      gap: 16px;
-      align-items: stretch;
-    }
-
-    .step-nav {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      padding-right: 14px;
-      border-right: 1px solid var(--line);
-    }
-
-    .step-btn {
-      width: 100%;
-      height: auto;
-      min-height: 52px;
-      padding: 10px 12px;
-      border: 1px solid transparent;
-      border-radius: 12px;
-      background: transparent;
-      box-shadow: none;
-      text-align: left;
-      display: grid;
-      grid-template-columns: 28px 1fr;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .step-btn .step-num {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: var(--subtle);
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .step-btn .step-name {
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--ink);
-      line-height: 1.3;
-    }
-
-    .step-btn .step-hint {
-      grid-column: 2;
-      font-size: 11px;
-      color: var(--muted);
-      font-weight: 400;
-    }
-
-    .step-btn.active {
-      border-color: rgba(33, 85, 217, 0.28);
-      background: var(--blue-soft);
-    }
-
-    .step-btn.active .step-num {
-      background: var(--blue);
-      color: #fff;
-    }
-
-    .step-main {
-      display: grid;
-      grid-template-rows: auto auto 1fr auto;
-      gap: 14px;
-      min-height: 400px;
-    }
-
-    .step-headline h3 { margin: 0 0 8px; font-size: 22px; }
-
-    .mini-tabs {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .mini-tab {
-      height: 36px;
-      padding: 0 16px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: #fff;
-      box-shadow: none;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--muted);
-    }
-
-    .mini-tab.active {
-      border-color: rgba(15, 118, 110, 0.36);
-      background: var(--green-soft);
-      color: #145142;
-    }
-
-    .tab-body {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: #fbfcff;
-      padding: 20px;
-      overflow-y: auto;
-      max-height: 360px;
-    }
-
-    .tab-body p {
-      margin: 0 0 10px;
-      color: var(--muted);
-      line-height: 1.72;
-      font-size: 15px;
-    }
-
-    .tab-body p:last-child { margin-bottom: 0; }
-
-    .step-footer {
       display: flex;
       justify-content: space-between;
-      gap: 10px;
-      padding-top: 4px;
-      border-top: 1px solid var(--line);
+      align-items: flex-start;
+      gap: 16px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--bg);
     }
 
-    .essence {
+    .part-tag {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .part-tag.p1 { background: var(--blue-soft); color: var(--blue-deep); }
+    .part-tag.p2 { background: var(--violet-soft); color: var(--violet); }
+    .part-tag.p3 { background: var(--green-soft); color: var(--green); }
+
+    .slide h2 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
+    .slide-desc { margin: 8px 0 0; color: var(--muted); font-size: 15px; line-height: 1.55; max-width: 640px; }
+
+    .progress {
+      width: 72px; height: 72px; border-radius: 50%; flex-shrink: 0;
+      display: grid; place-items: center;
+      background: conic-gradient(var(--blue) var(--p), #e2e8f0 0);
+      position: relative;
+    }
+
+    .progress::after { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: #fff; }
+    .progress span { position: relative; z-index: 1; font-weight: 800; font-size: 13px; }
+
+    .content { display: grid; align-content: start; gap: 16px; }
+
+    .big-idea {
       margin: 0;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: var(--blue-soft);
-      color: #1e3a8a;
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 1.65;
+      padding: 18px 22px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--blue-soft), #fff);
+      border: 1px solid rgba(37, 99, 235, 0.15);
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.55;
+      color: var(--blue-deep);
     }
 
-    .essence::before {
-      content: "本质 · ";
-      color: var(--blue);
-    }
+    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .card-grid.two { grid-template-columns: 1fr 1fr; }
 
-    .inline-tokens {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin: 8px 0;
-    }
-
-    .inline-tokens .token {
-      display: inline-flex;
-      padding: 4px 8px;
-      border: 1px solid #cbd7ef;
-      border-radius: 8px;
-      background: #fff;
-      color: #1e3a8a;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .compare {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 8px;
-    }
-
-    .compare-item {
-      padding: 10px 12px;
-      border-radius: 12px;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .compare-item.bad {
-      background: #fff5f5;
-      border: 1px solid #fecaca;
-      color: #7f1d1d;
-    }
-
-    .compare-item.good {
-      background: var(--green-soft);
-      border: 1px solid #99d5c8;
-      color: #145142;
-    }
-
-    .compare-item strong {
-      display: block;
-      font-size: 12px;
-      margin-bottom: 4px;
-      opacity: 0.8;
-    }
-
-    .subtabs {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .subtab {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #fff;
-      box-shadow: none;
-      height: auto;
-      min-height: 68px;
-      padding: 11px 12px;
-      text-align: left;
-    }
-
-    .subtab strong {
-      display: block;
-      color: var(--ink);
-      margin-bottom: 4px;
-      font-size: 14px;
-    }
-
-    .subtab span {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    .subtab.active {
-      border-color: rgba(15, 118, 110, 0.36);
-      background: var(--green-soft);
-    }
-
-    .info-card,
-    .sample-card,
-    .action-card,
-    .level-card {
+    .card {
       border: 1px solid var(--line);
       border-radius: 16px;
-      background: #fbfcff;
-      padding: 18px;
+      padding: 16px 18px;
+      background: #fafbff;
     }
 
-    .info-card h3,
-    .sample-card h3 {
-      margin: 0 0 10px;
-      font-size: 18px;
+    .card h3 { margin: 0 0 8px; font-size: 16px; font-weight: 800; }
+    .card p { margin: 0; font-size: 14px; line-height: 1.65; color: var(--muted); }
+    .card.accent-blue { border-color: rgba(37,99,235,.25); background: var(--blue-soft); }
+    .card.accent-blue h3 { color: var(--blue-deep); }
+    .card.accent-green { border-color: rgba(5,150,105,.25); background: var(--green-soft); }
+    .card.accent-green h3 { color: #047857; }
+    .card.accent-violet { border-color: rgba(124,58,237,.25); background: var(--violet-soft); }
+    .card.accent-violet h3 { color: var(--violet); }
+
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      position: relative;
     }
 
-    .info-card p,
-    .sample-card p {
-      margin: 0 0 10px;
+    .pipe-step {
+      border-radius: 16px;
+      padding: 16px;
+      border: 2px solid var(--line);
+      background: #fff;
+      position: relative;
+    }
+
+    .pipe-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -14px;
+      top: 50%;
+      transform: translateY(-50%);
       color: var(--muted);
-      line-height: 1.72;
-      font-size: 15px;
+      font-weight: 800;
+      z-index: 1;
     }
+
+    .pipe-step h4 { margin: 0 0 6px; font-size: 15px; font-weight: 800; }
+    .pipe-step .essence { margin: 0 0 8px; font-size: 13px; font-weight: 700; color: var(--blue); }
+    .pipe-step p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--muted); }
+
+    .pipe-step.sft { border-color: rgba(37,99,235,.35); }
+    .pipe-step.rlhf { border-color: rgba(124,58,237,.35); }
+
+    .vs-row {
+      display: grid;
+      grid-template-columns: 100px 1fr 1fr;
+      gap: 8px;
+      font-size: 13px;
+      align-items: start;
+    }
+
+    .vs-row.head { font-weight: 800; color: var(--ink); margin-bottom: 4px; }
+    .vs-row span { padding: 10px 12px; border-radius: 10px; background: var(--bg); line-height: 1.5; color: var(--muted); }
+    .vs-row.head span { background: transparent; padding: 0; }
 
     .sample-box {
-      border: 1px solid #cbd7ef;
       border-radius: 16px;
+      padding: 18px 20px;
       background: var(--blue-soft);
-      padding: 18px;
-      margin-top: 14px;
+      border: 1px solid rgba(37,99,235,.2);
     }
 
-    .sample-label {
-      display: block;
-      color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 8px;
+    .sample-box .label { font-size: 12px; font-weight: 800; color: var(--blue); margin-bottom: 6px; }
+    .sample-box .text { font-size: 17px; font-weight: 700; line-height: 1.5; }
+    .sample-box .result {
+      display: inline-block; margin-top: 12px; padding: 8px 14px;
+      background: var(--green-soft); color: #047857; border-radius: 10px; font-weight: 800;
     }
 
-    .sample-text {
-      font-size: 20px;
-      font-weight: 800;
-      line-height: 1.45;
+    .steps-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+
+    .step-card {
+      text-align: center;
+      padding: 14px 10px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
     }
 
-    .result {
-      display: inline-flex;
-      width: fit-content;
-      margin-top: 10px;
-      padding: 9px 11px;
-      border-radius: 12px;
-      background: var(--green-soft);
-      color: #145142;
-      font-weight: 900;
+    .step-card .num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--blue); color: #fff;
+      display: grid; place-items: center;
+      font-size: 13px; font-weight: 800;
+      margin: 0 auto 8px;
     }
 
-    .gen-table {
+    .step-card p { margin: 0; font-size: 12px; line-height: 1.45; color: var(--muted); }
+
+    .hero-img-wrap {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #fff;
+      line-height: 0;
+    }
+
+    .hero-img-wrap img { width: 100%; height: auto; display: block; }
+
+    .boundary {
+      margin: 0;
+      padding: 16px 18px;
+      border-radius: 14px;
+      background: var(--amber-soft);
+      border-left: 4px solid var(--amber);
+      font-size: 14px;
+      line-height: 1.65;
+      color: #78350f;
+    }
+
+    .boundary strong { color: var(--amber); }
+
+    .table-simple {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 12px;
       font-size: 14px;
     }
 
-    .gen-table th,
-    .gen-table td {
+    .table-simple th, .table-simple td {
       border: 1px solid var(--line);
       padding: 10px 12px;
       text-align: left;
       vertical-align: top;
+      line-height: 1.5;
     }
 
-    .gen-table th {
-      background: var(--subtle);
-      font-weight: 800;
-      color: var(--ink);
+    .table-simple th { background: var(--bg); font-weight: 800; width: 22%; }
+    .table-simple td { color: var(--muted); }
+
+    .flow-mini {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      font-weight: 700;
     }
 
-    .gen-table td { color: var(--muted); line-height: 1.6; }
-
-    .gen-table .highlight {
-      color: var(--blue);
-      font-weight: 800;
+    .flow-mini span {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      color: #047857;
     }
 
-    .action-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+    .flow-mini .arrow { color: var(--muted); font-weight: 400; }
+
+    .cta-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--green-soft), #fff);
+      border: 1px solid rgba(5,150,105,.25);
     }
 
-    .action-card strong {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 16px;
-      color: var(--ink);
-    }
-
-    .action-card span {
-      color: var(--muted);
-      line-height: 1.65;
+    .cta-box p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.55; }
+    .cta-box a {
+      flex-shrink: 0;
+      padding: 10px 18px;
+      background: var(--green);
+      color: #fff;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
       font-size: 14px;
     }
-
-    .level-list {
-      display: grid;
-      gap: 12px;
-    }
-
-    .level-card {
-      display: grid;
-      grid-template-columns: 48px 1fr;
-      gap: 14px;
-      align-items: start;
-    }
-
-    .level-num {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: var(--blue-soft);
-      color: var(--blue);
-      font-weight: 900;
-      font-size: 18px;
-    }
-
-    .level-card h3 { margin: 0 0 6px; font-size: 17px; }
-
-    .level-card p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.7;
-      font-size: 15px;
-    }
-
-    .optional-note {
-      margin-top: 14px;
-      padding: 14px 16px;
-      border-radius: 14px;
-      background: var(--subtle);
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.7;
-    }
-
-    .optional-note strong { color: var(--ink); }
 
     .hidden { display: none; }
 
-    @media (max-width: 1020px) {
-      .app { padding: 18px; }
-      header, main, .slide-head { grid-template-columns: 1fr; }
-      .controls { justify-content: flex-start; }
-      .sidebar { grid-template-columns: repeat(2, 1fr); }
-      .slide { min-height: auto; }
-      .split-pane { grid-template-columns: 1fr; }
-      .step-nav {
-        flex-direction: row;
-        flex-wrap: wrap;
-        border-right: none;
-        padding-right: 0;
-        border-bottom: 1px solid var(--line);
-        padding-bottom: 12px;
-      }
-      .subtabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .compare { grid-template-columns: 1fr; }
-      .tab-body { max-height: none; }
-    }
-
-    @media (max-width: 640px) {
-      h1 { font-size: 28px; }
-      .slide h2 { font-size: 25px; }
-      .sidebar, .subtabs { grid-template-columns: 1fr; }
-      .action-grid { grid-template-columns: 1fr; }
+    @media (max-width: 960px) {
+      main { grid-template-columns: 1fr; }
+      .sidebar { grid-template-columns: repeat(3, 1fr); display: grid; }
+      .part-label { grid-column: 1 / -1; }
+      .card-grid, .pipeline, .steps-row { grid-template-columns: 1fr; }
+      .pipe-step:not(:last-child)::after { display: none; }
+      .vs-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -673,459 +379,316 @@
   <div class="app">
     <header>
       <div>
-        <p class="eyebrow">How to Use AI · 基础认知篇</p>
-        <h1>AI基础知识入门</h1>
-        <p class="lead">精简版入门培训：4 个必知概念 → 翻译例子串讲 → 行动原则与进阶路径。约 16 页，适合 45–60 分钟场次。</p>
-        <p class="goal-banner">培训目标：会用 Prompt · 理解模型在「猜」不是「查」· 知道必须人工复核</p>
+        <p class="eyebrow">How to Use AI · 培训材料</p>
+        <h1>AI 基础知识入门</h1>
+        <p class="lead">先弄懂「答案怎么来的」→ 再分清助手 / Agent / Workflow / Skill → 最后看韶音品号怎么落地。</p>
       </div>
       <div class="controls">
-        <a href="case-study.html" style="height:40px;display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,0.92);color:var(--muted);padding:0 14px;font-size:14px;text-decoration:none;box-shadow:0 8px 20px rgba(16,24,39,0.07);">Case Study →</a>
-        <button id="prevBtn">上一步</button>
-        <button id="nextBtn" class="primary">下一步</button>
+        <a class="link-btn" href="case-study.html">Case Study →</a>
+        <button id="prevBtn">上一页</button>
+        <button id="nextBtn" class="primary">下一页</button>
       </div>
     </header>
 
     <main>
-      <nav id="nav" class="sidebar" aria-label="章节导航"></nav>
+      <nav id="nav" class="sidebar"></nav>
 
       <section class="slide">
         <div class="slide-head">
           <div>
-            <span id="stageLabel" class="stage-label"></span>
-            <h2 id="stageTitle"></h2>
-            <p id="stageDesc" class="slide-desc"></p>
+            <span id="partTag" class="part-tag p1"></span>
+            <h2 id="slideTitle"></h2>
+            <p id="slideDesc" class="slide-desc"></p>
           </div>
           <div id="progress" class="progress"><span id="progressText"></span></div>
         </div>
-
-        <div class="content">
-          <!-- 第一部分：必知 4 概念 -->
-          <div id="stage0" class="stage-pane split-pane">
-            <nav id="p1StepNav" class="step-nav" aria-label="概念步骤"></nav>
-            <div class="step-main">
-              <div class="step-headline">
-                <h3 id="p1Title"></h3>
-                <p id="p1Essence" class="essence"></p>
-              </div>
-              <div id="p1TabBar" class="mini-tabs"></div>
-              <div id="p1TabBody" class="tab-body"></div>
-              <div class="step-footer">
-                <button id="p1PrevStep">← 上一概念</button>
-                <button id="p1NextStep" class="primary">下一概念 →</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- 第二部分：翻译走查 -->
-          <div id="stage1" class="stage-pane hidden">
-            <div id="subtabs" class="subtabs"></div>
-            <div id="case0" class="case-pane">
-              <article class="sample-card">
-                <h3>Step 1 · 你写了什么（Prompt）</h3>
-                <p>用户希望 AI 把一句中文翻译成自然英文，并且不要添加额外含义。</p>
-                <div class="sample-box">
-                  <span class="sample-label">Prompt</span>
-                  <div class="sample-text">请把「我想要学习英语」翻译成自然英文，不要添加额外含义。</div>
-                  <span class="sample-label">期望输出</span>
-                  <div class="result">I want to learn English.</div>
-                </div>
-                <p style="margin-top:14px;">任务说明书：做什么（翻译）、翻译什么、约束是什么。</p>
-              </article>
-            </div>
-            <div id="case1" class="case-pane hidden">
-              <article class="info-card">
-                <h3>Step 2 · 模型先「读」</h3>
-                <p>Prompt 被切成 token 后，模型先读完再开始写。中文部分大致切分为：</p>
-                <div class="inline-tokens">
-                  <span class="token">我</span><span class="token">想要</span><span class="token">学习</span><span class="token">英语</span>
-                </div>
-                <p>连同你的 Prompt 和历史对话，一起构成模型这一轮的「上下文」。</p>
-              </article>
-            </div>
-            <div id="case2" class="case-pane hidden">
-              <article class="info-card">
-                <h3>Step 3 · 模型再「写」（逐 token 概率生成）</h3>
-                <p>模型在 Prompt 后面，一个 token 一个 token 地预测输出：</p>
-                <table class="gen-table">
-                  <thead>
-                    <tr>
-                      <th>已生成</th>
-                      <th>下一个 token</th>
-                      <th>为什么概率高</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>（空）</td><td class="highlight">I</td><td>翻译句常以 I 开头</td></tr>
-                    <tr><td>I</td><td class="highlight">want</td><td>I 后接 want 频率极高</td></tr>
-                    <tr><td>I want</td><td class="highlight">to</td><td>want 后常接 to</td></tr>
-                    <tr><td>I want to</td><td class="highlight">learn</td><td>「学习」→ learn</td></tr>
-                    <tr><td>I want to learn</td><td class="highlight">English</td><td>「英语」→ English</td></tr>
-                    <tr><td>I want to learn English</td><td class="highlight">.</td><td>句子结束</td></tr>
-                  </tbody>
-                </table>
-                <p style="margin-top:14px;">不是查词典，而是逐步选概率最高的 token——即第一部分的「概率生成」。</p>
-              </article>
-            </div>
-            <div id="case3" class="case-pane hidden">
-              <article class="info-card">
-                <h3>Step 4 · 能力从哪来？为什么有多种译法？</h3>
-                <p><strong>预训练</strong>：模型在海量文本上练习「猜下一个 token」，学会了中英文之间的统计规律。<strong>后训练</strong>：进一步学会听 Prompt 指令（如「请翻译」「不要添加额外含义」）。</p>
-                <p><strong>为什么有多种合理英文？</strong>每一步都在多个候选中选概率较高的，不是查唯一标准答案——所以需要人工复核，也可在 Prompt 里约束风格。</p>
-              </article>
-            </div>
-          </div>
-
-          <!-- 第三部分：怎么用 -->
-          <div id="stage2" class="stage-pane hidden">
-            <div id="p3TabBar" class="mini-tabs" style="margin-bottom:4px;"></div>
-            <div id="p3Panel0" class="tab-body" style="max-height:none;border:none;padding:0;background:transparent;">
-              <div class="action-grid">
-                <article class="action-card"><strong>1. 说清目标</strong><span>明确你要 AI 做什么，而不是只说「帮我看看」。</span></article>
-                <article class="action-card"><strong>2. 给足上下文</strong><span>提供规则、文件、样例和限制条件；内容太长时，最早的要求可能被挤掉。</span></article>
-                <article class="action-card"><strong>3. 写明边界</strong><span>说明哪些不要擅自判断，哪些必须人工确认。</span></article>
-                <article class="action-card"><strong>4. 先计划再执行</strong><span>复杂任务先让 AI 说明步骤，再授权它动手。</span></article>
-                <article class="action-card"><strong>5. 复核并沉淀</strong><span>涉及事实、数字、合规的内容，必须有人核实。重复出现的任务，可沉淀为 Workflow 或 Skill，不必每次重新描述。</span></article>
-                <article class="action-card"><strong>6. 需要依据时</strong><span>把相关资料放进 Prompt，或使用 RAG（检索增强生成：先从文档库找段落，再让模型回答），可降低瞎编风险。</span></article>
-              </div>
-            </div>
-            <div id="p3Panel1" class="tab-body hidden" style="max-height:none;">
-              <p style="margin-bottom:14px;">任务变复杂、变重复时，按下面六级逐步演进——<strong>不是一开始就要全用上</strong>。</p>
-              <div class="level-list">
-                <article class="level-card">
-                  <div class="level-num">1</div>
-                  <div>
-                    <h3>聊天式使用</h3>
-                    <p>对话框里问一句、答一句，靠 Prompt 临时说明需求。适合探索性、一次性任务。</p>
-                  </div>
-                </article>
-                <article class="level-card">
-                  <div class="level-num">2</div>
-                  <div>
-                    <h3>带上下文的使用</h3>
-                    <p>上传文件或多轮补充背景，让模型「看到更多」。适合基于某份材料分析、总结或回答。</p>
-                  </div>
-                </article>
-                <article class="level-card">
-                  <div class="level-num">3</div>
-                  <div>
-                    <h3>文档化（Documents）</h3>
-                    <p>把规则、术语、输出格式写进固定文档（如 .md / .txt），给人和 AI 共同阅读，不用每次在聊天里重复粘贴。</p>
-                  </div>
-                </article>
-                <article class="level-card">
-                  <div class="level-num">4</div>
-                  <div>
-                    <h3>流程化（Workflow）</h3>
-                    <p>多步骤、常重复、顺序固定的做事流程。适合每周都要跑的同类任务，用 checklist 或工具固化步骤。</p>
-                  </div>
-                </article>
-                <article class="level-card">
-                  <div class="level-num">5</div>
-                  <div>
-                    <h3>技能包（Skill）</h3>
-                    <p>把「何时触发 + 用什么文档 + 什么步骤 + 什么工具」打包，下次直接复用。适合个人或团队要统一做法的场景。</p>
-                  </div>
-                </article>
-                <article class="level-card">
-                  <div class="level-num">6</div>
-                  <div>
-                    <h3>智能体（Agent）</h3>
-                    <p>大模型 + 工具 + 权限 + 执行循环：能自己规划步骤、读文件、跑脚本、迭代修正。适合步骤多、需读写文件的复杂任务。</p>
-                  </div>
-                </article>
-              </div>
-            </div>
-            <div id="p3Panel2" class="tab-body hidden" style="max-height:none;">
-              <p style="margin-bottom:14px;color:var(--muted);font-size:15px;">以下术语<strong>不必当场全讲</strong>，知道名字和用途即可；与「能力进阶」和「行动原则」配合理解。</p>
-              <div class="action-grid">
-                <article class="action-card">
-                  <strong>Reference（参考依据）</strong>
-                  <span>执行任务时必须查的权威来源，常来自 Documents 中的术语表、业务规则、字段定义。配合 RAG 检索后喂给模型，减少幻觉。</span>
-                </article>
-                <article class="action-card">
-                  <strong>Script（脚本）</strong>
-                  <span>规则完全确定、不需要 AI「发挥」的步骤，写成可执行代码（如 .py、.ps1、Excel 公式）。常作为 Workflow 里不变的那几步。</span>
-                </article>
-                <article class="action-card">
-                  <strong>Git（版本管理）</strong>
-                  <span>记录文档、Skill、脚本改了什么，方便协作、审查和回退。多人维护同一套规则或 Skill 时使用。</span>
-                </article>
-                <article class="action-card">
-                  <strong>RAG（检索增强生成）</strong>
-                  <span>见「行动原则」第 6 条：先从文档库检索相关段落，再让模型基于这些材料回答——Reference 常是 RAG 检索的对象。</span>
-                </article>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div id="content" class="content"></div>
       </section>
     </main>
   </div>
 
   <script>
-    const stages = [
+    const slides = [
       {
-        label: "第一部分",
-        title: "必知 4 概念",
-        desc: "按顺序阅读：大模型 → Prompt → 概率生成 → 幻觉。Token 与上下文在各步中顺带说明，不单独成章。",
-        nav: "必知概念",
-        sub: "4 步 · 8 页"
+        part: 1, partName: "大模型底座", tagClass: "p1",
+        nav: "本质", sub: "next token",
+        title: "大模型的核心本质",
+        desc: "一切回答的底层机制——先建立这个直觉。",
+        html: `
+          <p class="big-idea">现在常用的大模型，本质上就是在<strong>预测下一个 token</strong>——一个字/词片段接一个猜，直到整段话说完。</p>
+          <div class="card-grid two">
+            <div class="card accent-blue">
+              <h3>它是什么</h3>
+              <p>读懂你输入的文字，再<strong>生成</strong>一段文字。不是搜索引擎，不是精确计算器。</p>
+            </div>
+            <div class="card">
+              <h3>这意味着什么</h3>
+              <p>输出是「统计上最像合理回答的续写」，不是从数据库里查出唯一标准答案。</p>
+            </div>
+          </div>
+        `
       },
       {
-        label: "第二部分",
-        title: "翻译例子串讲",
-        desc: "用一句翻译任务，把 Prompt、读入、逐 token 生成串起来；Step 4 用两句话带过预训练和后训练。",
-        nav: "翻译走查",
-        sub: "4 步串讲"
+        part: 1, partName: "大模型底座", tagClass: "p1",
+        nav: "三个概念", sub: "Prompt 等",
+        title: "Prompt · 上下文 · Token",
+        desc: "搞懂这三样，就搞懂「你给了什么、它能看到什么、它怎么读文字」。",
+        html: `
+          <div class="card-grid">
+            <div class="card accent-blue">
+              <h3>Prompt（任务说明）</h3>
+              <p>你发给模型的一整段要求：做什么、怎么做、不要做什么。越清楚，续写越不跑偏。</p>
+            </div>
+            <div class="card accent-green">
+              <h3>上下文</h3>
+              <p>这一轮它能看到的全部内容 = 你的 Prompt + 历史对话 + 系统设定。太长时，<strong>最早的内容会被挤掉</strong>。</p>
+            </div>
+            <div class="card accent-violet">
+              <h3>Token</h3>
+              <p>文字会先被切成模型内部的最小单位再处理。中文「我想要学习英语」可能切成：我 / 想要 / 学习 / 英语。</p>
+            </div>
+          </div>
+          <div class="card" style="margin-top:4px">
+            <h3>和「答案从哪来」的关系</h3>
+            <p>同一问题，Prompt 不同、上下文不同 → 猜的下一个 token 就不同 → <strong>你看到的答案就不同</strong>。</p>
+          </div>
+        `
       },
       {
-        label: "第三部分",
-        title: "怎么用、怎么进阶",
-        desc: "行动原则（含 RAG）+ 六级能力路径（至 Agent）+ 术语速查（Reference / Script / Git 等）。",
-        nav: "怎么用",
-        sub: "原则 + 路径"
+        part: 1, partName: "大模型底座", tagClass: "p1",
+        nav: "预训练·SFT·RLHF", sub: "能力从哪来",
+        title: "预训练 → 指令微调（SFT）→ RLHF",
+        desc: "模型为什么能听懂中文、能按你要求翻译——训练分三阶段，目标各不相同。",
+        html: `
+          <div class="pipeline">
+            <div class="pipe-step">
+              <h4>① 预训练</h4>
+              <p class="essence">学「语言本身」</p>
+              <p>海量文本上练习猜下一个 token，学会语法、常识、中英文对应等<strong>统计规律</strong>。还不会好好听指令。</p>
+            </div>
+            <div class="pipe-step sft">
+              <h4>② 指令微调 SFT</h4>
+              <p class="essence">学「按指令说话的格式」</p>
+              <p>给大量「用户指令 → 示范回答」配对，让模型<strong>模仿</strong>人类示范：见到「请翻译、不要加意思」就知道该输出哪种格式的译文。</p>
+            </div>
+            <div class="pipe-step rlhf">
+              <h4>③ RLHF</h4>
+              <p class="essence">学「哪种回答更像人想要的」</p>
+              <p>人对多个候选回答<strong>排序/打分</strong>，模型学习偏好：更清晰、更听话、更安全——而不只是「像训练集里某一条示范」。 </p>
+            </div>
+          </div>
+          <div class="card" style="margin-top:8px">
+            <h3>SFT 和 RLHF 的本质区别（一句话）</h3>
+            <p style="color:var(--muted);line-height:1.65;margin:0;font-size:14px">
+              <strong style="color:var(--blue-deep)">SFT</strong> = 照着<strong>标准答案示范</strong>学怎么做题（模仿）。<br>
+              <strong style="color:var(--violet)">RLHF</strong> = 在多种都「说得通」的答案里，学<strong>人更偏好哪一种</strong>（对齐偏好）。<br>
+              推理时两者都已融入模型参数——你每次提问，仍然是在做 next token 预测。
+            </p>
+          </div>
+          <div class="vs-row head" style="margin-top:12px"><span></span><span>SFT</span><span>RLHF</span></div>
+          <div class="vs-row"><span>学什么</span><span>指令长什么样、回答格式对不对</span><span>哪种说法更 helpful / 更安全</span></div>
+          <div class="vs-row"><span>怎么学</span><span>人工写的「问→答」示范，监督学习</span><span>人工比较多个答案好坏，强化学习</span></div>
+          <div class="vs-row"><span>翻译例子</span><span>学会：要求翻译时只输出英文、不添字</span><span>多种译法都正确时，倾向更自然、更简洁的那句</span></div>
+        `
+      },
+      {
+        part: 1, partName: "大模型底座", tagClass: "p1",
+        nav: "翻译串讲", sub: "一轮完整过程",
+        title: "翻译例子：从输入到输出",
+        desc: "把本质、概念、训练阶段，串成你亲手提问时发生的一轮过程。",
+        html: `
+          <div class="sample-box">
+            <div class="label">你的 Prompt</div>
+            <div class="text">请把「我想要学习英语」译成自然英文，不要添加额外含义。</div>
+            <div class="result">I want to learn English.</div>
+          </div>
+          <div class="steps-row">
+            <div class="step-card"><div class="num">1</div><p><strong>读入</strong><br>Prompt 切成 token，和上下文一起进入模型</p></div>
+            <div class="step-card"><div class="num">2</div><p><strong>预训练底子</strong><br>知道中英文大致怎么对应</p></div>
+            <div class="step-card"><div class="num">3</div><p><strong>SFT 起作用</strong><br>按「只翻译、不发挥」的格式写</p></div>
+            <div class="step-card"><div class="num">4</div><p><strong>逐 token 写出</strong><br>I → want → to → learn → English → .</p></div>
+          </div>
+          <p class="big-idea" style="font-size:16px;background:var(--amber-soft);border-color:rgba(217,119,6,.2);color:#92400e">
+            幻觉：模型本职是「猜得像真的」，不是「核实事实」。涉及数字、口径、合规 → <strong>必须人工复核</strong>。
+          </p>
+        `
+      },
+      {
+        part: 2, partName: "工具谱系", tagClass: "p2",
+        nav: "助手 vs Agent", sub: "看图",
+        title: "AI 助手 与 Agent",
+        desc: "",
+        html: `
+          <div class="hero-img-wrap">
+            <img src="assets/agent-flow.png" alt="Agent 执行过程：意图识别、任务规划、多步执行、反馈迭代">
+          </div>
+          <p class="boundary">
+            <strong>边界：</strong>Agent 本质上仍是 <strong>预测 next token + 调用你授权的工具</strong>。
+            它「动手」是靠权限和工具（读文件、跑步骤），<strong>不是真正理解业务</strong>。
+            口径、数字、规则未定 — 仍要人来拍板。
+          </p>
+        `
+      },
+      {
+        part: 2, partName: "工具谱系", tagClass: "p2",
+        nav: "Workflow", sub: "固定步骤",
+        title: "Workflow 是什么",
+        desc: "和 Agent 的关系：步骤固定 vs 现场规划。",
+        html: `
+          <div class="card-grid two">
+            <div class="card accent-violet">
+              <h3>Workflow</h3>
+              <p>步骤<strong>固定</strong>、顺序<strong>固定</strong>：先做什么、再做什么，每月重复都一样。<br><br>例：拉数 → 清洗 → 对老底稿 → 出表。</p>
+            </div>
+            <div class="card">
+              <h3>和 Agent 的区别</h3>
+              <p>Agent 会<strong>根据任务现场规划</strong>步骤；Workflow 是人（或项目）先把路线写死。<br><br>常见用法：<strong>Agent 按 Workflow 跑</strong>，但在某一步里临时问你、改计划。</p>
+            </div>
+          </div>
+        `
+      },
+      {
+        part: 2, partName: "工具谱系", tagClass: "p2",
+        nav: "Skill", sub: "规则打包",
+        title: "Skill 是什么",
+        desc: "不是另一种大模型，而是 Agent 的「岗位手册 + 工具箱」。",
+        html: `
+          <div class="card accent-blue">
+            <h3>Skill 的三件事</h3>
+            <p style="font-size:15px;line-height:1.7;color:var(--ink)">
+              ① <strong>什么时候该用</strong>（触发描述）<br>
+              ② <strong>按什么规则做</strong>（SKILL.md + reference 文档）<br>
+              ③ <strong>哪几步不必 AI 发挥</strong>（如固定脚本 parse_sku.py）
+            </p>
+          </div>
+          <table class="table-simple">
+            <tr><th>对比</th><th>说明</th></tr>
+            <tr><th>Skill vs Workflow</th><td>Workflow 定<strong>先做什么后做什么</strong>；Skill 定<strong>这一步按什么规矩做</strong>。典型：Workflow 定环节，每环节挂对应 Skill。</td></tr>
+            <tr><th>Skill vs Agent</th><td>没有 Skill：每次重新口述规则，易漏易混。有 Skill：Agent 加载手册 → 按规则执行 → 不确定的标「待确认」。</td></tr>
+            <tr><th>Reference / Script</th><td>Reference = Skill 里的规则文档；Script = 规则完全确定、交给代码跑的部分。</td></tr>
+          </table>
+        `
+      },
+      {
+        part: 2, partName: "工具谱系", tagClass: "p2",
+        nav: "答案从哪来", sub: "对照",
+        title: "我为什么得到这个答案？",
+        desc: "一张表收束 Part 1 + Part 2。",
+        html: `
+          <table class="table-simple">
+            <tr><th>你在用什么</th><th>答案主要由什么决定</th></tr>
+            <tr><th>助手聊天</th><td>Prompt + 上下文 + next token 猜测</td></tr>
+            <tr><th>Agent（无 Skill）</th><td>同上 + 它的规划 + 工具读到的文件内容（更容易漏规则）</td></tr>
+            <tr><th>Agent + Skill</th><td>同上 + <strong>Skill 里的规则与脚本</strong></td></tr>
+            <tr><th>Agent + Skill + 文档/老底稿</th><td>同上 + <strong>可核对的依据</strong>（财务最该追求的状态）</td></tr>
+          </table>
+        `
+      },
+      {
+        part: 3, partName: "落地应用", tagClass: "p3",
+        nav: "怎么用", sub: "原则",
+        title: "实际怎么用 Agent",
+        desc: "下面几条够应付大多数财务数据任务。",
+        html: `
+          <div class="card-grid two">
+            <div class="card"><h3>说清目标与边界</h3><p>做什么、不做什么、哪些必须人工确认。</p></div>
+            <div class="card"><h3>先 Plan 再动手</h3><p>复杂任务先拆环节、定输入输出，再授权执行。</p></div>
+            <div class="card"><h3>小样本 → 全量</h3><p>先几条试跑、对老底稿，对了再全量。</p></div>
+            <div class="card"><h3>重复规则 → Skill</h3><p>品号解析、科目口径等，沉淀成 Skill，不必每次重讲。</p></div>
+          </div>
+        `
+      },
+      {
+        part: 3, partName: "落地应用", tagClass: "p3",
+        nav: "韶音品号", sub: "Skill 示例",
+        title: "例子：韶音品号 Skill",
+        desc: "看一次完整链路 —— 答案从 Skill 规则 + 脚本 + 待确认清单来。",
+        html: `
+          <div class="flow-mini">
+            <span>你：解析品号 T511-ST-BK-US-326-WAL</span>
+            <span class="arrow">→</span>
+            <span>加载 shokz-product-sku</span>
+            <span class="arrow">→</span>
+            <span>读 SKILL + reference</span>
+            <span class="arrow">→</span>
+            <span>跑 parse_sku.py</span>
+            <span class="arrow">→</span>
+            <span>输出型号/系列/产品线</span>
+          </div>
+          <table class="table-simple" style="margin-top:12px">
+            <tr><th>输出字段</th><th>规则从哪来</th></tr>
+            <tr><td>物理性质（裸机/整机/物料）</td><td>品号前缀 B- / 0- 等 → SKILL 规则</td></tr>
+            <tr><td>型号 / 系列 / 产品线</td><td>按「-」分段 + T/E/S/C 开头判断 → reference</td></tr>
+            <tr><td>项目简称不确定</td><td>列候选集，<strong>标注待人工确认</strong> — 不擅自定论</td></tr>
+          </table>
+        `
+      },
+      {
+        part: 3, partName: "落地应用", tagClass: "p3",
+        nav: "Case Study", sub: "完整项目",
+        title: "下一步：完整项目实录",
+        desc: "Buy-Sell 成本还原 — 拆 Part、对老底稿、补规则（含汇率折算）。",
+        html: `
+          <div class="cta-box">
+            <p>首页讲「机制 + 工具」；Case Study 讲<strong>真实项目里怎么拆环节、怎么和 AI 协作跑通</strong>。</p>
+            <a href="case-study.html">打开 Case Study →</a>
+          </div>
+        `
       }
-    ];
-
-    const part1 = [
-      {
-        title: "大模型是什么",
-        hint: "整体印象",
-        essence: "读懂文字、生成文字的程序——你输入文字，它输出文字；不是搜索引擎，也不是存满答案的数据库。",
-        tabs: [
-          {
-            label: "是什么",
-            html: `<p><strong>大模型</strong>的核心能力：<strong>读懂你写的文字，再生成一段文字回应</strong>。</p>
-              <p>不像搜索引擎去检索链接，也不像 Excel 按公式精确计算。它是在大量文本上学到语言规律后，<strong>一段一段地生成</strong>回答。</p>`
-          },
-          {
-            label: "例子",
-            html: `<p>像一位<strong>读过很多书、会写文章的同事</strong>——你布置任务，他用文字回复。</p>
-              <p>他<strong>不是</strong>数据库（不能指望每条记录准确可查），也<strong>不是</strong>计算器（数字可能出错）。理解这一点，后面的「概率生成」和「幻觉」就好接受了。</p>`
-          }
-        ]
-      },
-      {
-        title: "Prompt",
-        hint: "你怎么说话",
-        essence: "你发给大模型的完整任务说明——做什么、怎么做、不要做什么。",
-        tabs: [
-          {
-            label: "是什么",
-            html: `<p>对话框里你输入的内容（含问题和要求），整体就是 <strong>Prompt</strong>。等同于<strong>给同事写工单</strong>：越清楚，结果越符合预期。</p>
-              <p style="margin-top:12px;padding:10px 12px;background:var(--subtle);border-radius:10px;font-size:14px;"><strong>顺带了解 · 上下文：</strong>模型这一轮能看到的 = 你的 Prompt + 历史对话 + 系统设定，且有长度上限；内容太长时，最早的内容会被挤掉。</p>`
-          },
-          {
-            label: "例子",
-            html: `<div class="compare">
-              <div class="compare-item bad"><strong>不清楚</strong>帮我写个生日祝福。</div>
-              <div class="compare-item good"><strong>清楚</strong>给我妈写一段 80 字以内的生日祝福，语气温馨不要太正式，不要提到年龄。</div>
-            </div>`
-          }
-        ]
-      },
-      {
-        title: "概率生成",
-        hint: "它怎么回答",
-        essence: "大模型逐个预测下一个最可能的 token，不是查标准答案库。",
-        tabs: [
-          {
-            label: "是什么",
-            html: `<p>大模型<strong>一个 token 一个 token 地「猜」</strong>下一个最可能是什么，猜完再猜下一个，直到结束。每一步选概率最高的候选。</p>
-              <p style="margin-top:12px;padding:10px 12px;background:var(--subtle);border-radius:10px;font-size:14px;"><strong>顺带了解 · Token：</strong>你的文字会先被切成模型内部的最小单位（token），不等于一个字或一个词。中文「我想要学习英语」大致切成：我 / 想要 / 学习 / 英语。</p>
-              <p>因此同一问题可能有多种合理回答——不是唯一标准答案。</p>`
-          },
-          {
-            label: "例子",
-            html: `<p>接龙造句：已有「今天天气很」→ 模型猜下一个 token 是「好」（概率最高）→ 输出「好」→ 继续猜下一句……</p>
-              <p>第二部分翻译例子会逐步展示这个过程。</p>`
-          }
-        ]
-      },
-      {
-        title: "幻觉",
-        hint: "为什么说错",
-        essence: "模型用流畅自信的语言，输出了错误、编造或缺乏依据的内容——使用 AI 必须人工复核。",
-        tabs: [
-          {
-            label: "是什么",
-            html: `<p>模型的本职是「预测看起来合理的文字」，不是「核实事实」。缺乏依据时，仍会输出统计上最像答案的内容，甚至编造细节。</p>
-              <p><strong>因此：</strong>涉及事实、数字、合规的内容，必须有人确认——这不是可选项。</p>`
-          },
-          {
-            label: "例子",
-            html: `<p>问 AI：「XX 路那家小众餐厅，昨天有没有营业？」</p>
-              <p>它可能非常确定地回答「昨天正常营业，10:00–22:00」——但实际上<strong>没有去查</strong>，只是在猜「这类问题后面通常怎么回答」。</p>`
-          }
-        ]
-      }
-    ];
-
-    const caseTabs = [
-      ["Step 1", "Prompt"],
-      ["Step 2", "读入"],
-      ["Step 3", "逐 token 写"],
-      ["Step 4", "能力来源"]
-    ];
-
-    const part3Tabs = [
-      { label: "行动原则", panel: "p3Panel0" },
-      { label: "能力进阶", panel: "p3Panel1" },
-      { label: "术语速查", panel: "p3Panel2" }
     ];
 
     const nav = document.getElementById("nav");
-    const panes = [...document.querySelectorAll(".stage-pane")];
-    const stageLabel = document.getElementById("stageLabel");
-    const stageTitle = document.getElementById("stageTitle");
-    const stageDesc = document.getElementById("stageDesc");
+    const content = document.getElementById("content");
+    const partTag = document.getElementById("partTag");
+    const slideTitle = document.getElementById("slideTitle");
+    const slideDesc = document.getElementById("slideDesc");
     const progress = document.getElementById("progress");
     const progressText = document.getElementById("progressText");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
-    const subtabs = document.getElementById("subtabs");
-    const casePanes = [...document.querySelectorAll(".case-pane")];
 
     let active = 0;
-    let activeCase = 0;
-    let p1Step = 0;
-    let p1Tab = 0;
-    let p3Tab = 0;
-
-    function renderSplitContent(config, titleId, essenceId, tabBarId, tabBodyId, stepNavId, stepIndex, tabIndex) {
-      const item = config[stepIndex];
-      document.getElementById(titleId).textContent = item.title;
-      document.getElementById(essenceId).textContent = item.essence;
-
-      const tabBar = document.getElementById(tabBarId);
-      tabBar.innerHTML = item.tabs.map((tab, i) => `
-        <button class="mini-tab" data-tab="${i}">${tab.label}</button>
-      `).join("");
-      tabBar.querySelectorAll(".mini-tab").forEach(btn => {
-        btn.addEventListener("click", () => setP1Tab(Number(btn.dataset.tab)));
-      });
-
-      document.getElementById(tabBodyId).innerHTML = item.tabs[tabIndex].html;
-      document.getElementById(stepNavId).querySelectorAll(".step-btn").forEach((btn, i) => {
-        btn.classList.toggle("active", i === stepIndex);
-      });
-      tabBar.querySelectorAll(".mini-tab").forEach((btn, i) => {
-        btn.classList.toggle("active", i === tabIndex);
-      });
-
-      document.getElementById("p1PrevStep").disabled = stepIndex === 0;
-      document.getElementById("p1NextStep").disabled = stepIndex === config.length - 1;
-    }
-
-    function buildP1Nav() {
-      const stepNav = document.getElementById("p1StepNav");
-      stepNav.innerHTML = part1.map((item, i) => `
-        <button class="step-btn" data-step="${i}">
-          <span class="step-num">${i + 1}</span>
-          <span class="step-name">${item.title}</span>
-          <span class="step-hint">${item.hint}</span>
-        </button>
-      `).join("");
-      stepNav.querySelectorAll(".step-btn").forEach(btn => {
-        btn.addEventListener("click", () => setP1Step(Number(btn.dataset.step), 0));
-      });
-      renderSplitContent(part1, "p1Title", "p1Essence", "p1TabBar", "p1TabBody", "p1StepNav", 0, 0);
-    }
-
-    function setP1Step(step, tab = 0) {
-      p1Step = Math.max(0, Math.min(step, part1.length - 1));
-      p1Tab = Math.max(0, Math.min(tab, part1[p1Step].tabs.length - 1));
-      renderSplitContent(part1, "p1Title", "p1Essence", "p1TabBar", "p1TabBody", "p1StepNav", p1Step, p1Tab);
-    }
-
-    function setP1Tab(tab) {
-      p1Tab = Math.max(0, Math.min(tab, part1[p1Step].tabs.length - 1));
-      renderSplitContent(part1, "p1Title", "p1Essence", "p1TabBar", "p1TabBody", "p1StepNav", p1Step, p1Tab);
-    }
-
-    function buildP3Tabs() {
-      const bar = document.getElementById("p3TabBar");
-      bar.innerHTML = part3Tabs.map((tab, i) => `
-        <button class="mini-tab" data-p3="${i}">${tab.label}</button>
-      `).join("");
-      bar.querySelectorAll(".mini-tab").forEach(btn => {
-        btn.addEventListener("click", () => setP3Tab(Number(btn.dataset.p3)));
-      });
-      setP3Tab(0);
-    }
-
-    function setP3Tab(index) {
-      p3Tab = Math.max(0, Math.min(index, part3Tabs.length - 1));
-      part3Tabs.forEach((tab, i) => {
-        document.getElementById(tab.panel).classList.toggle("hidden", i !== p3Tab);
-      });
-      document.querySelectorAll("#p3TabBar .mini-tab").forEach((btn, i) => {
-        btn.classList.toggle("active", i === p3Tab);
-      });
-    }
+    let lastPart = null;
 
     function buildNav() {
-      nav.innerHTML = stages.map((stage, index) => `
-        <button class="nav-item" data-index="${index}">
-          <span class="nav-index">${index + 1}</span>
-          <span>
-            <span class="nav-title">${stage.nav}</span>
-            <span class="nav-sub">${stage.sub}</span>
-          </span>
-        </button>
-      `).join("");
-      document.querySelectorAll(".nav-item").forEach(item => {
-        item.addEventListener("click", () => setStage(Number(item.dataset.index)));
+      let html = "";
+      slides.forEach((s, i) => {
+        if (s.part !== lastPart) {
+          html += `<div class="part-label">Part ${s.part} · ${s.partName}</div>`;
+          lastPart = s.part;
+        }
+        html += `<button class="nav-item" data-i="${i}">${s.nav}<span class="sub">${s.sub}</span></button>`;
+      });
+      nav.innerHTML = html;
+      nav.querySelectorAll(".nav-item").forEach(b => {
+        b.addEventListener("click", () => setSlide(+b.dataset.i));
       });
     }
 
-    function buildCaseTabs() {
-      subtabs.innerHTML = caseTabs.map((tab, index) => `
-        <button class="subtab" data-case="${index}">
-          <strong>${tab[0]}</strong>
-          <span>${tab[1]}</span>
-        </button>
-      `).join("");
-      document.querySelectorAll(".subtab").forEach(item => {
-        item.addEventListener("click", () => setCase(Number(item.dataset.case)));
-      });
+    function setSlide(i) {
+      active = Math.max(0, Math.min(i, slides.length - 1));
+      const s = slides[active];
+      partTag.className = `part-tag ${s.tagClass}`;
+      partTag.textContent = `Part ${s.part} · ${s.partName}`;
+      slideTitle.textContent = s.title;
+      slideDesc.textContent = s.desc;
+      content.innerHTML = s.html;
+      nav.querySelectorAll(".nav-item").forEach((b, j) => b.classList.toggle("active", j === active));
+      progressText.textContent = `${active + 1}/${slides.length}`;
+      progress.style.setProperty("--p", `${((active + 1) / slides.length) * 100}%`);
+      prevBtn.disabled = active === 0;
+      nextBtn.disabled = active === slides.length - 1;
     }
 
-    function setStage(index) {
-      active = Math.max(0, Math.min(index, stages.length - 1));
-      const stage = stages[active];
-      panes.forEach((pane, idx) => pane.classList.toggle("hidden", idx !== active));
-      document.querySelectorAll(".nav-item").forEach((item, idx) => item.classList.toggle("active", idx === active));
-      stageLabel.textContent = stage.label;
-      stageTitle.textContent = stage.title;
-      stageDesc.textContent = stage.desc;
-      progressText.textContent = `${active + 1}/${stages.length}`;
-      progress.style.setProperty("--progress", `${((active + 1) / stages.length) * 100}%`);
-    }
-
-    function setCase(index) {
-      activeCase = Math.max(0, Math.min(index, caseTabs.length - 1));
-      casePanes.forEach((pane, idx) => pane.classList.toggle("hidden", idx !== activeCase));
-      document.querySelectorAll(".subtab").forEach((item, idx) => item.classList.toggle("active", idx === activeCase));
-    }
-
-    document.getElementById("p1PrevStep").addEventListener("click", () => setP1Step(p1Step - 1, 0));
-    document.getElementById("p1NextStep").addEventListener("click", () => setP1Step(p1Step + 1, 0));
-    prevBtn.addEventListener("click", () => setStage(active - 1));
-    nextBtn.addEventListener("click", () => setStage(active + 1));
-    document.addEventListener("keydown", event => {
-      if (event.key === "ArrowRight" && active === 0) setP1Step(p1Step + 1, 0);
-      else if (event.key === "ArrowRight" && active !== 0) setStage(active + 1);
-      if (event.key === "ArrowLeft" && active === 0) setP1Step(p1Step - 1, 0);
-      else if (event.key === "ArrowLeft" && active !== 0) setStage(active - 1);
-    });
+    prevBtn.onclick = () => setSlide(active - 1);
+    nextBtn.onclick = () => setSlide(active + 1);
+    document.onkeydown = e => {
+      if (e.key === "ArrowRight") setSlide(active + 1);
+      if (e.key === "ArrowLeft") setSlide(active - 1);
+    };
 
     buildNav();
-    buildP1Nav();
-    buildCaseTabs();
-    buildP3Tabs();
-    setStage(0);
-    setCase(0);
+    setSlide(0);
   </script>
 </body>
 </html>
