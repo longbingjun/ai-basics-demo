@@ -360,8 +360,8 @@
       <div>
         <p class="eyebrow">Case Study · Buy-Sell 成本还原</p>
         <h1>业务梳理 × AI 协作：一次真实项目的处理实录</h1>
-        <p class="lead">每月重复做的财务分析项目。讲清楚怎么拆环节、怎么跟老底稿核对、出问题怎么分类——以及 AI 在哪些环节真正帮上忙（加速试算、暴露规则缺口）。</p>
-        <p class="goal-banner">核心：先讲清业务流程再拆环节；业务定规矩，AI 帮整理和执行，老底稿当尺子</p>
+        <p class="lead">教一件事：怎么结合业务和产出表把环节解耦，再进环节执行、发现问题、解决问题。</p>
+        <p class="goal-banner">先拆 Part 1·2·3 → 再拆子环节 → 从最终表倒推 → 试跑对老底稿 → 补规则</p>
       </div>
       <div class="controls">
         <a class="home-link" href="index.html">← 返回首页</a>
@@ -386,174 +386,198 @@
         <div class="content">
           <!-- 0 开场 -->
           <div id="stage0" class="stage-pane">
-            <div class="info-card">
-              <h3>这份材料讲什么</h3>
-              <p>不是 AI 工具说明书，而是一次<strong>真实项目</strong>的处理实录：把多环节材料流转，还原成集团视角下可比的「真实材料消耗成本」。</p>
+            <div class="diagram-card">
+              <pre class="mermaid">
+flowchart LR
+  A["① 拆 Part 1·2·3<br/>为什么这样分"] --> B["② Part 2 子环节<br/>第二层示例"]
+  B --> C["③ 业务+产出表<br/>倒推解耦"]
+  C --> D["④ 进环节执行<br/>试跑·对老底稿"]
+  D --> E["⑤ 发现问题<br/>解决问题"]
+              </pre>
             </div>
-            <div class="info-card">
-              <h3>你会看到</h3>
-              <p>① 业务上分几步（以 Part 2 转售价差拆环节为例）<br>
-                 ② 从 Part 3 最终表「一行」倒推字段从哪来<br>
-                 ③ 规划 → 试跑 → 对老底稿 → 处理异常 的完整路径<br>
-                 ④ 业务做法与 AI 用法如何一一对应</p>
-            </div>
-            <div class="quote">不是让 AI 替我们做财务判断，而是让 AI 在已确认的规则下稳定重复执行，并把还没确认的地方显式列出来。</div>
+            <div class="quote">业务定规矩 · AI 帮整理和执行 · 老底稿当尺子</div>
           </div>
 
           <!-- 1 背景 -->
           <div id="stage1" class="stage-pane hidden">
             <div class="info-card">
-              <h3>我们在还原什么</h3>
-              <p>材料在集团内部转售、集团转售给代工厂（Buy-Sell）、客供（CS）等链路里流转。<strong>账面成本 ≠ 集团想分析的真实消耗成本。</strong></p>
+              <h3>项目在回答什么</h3>
+              <p>材料经 Buy-Sell、客供等链路流转，<strong>账面成本 ≠ 集团要分析的真实消耗成本</strong>。要还原：站在集团视角，产品真正消耗的材料成本是多少。</p>
             </div>
             <div class="info-card">
-              <h3>要回答的问题</h3>
-              <p style="font-size:16px;font-weight:700;color:var(--ink);">站在集团整体视角，这个产品真正消耗的材料成本应该是多少？</p>
+              <h3>最终要落到表上</h3>
+              <p>不是口头算完就结束——要产出<strong>可核对、可交接</strong>的明细表（如 BOM 明细、价差表、型号汇总表）。<strong>表的结构，决定你怎么拆环节。</strong></p>
             </div>
-            <table class="data-table">
-              <thead>
-                <tr><th>大块</th><th>在干什么</th><th>依赖关系</th></tr>
-              </thead>
-              <tbody>
-                <tr><td class="hl">Part 2</td><td>算各品号/各渠道的单位价差</td><td>可与 Part 1 并行推进</td></tr>
-                <tr><td class="hl">Part 1</td><td>整理缴库/BOM 明细（含 CS 下钻）</td><td>可与 Part 2 并行推进</td></tr>
-                <tr><td class="hl">Part 3</td><td>把价差按 BOM 传到子件，再汇总到型号</td><td>需要 Part 1 + Part 2 口径稳定</td></tr>
-              </tbody>
-            </table>
           </div>
 
-          <!-- 2 Part2拆分 -->
+          <!-- 2 Part123 为什么这样分 -->
           <div id="stage2" class="stage-pane hidden">
             <div class="diagram-card">
               <pre class="mermaid">
-flowchart LR
-    A["2-1 正向单位成本<br/>销货明细"] --> B["2-2 底稿清洗+替换成本<br/>Buy-Sell底稿+mapping"]
-    B --> C["2-3 价差汇总<br/>国内/越南/品号综合"]
+flowchart TB
+  subgraph 第一层拆分
+    direction LR
+    P1["Part 1<br/>缴库 + BOM"]
+    P2["Part 2<br/>转售价差"]
+  end
+  P1 --> P3["Part 3<br/>价差传导 + 型号汇总"]
+  P2 --> P3
               </pre>
             </div>
             <table class="data-table">
               <thead>
-                <tr><th>环节</th><th>在干什么</th><th>主要输入</th><th>主要产出</th></tr>
+                <tr><th>Part</th><th>产出什么</th><th>为什么单独成一块</th></tr>
               </thead>
               <tbody>
-                <tr><td class="hl">2-1</td><td>算每个品号每月的「正向单价」</td><td>销货明细</td><td>正向单位成本表</td></tr>
-                <tr><td class="hl">2-2</td><td>筛行、补分类；越南成本行用正向单价×数量</td><td>Buy-Sell 底稿、mapping、2-1 产出</td><td>清洗后底稿</td></tr>
-                <tr><td class="hl">2-3</td><td>分组加总，算单位价差</td><td>2-2 产出</td><td>国内/越南/品号综合价差表</td></tr>
+                <tr>
+                  <td class="hl">Part 1</td>
+                  <td>本厂 / 国内立讯 / 越南 的 BOM 明细 + 缴库数量</td>
+                  <td>回答「结构在哪、当月产多少」——和算价差是<strong>不同业务问题</strong>；三条线可并行</td>
+                </tr>
+                <tr>
+                  <td class="hl">Part 2</td>
+                  <td>国内 / 越南 / 品号综合 的单位价差表</td>
+                  <td>回答「价差从哪来」——规则多、要跟销货明细和底稿对，<strong>不宜和 BOM 混在一起做</strong></td>
+                </tr>
+                <tr>
+                  <td class="hl">Part 3</td>
+                  <td>子件层含损价差 → 型号综合价差</td>
+                  <td>必须等 Part 1（结构+数量）和 Part 2（单位价差）<strong>都就绪</strong>才能接</td>
+                </tr>
               </tbody>
             </table>
             <div class="info-card">
-              <p><strong>为什么不要一口气做完：</strong>2-2 规则多（科目筛选、替换成本、汇率例外），和 2-3 混在一起很难核对。2-1 可先单独跟销货明细、跟手搓对清楚。<strong>Part 1 缴库 BOM 与 Part 2 价差计算可以分开、同时进行。</strong></p>
-            </div>
-            <div class="ai-tip">
-              <h3>本页 · AI 用法（环节拆分）</h3>
-              <ul>
-                <li>先口述完整流程，要求 AI <strong>只出环节拆分表，不写任何文件</strong></li>
-                <li>使用 <strong>Plan 模式</strong>（或写明「目前仅为方案规划阶段」），避免 AI 过早动手</li>
-                <li>让 AI 标出：哪些环节必须按顺序、哪些可以和 Part 1 并行</li>
-              </ul>
+              <p><strong>Part 1 与 Part 2 可同时进行</strong>——这是整项目里最重要的并行关系。Part 3 必须排在后面。</p>
             </div>
           </div>
 
-          <!-- 3 字段倒推 越南 -->
+          <!-- 3 Part2 子环节 -->
           <div id="stage3" class="stage-pane hidden">
             <div class="info-card">
-              <h3>拆解诀窍：从最终表「一行」倒推</h3>
-              <p>Part 3 <strong>越南立讯</strong>明细里，一行<strong>叶子物料</strong>（示意）需要这些字段都齐，前面各环节必须就绪：</p>
+              <h3>第二层拆分：以 Part 2 为例</h3>
+              <p>Part 1/2/3 定好后，<strong>每个 Part 内部还要继续拆</strong>。Part 2 规则多，拆成三步比一口气做完更容易核对。</p>
+            </div>
+            <div class="diagram-card">
+              <pre class="mermaid">
+flowchart LR
+    A["2-1 正向单位成本"] --> B["2-2 底稿清洗+替换成本"]
+    B --> C["2-3 价差汇总"]
+              </pre>
             </div>
             <table class="data-table">
               <thead>
-                <tr><th>字段</th><th>这一列代表什么</th><th>数据从哪来</th></tr>
+                <tr><th>子环节</th><th>产出</th><th>为什么单独拆</th></tr>
               </thead>
               <tbody>
-                <tr><td>SKU料号 / SKU名称</td><td>缴库的是哪个成品</td><td>Part 1 越南缴库清洗</td></tr>
-                <tr><td>子件代号(CS下拆)</td><td>BOM 最底层要算价差的料</td><td>Part 1 BOM 下钻 ← 核价单数据库</td></tr>
-                <tr><td class="hl">标准用量 / 损耗率</td><td>该子件用多少、损耗多少</td><td>Part 1 BOM 明细</td></tr>
-                <tr><td class="hl">缴库数量</td><td>该 SKU 当月缴库多少</td><td>Part 1 越南采购聚合</td></tr>
-                <tr><td class="hl">单位价差</td><td>该子件对应的价差</td><td>Part 2 越南立讯价差表（按品号等查）</td></tr>
-                <tr><td class="hl">含损价差</td><td>单位价差 × 用量 × 损耗系数</td><td>Part 3 计算规则（需业务确认）</td></tr>
-                <tr><td>价差来源</td><td>标明价差来自哪张 Part 2 表</td><td>Part 3 匹配逻辑</td></tr>
+                <tr><td class="hl">2-1</td><td>正向单位成本表</td><td>只依赖销货明细，可先单独跟手搓对清楚</td></tr>
+                <tr><td class="hl">2-2</td><td>清洗后底稿（含替换成本）</td><td>规则最杂（科目、mapping、越南替换成本），单独一块便于查</td></tr>
+                <tr><td class="hl">2-3</td><td>国内/越南/品号综合价差表</td><td>纯汇总计算，输入必须等 2-2 做完</td></tr>
               </tbody>
             </table>
-            <pre class="trace-flow">单位价差       ← Part 2（必须先算好）
-BOM + 缴库数量 ← Part 1（必须先整理好）
-含损价差       ← 上面几列按确认规则计算
-→ 缺任何一环，这一行都填不齐 → 这就是环节拆分的依据</pre>
+            <div class="ai-tip">
+              <h3>本页 · AI 用法</h3>
+              <ul>
+                <li>Plan 模式：先拆 Part 1/2/3，再拆某一 Part 的子环节——<strong>只出拆分表，不写文件</strong></li>
+                <li>让 AI 标清：哪些可并行、哪些必须按顺序</li>
+              </ul>
+            </div>
           </div>
 
-          <!-- 4 计划准备 -->
+          <!-- 4 解耦方法 + 越南倒推 -->
           <div id="stage4" class="stage-pane hidden">
+            <div class="diagram-card">
+              <pre class="mermaid">
+flowchart TB
+  T["① 业务说清：最终要哪张表"] --> F["② 列出字段"]
+  F --> S["③ 倒推：每列从哪来"]
+  S --> D["④ 看依赖：谁先谁后"]
+  D --> P["⑤ 拆成环节，逐个执行"]
+              </pre>
+            </div>
+            <div class="info-card">
+              <h3>诀窍：从最终表「一行」倒推（Part 3 · 越南立讯 · 叶子料）</h3>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr><th>字段</th><th>从哪来</th><th>说明依赖</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="hl">单位价差</td><td>Part 2 越南价差表</td><td>Part 2 必须先算好</td></tr>
+                <tr><td class="hl">缴库数量 / 用量 / 损耗 / 子件</td><td>Part 1 BOM + 缴库</td><td>Part 1 必须先整理好</td></tr>
+                <tr><td class="hl">含损价差</td><td>上面几列按规则计算</td><td>Part 3 本环节规则，需业务确认</td></tr>
+              </tbody>
+            </table>
+            <pre class="trace-flow">缺 Part 2 → 没有单位价差
+缺 Part 1 → 没有 BOM 和缴库数量
+→ 倒推清楚，就知道该拆几个 Part、每个 Part 里还要不要再拆</pre>
+          </div>
+
+          <!-- 5 计划准备 -->
+          <div id="stage5" class="stage-pane hidden">
+            <div class="diagram-card">
+              <pre class="mermaid">
+flowchart LR
+  P["规划：只谈方案"] --> T["试跑：~10条"]
+  T --> C["对老底稿"]
+  C --> W["写文档"]
+  C -.有问题.-> P
+              </pre>
+            </div>
             <div class="level-list">
               <article class="level-card">
                 <div class="level-num">1</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">讲清背景与最终产出</h3><p>这件事图什么、输入是什么、最后要哪几张表。</p></div>
+                <div><h3 style="margin:0 0 6px;font-size:15px;">每个环节开工前写清三件事</h3><p>输入是什么 · 输出长什么样 · 怎样算做对（跟手搓 / 业务确认）</p></div>
               </article>
               <article class="level-card">
                 <div class="level-num">2</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">拆环节 + 定输入输出</h3><p>每个环节：输入什么、输出长什么样、怎样算「做对了」（跟手搓对 / 业务确认的规则）。</p></div>
+                <div><h3 style="margin:0 0 6px;font-size:15px;">方案定稿前两类审查</h3><p>业务审查（口径对不对）· 复核与落地审查（能否复跑、异常可见）</p></div>
               </article>
-              <article class="level-card">
-                <div class="level-num">3</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">方案定稿前做两类审查</h3><p>只改方案，不写文件、不改数据。</p></div>
-              </article>
-            </div>
-            <div class="review-grid">
-              <div class="review-box biz">
-                <h4>业务审查</h4>
-                <ul>
-                  <li>口径全不全？Buy-Sell 和 CS 有没有混？</li>
-                  <li>边界案例有没有漏？</li>
-                </ul>
-              </div>
-              <div class="review-box chk">
-                <h4>复核与落地审查</h4>
-                <ul>
-                  <li>能否跟历史手搓对比？</li>
-                  <li>异常会不会单独列出、而不是静默跳过？</li>
-                  <li>换月份是否只换数据、不重写规则？</li>
-                </ul>
-              </div>
             </div>
             <div class="ai-tip">
-              <h3>本页 · AI 用法（规划阶段）</h3>
+              <h3>本页 · AI 用法</h3>
               <ul>
-                <li><strong>Plan 模式 / 规划约束：</strong>「目前仅为方案规划，不要生成文件」</li>
-                <li><strong>多轮确认：</strong>先框架 → 再环节 → 再每环节输入输出 → 再异常怎么处理</li>
-                <li><strong>逻辑修正：</strong>AI 易混淆 Buy-Sell 与 CS；用「引用 AI 原话 + 你的纠正 + 请按纠正后重述」</li>
-                <li><strong>换角色审查：</strong>同一方案分别做业务审查、复核与落地审查，只列问题和改法</li>
-                <li><strong>按环节新开对话：</strong>Part 2 定稿后，新对话只谈 2-1，避免前面规则干扰后面</li>
+                <li>Plan 模式：「目前仅为方案规划，不要生成文件」</li>
+                <li>逻辑修正：引用 AI 原话 + 你的纠正 + 请按纠正后重述</li>
+                <li>拆完 Part 1/2/3 后，<strong>新开对话</strong>只谈某一个子环节（如 Part 2-1）</li>
               </ul>
             </div>
           </div>
 
-          <!-- 5 执行 -->
-          <div id="stage5" class="stage-pane hidden">
+          <!-- 6 进入环节执行 -->
+          <div id="stage6" class="stage-pane hidden">
+            <div class="info-card">
+              <h3>一个环节一个环节做——不要跨环节混在一起</h3>
+              <p>例如只做 Part 2-1：小样本试跑 → 跟手搓对 → 对了再全量 → 本环节写文档 → 再开下一环节。</p>
+            </div>
             <div class="level-list">
               <article class="level-card">
                 <div class="level-num">①</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">小样本试跑（约 10 条）</h3><p>只跑少量记录，打开表看，或让 AI 用话说明：数据从哪来、怎么筛、怎么算。<strong>对了再用全部数据正式跑。</strong></p></div>
+                <div><h3 style="margin:0 0 6px;font-size:15px;">小样本（约 10 条 / 几个品号）</h3><p>让 AI 用话说明每列怎么来的；人工打开表看。<strong>对了再全量。</strong></p></div>
               </article>
               <article class="level-card">
                 <div class="level-num">②</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">跟历史手搓核对</h3><p>每月都有人工核算老底稿，是天然「尺子」。不符合预期先分类（见下一页），再决定怎么动。</p></div>
+                <div><h3 style="margin:0 0 6px;font-size:15px;">跟历史手搓核对</h3><p>每月有人工老底稿 = 天然尺子。对不上 → 下一页分类处理。</p></div>
               </article>
               <article class="level-card">
                 <div class="level-num">③</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">本环节结束 → 沉淀</h3><p>口径、输入输出、核对手搓结论写入文档；未拍板项进「待业务确认」清单。</p></div>
+                <div><h3 style="margin:0 0 6px;font-size:15px;">本环节结束 → 沉淀</h3><p>口径、输入输出、核对结论写进文档；未定项进「待业务确认」。</p></div>
               </article>
             </div>
             <div class="ai-tip">
-              <h3>本页 · AI 用法（执行阶段）</h3>
+              <h3>本页 · AI 用法</h3>
               <ul>
-                <li><strong>小样本先行：</strong>「先只处理 N 条 / 几个品号，不要全量」</li>
-                <li><strong>让 AI 口述逻辑：</strong>「请说明每一列的数据来源和计算过程，不要贴代码」——方便业务一起听</li>
-                <li><strong>对话换页：</strong>换环节新开对话；太长时先让 AI 总结「已确认规则清单」再继续</li>
-                <li><strong>只读最新版本：</strong>明确「只看当前版本文件夹」，避免混用旧规则</li>
+                <li>「先只处理 N 条，不要全量」</li>
+                <li>「请说明数据来源和计算过程，不要贴代码」——方便拉业务一起听</li>
+                <li>换环节新开对话；只读最新版本文件夹</li>
               </ul>
             </div>
           </div>
 
-          <!-- 6 异常 + 汇率案例 -->
-          <div id="stage6" class="stage-pane hidden">
+          <!-- 7 发现问题解决问题 -->
+          <div id="stage7" class="stage-pane hidden">
+            <div class="info-card">
+              <p>对不上老底稿时<strong>先分三类</strong>，再决定改理解、等业务拍板、还是补规则。差异本身也是问业务的清单。</p>
+            </div>
             <table class="data-table">
               <thead>
                 <tr><th>类型</th><th>典型情况</th><th>怎么处理</th></tr>
@@ -577,63 +601,50 @@ BOM + 缴库数量 ← Part 1（必须先整理好）
               </tbody>
             </table>
             <div class="callout">
-              <strong>实录：汇率折算——AI 加速试算，帮业务「发现」还缺一条规则</strong>
-              <p>Part 2 做越南立讯价差时，自动结果与手搓表对不上。快速重跑、逐品号对比差异后，业务才意识到：部分越南行是 <strong>USD 入账</strong>，不能当人民币直接加总，需要按<strong>当月财务入账汇率</strong>折算。这条规则最初不在方案里，是<strong>「算得快 → 对得上手搓 → 对不上就追问」</strong>的过程中才被识别并写进口径的。说明 AI 的价值不只是执行，还包括<strong>帮整个处理流程和规则更快补全</strong>。</p>
+              <strong>实录 · 汇率折算</strong>
+              <p>Part 2 越南价差对不上手搓 → 快速重跑找差异 → 发现 USD 行要按月汇率折算 → 规则补进方案。<strong>AI 帮的是：算得快，差异早暴露，规则早补全。</strong></p>
             </div>
             <div class="ai-tip">
-              <h3>本页 · AI 用法（异常处理）</h3>
+              <h3>本页 · AI 用法</h3>
               <ul>
-                <li><strong>理解偏差：</strong>「你刚才为什么这样处理？」→ 指出错在哪一步 → 按新理解重做</li>
-                <li><strong>规则未定：</strong>让 AI 整理「待业务确认清单」：现象、影响范围、可选口径、建议找谁拍板</li>
-                <li><strong>缺匹配：</strong>让 AI 归类异常（缺核价单 / 缺替代料 / 缺 mapping），<strong>不要</strong>默认填数或静默跳过</li>
+                <li>「你刚才为什么这样处理？」→ 纠正理解偏差</li>
+                <li>整理「待业务确认清单」——不擅自选口径</li>
+                <li>异常归类（缺核价单 / 缺替代料等），不默认填数</li>
               </ul>
-            </div>
-          </div>
-
-          <!-- 7 协作 -->
-          <div id="stage7" class="stage-pane hidden">
-            <div class="info-card">
-              <h3>隐性习惯也是成本</h3>
-              <p>业务同事做表方式不统一：mapping、例外处理可能揉在一张大表里，不会主动写成规则说明。</p>
-            </div>
-            <div class="info-card">
-              <h3>做法</h3>
-              <p>• 跟老底稿对比，<strong>差异本身就是提问清单</strong><br>
-                 • 「为什么这样」写进文档，标确认人和日期<br>
-                 • 定不下来的进「待业务确认」，不硬写进自动步骤</p>
-            </div>
-            <div class="review-grid">
-              <div class="review-box biz">
-                <h4>AI 适合做的</h4>
-                <ul><li>扫表结构，列字段疑点，帮你问对问题</li><li>把口头解释整理成口径说明草稿，经你确认后归档</li></ul>
-              </div>
-              <div class="review-box chk">
-                <h4>AI 不适合做的</h4>
-                <ul><li>替业务决定「跟哪条口径」</li><li>对未确认规则默认填数或跳过</li></ul>
-              </div>
             </div>
           </div>
 
           <!-- 8 总结 -->
           <div id="stage8" class="stage-pane hidden">
+            <div class="diagram-card">
+              <pre class="mermaid">
+flowchart TB
+  subgraph 怎么拆
+    A1[Part 1·2·3] --> A2[子环节如 2-1·2-2·2-3]
+    A2 --> A3[产出表字段倒推]
+  end
+  subgraph 怎么做
+    B1[规划] --> B2[单环节试跑]
+    B2 --> B3[对老底稿]
+    B3 --> B4[发现问题补规则]
+  end
+              </pre>
+            </div>
             <div class="summary-table">
               <table class="data-table">
                 <thead>
-                  <tr><th>业务上要做的</th><th>AI 怎么配合</th><th>Buy-Sell 例子</th></tr>
+                  <tr><th>阶段</th><th>你要做的</th><th>AI 配合</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td>讲清背景与产出</td><td>Plan 模式，多轮确认，不写文件</td><td>Part 2/3 目标表列名先对齐</td></tr>
-                  <tr><td>拆环节、定输入输出</td><td>字段倒推 + 依赖；分对话按环节深入</td><td>Part 2 三环节；越南一行倒推</td></tr>
-                  <tr><td>并行 vs 串行</td><td>让 AI 标依赖关系</td><td>Part 1 BOM 与 Part 2 价差可并行</td></tr>
-                  <tr><td>审查方案</td><td>业务审查 + 复核与落地审查；逻辑修正</td><td>待确认清单、时间口径对照</td></tr>
-                  <tr><td>小样本 → 全量</td><td>试跑 N 条；口述逻辑；再全量</td><td>Part 2 抽品号核对</td></tr>
-                  <tr><td>对老底稿</td><td>快速重跑、逐段对比差异</td><td>各 Part 手搓核对结论</td></tr>
-                  <tr><td>异常分类</td><td>纠正 / 清单 / 补规则</td><td>分桶核对、POP 规则、<strong>汇率折算</strong></td></tr>
-                  <tr><td>沉淀交接</td><td>按结构起草文档；可复用口径→文档 / skill</td><td>docs、待业务确认、品号解析 skill</td></tr>
+                  <tr><td>拆 Part</td><td>按业务问题 + 产出表分 Part 1/2/3</td><td>Plan 模式出拆分图</td></tr>
+                  <tr><td>拆子环节</td><td>每个 Part 内再拆（Part 2 示例）</td><td>标并行 / 串行</td></tr>
+                  <tr><td>解耦</td><td>从最终表一行倒推字段来源</td><td>字段依赖表</td></tr>
+                  <tr><td>执行</td><td>单环节：小样本 → 全量 → 对老底稿</td><td>口述逻辑、新开对话</td></tr>
+                  <tr><td>排错</td><td>分三类；待定进清单；补规则</td><td>差异对比、整理待确认</td></tr>
                 </tbody>
               </table>
             </div>
-            <p class="quote" style="margin-top:14px;">业务定规矩，AI 帮整理和执行，老底稿当尺子——算得快、对得上、对不上就追问，规则就在这个循环里越来越完整。</p>
+            <p class="quote" style="margin-top:14px;">业务定规矩，AI 帮整理和执行，老底稿当尺子。</p>
           </div>
         </div>
       </section>
@@ -657,15 +668,15 @@ BOM + 缴库数量 ← Part 1（必须先整理好）
     });
 
     const stages = [
-      { label: "第 1 页", title: "这份材料讲什么", desc: "真实项目实录：业务梳理与 AI 协作如何配合。", nav: "开场", sub: "1 分钟" },
-      { label: "第 2 页", title: "我们在还原什么", desc: "业务背景与 Part 1 / 2 / 3 的关系。", nav: "业务背景", sub: "三块分工" },
-      { label: "第 3 页", title: "Part 2 怎么拆环节", desc: "以转售价差为例：三环节必须按顺序；可与 Part 1 并行。", nav: "Part 2 拆分", sub: "环节示例" },
-      { label: "第 4 页", title: "从越南立讯「一行」倒推", desc: "Part 3 最终表字段 → 数据来源 → 环节依赖。", nav: "字段倒推", sub: "拆解诀窍" },
-      { label: "第 5 页", title: "计划准备：只规划、不动手", desc: "背景、环节、输入输出；业务审查 + 复核与落地审查。", nav: "计划准备", sub: "Plan 阶段" },
-      { label: "第 6 页", title: "计划执行：试跑 → 核对 → 沉淀", desc: "小样本、对老底稿、写文档。", nav: "计划执行", sub: "执行阶段" },
-      { label: "第 7 页", title: "出问题先分三类", desc: "理解偏差 / 规则未定 / 缺匹配需补规则；含汇率折算实录。", nav: "异常处理", sub: "三类 + 汇率" },
-      { label: "第 8 页", title: "和业务同事协作", desc: "差异即提问清单；AI 的分工边界。", nav: "业务协作", sub: "隐性习惯" },
-      { label: "第 9 页", title: "总结：业务 × AI", desc: "一张对照表收束全文。", nav: "总结", sub: "对照表" }
+      { label: "第 1 页", title: "怎么读这份材料", desc: "五步：拆 Part → 拆子环节 → 倒推解耦 → 执行 → 排错。", nav: "导览", sub: "总路线图" },
+      { label: "第 2 页", title: "项目在回答什么", desc: "业务目标 + 最终要落到可核对的表上。", nav: "背景", sub: "为何要做" },
+      { label: "第 3 页", title: "第一层：为什么拆成 Part 1 / 2 / 3", desc: "各 Part 产出什么、为什么单独成块、谁可并行。", nav: "Part 1·2·3", sub: "为什么这样分" },
+      { label: "第 4 页", title: "第二层：Part 2 子环节怎么拆", desc: "2-1 → 2-2 → 2-3，子环节拆分示例。", nav: "Part 2 子环节", sub: "第二层示例" },
+      { label: "第 5 页", title: "怎么解耦：业务 + 产出表倒推", desc: "五步法 + 越南立讯一行字段依赖。", nav: "解耦方法", sub: "字段倒推" },
+      { label: "第 6 页", title: "规划：每个环节开工前要定什么", desc: "输入输出、验收标准、两类审查。", nav: "规划", sub: "Plan" },
+      { label: "第 7 页", title: "执行：一个环节一个环节做", desc: "小样本 → 全量 → 对老底稿 → 沉淀。", nav: "执行", sub: "单环节" },
+      { label: "第 8 页", title: "发现问题 → 解决问题", desc: "三类异常 + 汇率折算实录。", nav: "排错", sub: "三类+汇率" },
+      { label: "第 9 页", title: "总结", desc: "怎么拆 + 怎么做。", nav: "总结", sub: "收束" }
     ];
 
     const nav = document.getElementById("nav");
