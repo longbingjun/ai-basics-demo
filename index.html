@@ -118,8 +118,7 @@
     .part-nav {
       display: flex;
       flex-direction: column;
-      gap: 0;
-      position: relative;
+      gap: 6px;
     }
 
     .part-btn {
@@ -127,26 +126,29 @@
       border: none;
       background: transparent;
       border-radius: 14px;
-      padding: 12px 10px 12px 8px;
+      padding: 14px 12px 14px 10px;
       cursor: pointer;
       text-align: left;
-      display: grid;
-      grid-template-columns: 44px 1fr;
+      display: flex;
+      flex-direction: row;
       gap: 12px;
-      align-items: start;
+      align-items: flex-start;
       position: relative;
       transition: background .18s ease;
+      min-height: 96px;
+      box-sizing: border-box;
     }
 
     .part-btn::before {
       content: "";
       position: absolute;
-      left: 29px;
-      top: 48px;
-      bottom: -12px;
+      left: 31px;
+      top: 56px;
+      height: calc(100% - 36px);
       width: 2px;
       background: var(--line);
       border-radius: 1px;
+      pointer-events: none;
     }
 
     .part-btn:last-child::before { display: none; }
@@ -221,7 +223,7 @@
       box-shadow: 0 6px 16px rgba(5, 150, 105, 0.35);
     }
 
-    .part-body { min-width: 0; padding-top: 2px; }
+    .part-body { flex: 1; min-width: 0; padding-top: 2px; }
 
     .part-btn .label {
       display: block;
@@ -250,13 +252,14 @@
       font-size: 12px;
       color: var(--muted);
       line-height: 1.45;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .part-meta {
       display: flex;
       align-items: center;
       gap: 8px;
+      width: 100%;
     }
 
     .part-count {
@@ -668,6 +671,56 @@
 
     .gen-loop .dots { color: var(--muted); font-weight: 400; }
 
+    .abbr {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    .lifecycle {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .life-step {
+      border-radius: 14px;
+      border: 2px solid var(--line);
+      padding: 14px;
+      background: #fff;
+    }
+
+    .life-step h4 { margin: 0 0 4px; font-size: 15px; font-weight: 800; }
+    .life-step .en { margin: 0 0 8px; font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0.02em; }
+    .life-step p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--muted); }
+    .life-step.train { border-color: rgba(100,116,139,.35); }
+    .life-step.post { border-color: rgba(37,99,235,.35); }
+    .life-step.infer { border-color: rgba(5,150,105,.35); }
+
+    .sub-steps {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--line);
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    .clarify-box {
+      border-radius: 14px;
+      padding: 14px 16px;
+      background: var(--amber-soft);
+      border: 1px solid rgba(217,119,6,.25);
+      font-size: 14px;
+      line-height: 1.65;
+      color: #78350f;
+    }
+
+    .clarify-box strong { color: #92400e; }
+
     .cta-box {
       display: flex;
       align-items: center;
@@ -696,7 +749,7 @@
       .part-rail { position: static; }
       .part-nav { flex-direction: column; }
       .part-btn::before { display: none; }
-      .card-grid, .pipeline, .steps-row { grid-template-columns: 1fr; }
+      .card-grid, .pipeline, .steps-row, .lifecycle { grid-template-columns: 1fr; }
       .pipe-step:not(:last-child)::after { display: none; }
       .vs-row { grid-template-columns: 1fr; }
     }
@@ -819,65 +872,67 @@
           },
           {
             tab: "训练阶段",
-            title: "能力从哪来：预训练 → 后训练",
-            desc: "回答第一个问题——大模型「出厂前」怎么学会说话、听指令、答得好。",
+            title: "大模型生命周期的三个阶段",
+            desc: "业界常用划分：预训练 → 后训练 → 推理。前两个阶段改参数；第三阶段是使用，不再训练。",
             html: `
-              <div class="phase-block" style="margin-bottom:12px">
-                <div class="phase-head train">出厂前 · 训练（你使用时不再发生）</div>
-                <div class="phase-body">
-                  <div class="pipeline">
-                    <div class="pipe-step">
-                      <h4>① 预训练</h4>
-                      <p class="essence">学「语言本身」</p>
-                      <p>海量文本上反复练习<strong>猜下一个 token</strong>，学会语法、常识、中英文大致怎么对应。此时还不会好好听你的具体指令。</p>
-                    </div>
-                    <div class="pipe-step sft">
-                      <h4>② 后训练 · SFT</h4>
-                      <p class="essence">学「按指令回答的格式」</p>
-                      <p>大量「用户指令 → 示范回答」配对，让模型<strong>模仿</strong>人类示范：见到「请翻译、不要加意思」就知道该输出哪种格式的译文。</p>
-                    </div>
-                    <div class="pipe-step rlhf">
-                      <h4>③ 后训练 · RLHF</h4>
-                      <p class="essence">学「哪种回答更像人想要的」</p>
-                      <p>人对多个候选回答<strong>排序/打分</strong>，模型学偏好：更清晰、更听话、更安全——而不只是机械模仿某一条示范。</p>
-                    </div>
+              <div class="lifecycle">
+                <div class="life-step train">
+                  <h4>① 预训练</h4>
+                  <p class="en">Pre-training</p>
+                  <p>海量文本上练习猜 next token，学会语言规律、常识、中英文大致对应。<strong>参数会被大幅更新。</strong></p>
+                </div>
+                <div class="life-step post">
+                  <h4>② 后训练</h4>
+                  <p class="en">Post-training</p>
+                  <p>在预训练底座上继续训练，让模型<strong>会听指令、答得更像人想要</strong>。仍会更改参数。</p>
+                  <div class="sub-steps">
+                    <strong>SFT</strong>（Supervised Fine-Tuning，监督微调）— 模仿「问→答」示范<br>
+                    <strong>RLHF</strong>（Reinforcement Learning from Human Feedback，人类反馈强化学习）— 对齐人类偏好
                   </div>
                 </div>
+                <div class="life-step infer">
+                  <h4>③ 推理</h4>
+                  <p class="en">Inference</p>
+                  <p>模型部署后，你每次提问发生的阶段。<strong>参数固定、不再训练</strong>，只做读入 → 猜 next token → 输出。</p>
+                </div>
+              </div>
+              <div class="clarify-box">
+                <strong>和你说的「推理训练」：</strong>行业里第三阶段通常叫<strong>推理（Inference）</strong>，不是「再训练一次」。若听到「推理训练」，多半是把 Inference 译混了，或指很新的研究（如测试时扩展算力），<strong>不是</strong>财务同事日常用的主流三分法。培训材料按<strong>预训练 → 后训练 → 推理</strong>理解即可。
               </div>
               <div class="card">
-                <h3>SFT 和 RLHF 的本质区别</h3>
+                <h3>SFT 与 RLHF 的区别</h3>
                 <p style="color:var(--muted);line-height:1.65;margin:0 0 12px;font-size:14px">
-                  <strong style="color:var(--blue-deep)">SFT</strong> = 照着<strong>标准答案示范</strong>学怎么做题（模仿）。<br>
-                  <strong style="color:var(--violet)">RLHF</strong> = 多种都「说得通」时，学<strong>人更偏好哪一种</strong>（对齐偏好）。
+                  <strong style="color:var(--blue-deep)">SFT（Supervised Fine-Tuning，监督微调）</strong> = 照着<strong>标准答案示范</strong>学怎么做题（模仿）。<br>
+                  <strong style="color:var(--violet)">RLHF（Reinforcement Learning from Human Feedback，人类反馈强化学习）</strong> = 多种都「说得通」时，学<strong>人更偏好哪一种</strong>（对齐偏好）。
                 </p>
               </div>
-              <div class="vs-row head"><span></span><span>SFT</span><span>RLHF</span></div>
+              <div class="vs-row head"><span></span><span>SFT 监督微调</span><span>RLHF 人类反馈强化学习</span></div>
               <div class="vs-row"><span>学什么</span><span>指令长什么样、回答格式对不对</span><span>哪种说法更自然 / 更安全</span></div>
               <div class="vs-row"><span>怎么学</span><span>人工写的「问→答」示范</span><span>人工比较多个答案好坏</span></div>
               <div class="vs-row"><span>翻译例子</span><span>学会：只输出译文、不添字</span><span>多种译法都对时，选更简洁自然的那句</span></div>
-              <p class="big-idea" style="font-size:15px;margin-top:4px">训练完成后，能力都「写进」模型参数里。你每次提问，<strong>不会重新训练</strong>，只是在用这些参数做推理生成。</p>
             `
           },
           {
-            tab: "推理生成",
-            title: "输入 → 输出：推理时发生什么",
-            desc: "回答第二个问题——你发出 Prompt 之后，模型怎么一步步吐出答案。",
+            tab: "推理 Inference",
+            title: "第三阶段：推理（Inference）",
+            desc: "你发出 Prompt 之后发生的事——这是「使用」，不是「训练」。",
             html: `
+              <p class="big-idea">推理阶段<strong>不会更新模型参数</strong>。预训练 + 后训练的能力已经「写进」参数里；现在只是把 Prompt 读入，然后<strong>一个 token 接一个 token 地生成</strong>答案。</p>
               <div class="phase-block" style="margin-bottom:12px">
-                <div class="phase-head infer">使用时 · 推理生成（你每次提问都会发生）</div>
+                <div class="phase-head infer">第三阶段 · 推理 Inference（每次提问都会发生）</div>
                 <div class="phase-body">
                   <ol class="chain-list">
-                    <li><span class="n">1</span><span><strong>切 token</strong> — 把你的 Prompt + 上下文文字切成 token 序列，送入模型。</span></li>
-                    <li><span class="n">2</span><span><strong>读入</strong> — 模型读入目前所有 token，内部计算「下一个 token 各有多大概率」。</span></li>
-                    <li><span class="n">3</span><span><strong>选一个</strong> — 从概率里选出下一个 token（通常偏向概率高的），接到序列末尾。</span></li>
-                    <li><span class="n">4</span><span><strong>循环</strong> — 把「Prompt + 已生成的 token」当作新的输入，重复 2→3，直到写完或遇到结束标记。</span></li>
-                    <li><span class="n">5</span><span><strong>输出</strong> — 把生成的 token 序列还原成你看到的文字。</span></li>
+                    <li><span class="n">1</span><span><strong>切 token</strong> — 把你的 Prompt + 上下文切成 token 序列。</span></li>
+                    <li><span class="n">2</span><span><strong>读入</strong> — 模型读入目前所有 token，计算「下一个 token 各有多大概率」。</span></li>
+                    <li><span class="n">3</span><span><strong>选一个</strong> — 选出下一个 token，接到序列末尾。</span></li>
+                    <li><span class="n">4</span><span><strong>循环</strong> — 重复读入 → 猜下一个，直到写完或遇到结束标记。</span></li>
+                    <li><span class="n">5</span><span><strong>输出</strong> — token 序列还原成你看到的文字。</span></li>
                   </ol>
                 </div>
               </div>
               <div class="card accent-blue">
                 <h3>生成过程示意（翻译任务）</h3>
-                <p style="margin:0 0 10px;font-size:13px;color:var(--muted)">Prompt 已读入后，模型逐个「猜」英文 token：</p>
+                <p style="margin:0 0 10px;font-size:13px;color:var(--muted)">Prompt 已读入后，模型逐个猜英文 token：</p>
                 <div class="gen-loop">
                   <span class="dots">已读入 Prompt …</span>
                   <span class="tok new">I</span><span class="tok new"> want</span><span class="tok new"> to</span><span class="tok new"> learn</span><span class="tok new"> English</span><span class="tok new">.</span>
@@ -886,11 +941,11 @@
               </div>
               <div class="card-grid two">
                 <div class="card">
-                  <h3>训练 vs 推理</h3>
-                  <p><strong>训练</strong>：改模型参数，让它更会猜 token。<br><strong>推理</strong>：参数固定，只做「读入 → 猜下一个 → 接上 → 再猜」。</p>
+                  <h3>三阶段对照</h3>
+                  <p><strong>预训练 / 后训练</strong>：改参数，出厂前完成。<br><strong>推理 Inference</strong>：参数固定，用户使用时才发生。</p>
                 </div>
                 <div class="card accent-green">
-                  <h3>三个训练阶段的角色</h3>
+                  <h3>前三阶段如何影响推理</h3>
                   <p>预训练决定「懂不懂语言」；SFT 决定「听不听指令」；RLHF 决定「答得好不好」。<strong>推理时三者都已融入参数</strong>，共同影响每一步 next token 的猜测。</p>
                 </div>
               </div>
@@ -910,26 +965,27 @@
                 <div class="qa-block">
                   <h3>❶ 大模型是如何拥有现在的能力的？</h3>
                   <p>
-                    <strong>预训练</strong>：从海量中英文中学到「想要≈want、学习≈learn、英语≈English」这类统计对应。<br><br>
-                    <strong>SFT</strong>：学会见到「请翻译、不要添字」→ 只输出英文译文、不加解释。<br><br>
-                    <strong>RLHF</strong>：在「I want to learn English」和「I'd like to study English」等都对时，更倾向自然简洁的前者。
+                    <strong>预训练 Pre-training</strong>：从海量中英文中学到「想要≈want、学习≈learn、英语≈English」等统计对应。<br><br>
+                    <strong>后训练 Post-training</strong>（含两步）：<br>
+                    · <strong>SFT</strong>（Supervised Fine-Tuning，监督微调）— 见到「请翻译、不要添字」→ 只输出译文<br>
+                    · <strong>RLHF</strong>（Reinforcement Learning from Human Feedback，人类反馈强化学习）— 多种译法都对时，选更自然简洁的
                   </p>
                 </div>
                 <div class="qa-block">
                   <h3>❷ 大模型生成这些答案的链路是什么？</h3>
                   <p>
+                    进入<strong>推理 Inference</strong>阶段（参数不变）：<br>
                     ① Prompt 切成 token 读入<br>
-                    ② 模型基于已读 token，猜下一个最可能是 <strong>I</strong><br>
-                    ③ 接上 I，再猜 <strong>want</strong> → <strong>to</strong> → <strong>learn</strong> → <strong>English</strong> → <strong>.</strong><br>
-                    ④ token 拼成整句 → 你看到的答案
+                    ② 猜下一个最可能是 <strong>I</strong> → <strong>want</strong> → <strong>to</strong> → <strong>learn</strong> → <strong>English</strong> → <strong>.</strong><br>
+                    ③ token 拼成整句 → 你看到的答案
                   </p>
                 </div>
               </div>
               <div class="steps-row">
                 <div class="step-card"><div class="num">1</div><p><strong>切 token</strong><br>Prompt 中文 + 指令 → token 序列</p></div>
                 <div class="step-card"><div class="num">2</div><p><strong>预训练底子</strong><br>知道中英文怎么对应</p></div>
-                <div class="step-card"><div class="num">3</div><p><strong>SFT + RLHF</strong><br>只译、不发挥；译法自然</p></div>
-                <div class="step-card"><div class="num">4</div><p><strong>逐 token 生成</strong><br>I → want → to → learn → English → .</p></div>
+                <div class="step-card"><div class="num">3</div><p><strong>后训练</strong><br>SFT 监督微调 + RLHF 人类反馈强化学习</p></div>
+                <div class="step-card"><div class="num">4</div><p><strong>推理 Inference</strong><br>逐 token 生成答案</p></div>
               </div>
               <p class="big-idea" style="font-size:15px;background:var(--amber-soft);border-color:rgba(217,119,6,.2);color:#92400e">
                 幻觉提醒：模型本职是「猜下一个 token 像合理答案」，不是「核实事实」。涉及数字、口径、合规 → <strong>必须人工复核</strong>。
