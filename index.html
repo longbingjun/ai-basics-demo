@@ -84,57 +84,209 @@
 
     main {
       display: grid;
-      grid-template-columns: 240px 1fr;
-      gap: 20px;
+      grid-template-columns: 268px 1fr;
+      gap: 22px;
       align-items: stretch;
       min-height: 0;
     }
 
-    /* ── 左侧：仅 Part 1 / 2 / 3 ── */
+    /* ── 左侧：学习路径时间线 ── */
+    .part-rail {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px 18px 20px;
+      display: flex;
+      flex-direction: column;
+      align-self: start;
+      position: sticky;
+      top: 24px;
+    }
+
+    .rail-title {
+      margin: 0 0 18px;
+      padding: 0 6px 14px;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
     .part-nav {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 0;
+      position: relative;
     }
 
     .part-btn {
       width: 100%;
-      border: 2px solid var(--line);
-      background: var(--paper);
-      border-radius: var(--radius);
-      padding: 18px 16px;
+      border: none;
+      background: transparent;
+      border-radius: 14px;
+      padding: 12px 10px 12px 8px;
       cursor: pointer;
       text-align: left;
-      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
-      transition: border-color .15s, box-shadow .15s, transform .15s;
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 12px;
+      align-items: start;
+      position: relative;
+      transition: background .18s ease;
     }
 
-    .part-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+    .part-btn::before {
+      content: "";
+      position: absolute;
+      left: 29px;
+      top: 48px;
+      bottom: -12px;
+      width: 2px;
+      background: var(--line);
+      border-radius: 1px;
+    }
+
+    .part-btn:last-child::before { display: none; }
+
+    .part-btn:hover { background: #f8fafd; }
 
     .part-btn.active {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12), var(--shadow);
+      background: linear-gradient(90deg, rgba(37, 99, 235, 0.07) 0%, transparent 100%);
     }
 
-    .part-btn.active.p2 { border-color: var(--violet); box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12), var(--shadow); }
-    .part-btn.active.p3 { border-color: var(--green); box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12), var(--shadow); }
+    .part-btn.active.p2 {
+      background: linear-gradient(90deg, rgba(124, 58, 237, 0.07) 0%, transparent 100%);
+    }
 
-    .part-btn .num {
-      display: inline-block;
-      font-size: 11px;
+    .part-btn.active.p3 {
+      background: linear-gradient(90deg, rgba(5, 150, 105, 0.08) 0%, transparent 100%);
+    }
+
+    .part-btn.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 10px;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: var(--blue);
+    }
+
+    .part-btn.active.p2::after { background: var(--violet); }
+    .part-btn.active.p3::after { background: var(--green); }
+
+    .step-dot {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
       font-weight: 800;
-      letter-spacing: 0.04em;
-      padding: 3px 8px;
-      border-radius: 6px;
+      flex-shrink: 0;
+      border: 2px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      transition: all .18s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .part-btn.p1 .step-dot { border-color: #bfdbfe; color: var(--blue-deep); }
+    .part-btn.p2 .step-dot { border-color: #ddd6fe; color: var(--violet); }
+    .part-btn.p3 .step-dot { border-color: #a7f3d0; color: #047857; }
+
+    .part-btn.active.p1 .step-dot {
+      background: linear-gradient(145deg, #3b82f6, #1d4ed8);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+    }
+
+    .part-btn.active.p2 .step-dot {
+      background: linear-gradient(145deg, #8b5cf6, #6d28d9);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
+    }
+
+    .part-btn.active.p3 .step-dot {
+      background: linear-gradient(145deg, #10b981, #047857);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(5, 150, 105, 0.35);
+    }
+
+    .part-body { min-width: 0; padding-top: 2px; }
+
+    .part-btn .label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      margin-bottom: 3px;
+      letter-spacing: 0.02em;
+    }
+
+    .part-btn.active .label { color: var(--blue-deep); }
+    .part-btn.active.p2 .label { color: var(--violet); }
+    .part-btn.active.p3 .label { color: #047857; }
+
+    .part-btn .name {
+      display: block;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.35;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .part-btn .hint {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
       margin-bottom: 8px;
     }
 
-    .part-btn.p1 .num { background: var(--blue-soft); color: var(--blue-deep); }
-    .part-btn.p2 .num { background: var(--violet-soft); color: var(--violet); }
-    .part-btn.p3 .num { background: var(--green-soft); color: var(--green); }
+    .part-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-    .part-btn .name { display: block; font-size: 17px; font-weight: 800; line-height: 1.3; margin-bottom: 6px; }
-    .part-btn .hint { display: block; font-size: 12px; color: var(--muted); line-height: 1.45; }
+    .part-count {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      background: var(--bg);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .part-progress {
+      flex: 1;
+      height: 4px;
+      background: #e8eef6;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .part-progress span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: var(--blue);
+      transition: width .25s ease;
+    }
+
+    .part-btn.p2 .part-progress span { background: var(--violet); }
+    .part-btn.p3 .part-progress span { background: var(--green); }
 
     /* ── 右侧：Tab + 内容 ── */
     .panel {
@@ -403,8 +555,9 @@
 
     @media (max-width: 960px) {
       main { grid-template-columns: 1fr; }
-      .part-nav { flex-direction: row; flex-wrap: wrap; }
-      .part-btn { flex: 1; min-width: 140px; }
+      .part-rail { position: static; }
+      .part-nav { flex-direction: column; }
+      .part-btn::before { display: none; }
       .card-grid, .pipeline, .steps-row { grid-template-columns: 1fr; }
       .pipe-step:not(:last-child)::after { display: none; }
       .vs-row { grid-template-columns: 1fr; }
@@ -427,7 +580,10 @@
     </header>
 
     <main>
-      <nav id="partNav" class="part-nav"></nav>
+      <aside class="part-rail">
+        <p class="rail-title">学习路径</p>
+        <nav id="partNav" class="part-nav"></nav>
+      </aside>
 
       <div id="panel" class="panel">
         <div class="panel-head">
@@ -445,7 +601,7 @@
     const parts = [
       {
         id: 1, name: "大模型底座", tagClass: "p1", btnClass: "p1",
-        hint: "next token · Prompt · 训练阶段",
+        hint: "弄懂答案怎么来",
         slides: [
           {
             tab: "本质",
@@ -551,7 +707,7 @@
       },
       {
         id: 2, name: "工具谱系", tagClass: "p2", btnClass: "p2",
-        hint: "助手 · Agent · Workflow · Skill",
+        hint: "分清助手、Agent 与 Skill",
         slides: [
           {
             tab: "助手 vs Agent",
@@ -624,7 +780,7 @@
       },
       {
         id: 3, name: "落地应用", tagClass: "p3", btnClass: "p3",
-        hint: "用法原则 · 品号 Skill · Case Study",
+        hint: "韶音品号与完整项目",
         slides: [
           {
             tab: "怎么用",
@@ -704,15 +860,33 @@
     function buildPartNav() {
       partNav.innerHTML = parts.map((p, i) => `
         <button class="part-btn ${p.btnClass}" data-part="${i}">
-          <span class="num">PART ${p.id}</span>
-          <span class="name">${p.name}</span>
-          <span class="hint">${p.hint}</span>
+          <span class="step-dot">${p.id}</span>
+          <span class="part-body">
+            <span class="label">Part ${p.id}</span>
+            <span class="name">${p.name}</span>
+            <span class="hint">${p.hint}</span>
+            <span class="part-meta">
+              <span class="part-count">${p.slides.length} 节</span>
+              <span class="part-progress"><span data-progress="${i}"></span></span>
+            </span>
+          </span>
         </button>
       `).join("");
       partNav.querySelectorAll(".part-btn").forEach(btn => {
         btn.addEventListener("click", () => {
           setView(+btn.dataset.part, 0);
         });
+      });
+    }
+
+    function updatePartProgress() {
+      parts.forEach((p, i) => {
+        const bar = partNav.querySelector(`[data-progress="${i}"]`);
+        if (!bar) return;
+        const pct = i < partIdx ? 100
+          : i === partIdx ? ((tabIdx + 1) / p.slides.length) * 100
+          : 0;
+        bar.style.width = `${pct}%`;
       });
     }
 
@@ -755,6 +929,7 @@
       const globalIdx = flatIndex(partIdx, tabIdx);
       prevBtn.disabled = globalIdx === 0;
       nextBtn.disabled = globalIdx === totalSlides() - 1;
+      updatePartProgress();
     }
 
     prevBtn.onclick = () => {
