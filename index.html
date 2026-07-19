@@ -337,13 +337,16 @@
     .tab {
       border: 1px solid transparent;
       background: transparent;
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 999px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       color: var(--muted);
       cursor: pointer;
-      white-space: nowrap;
+      white-space: normal;
+      line-height: 1.35;
+      text-align: center;
+      max-width: 128px;
       transition: background .12s, color .12s, border-color .12s;
     }
 
@@ -871,20 +874,21 @@
             `
           },
           {
-            tab: "训练阶段",
+            tab: "大模型生命周期的三个阶段",
             title: "大模型生命周期的三个阶段",
-            desc: "业界常用划分：预训练 → 后训练 → 推理。前两个阶段改参数；第三阶段是使用，不再训练。",
+            desc: "预训练 → 后训练 → 推理。前两个阶段出厂前改参数；第三阶段使用时生成答案，不再训练。",
             html: `
+              <p class="big-idea">从大模型「出厂」到你「提问得答案」，业界通常分<strong>三个阶段</strong>。前两个是训练（改参数），第三个是使用（参数固定）。</p>
               <div class="lifecycle">
                 <div class="life-step train">
                   <h4>① 预训练</h4>
                   <p class="en">Pre-training</p>
-                  <p>海量文本上练习猜 next token，学会语言规律、常识、中英文大致对应。<strong>参数会被大幅更新。</strong></p>
+                  <p>海量文本上练习猜 next token，学会语言规律、常识、中英文大致对应。<strong>参数会被大幅更新。</strong>此时还不会好好听你的具体指令。</p>
                 </div>
                 <div class="life-step post">
                   <h4>② 后训练</h4>
                   <p class="en">Post-training</p>
-                  <p>在预训练底座上继续训练，让模型<strong>会听指令、答得更像人想要</strong>。仍会更改参数。</p>
+                  <p>在预训练底座上继续训练，让模型<strong>会听指令、答得更像人想要</strong>。仍会更改参数，出厂前完成。</p>
                   <div class="sub-steps">
                     <strong>SFT</strong>（Supervised Fine-Tuning，监督微调）— 模仿「问→答」示范<br>
                     <strong>RLHF</strong>（Reinforcement Learning from Human Feedback，人类反馈强化学习）— 对齐人类偏好
@@ -893,14 +897,24 @@
                 <div class="life-step infer">
                   <h4>③ 推理</h4>
                   <p class="en">Inference</p>
-                  <p>模型部署后，你每次提问发生的阶段。<strong>参数固定、不再训练</strong>，只做读入 → 猜 next token → 输出。</p>
+                  <p>模型部署后，你每次提问发生的阶段。<strong>参数固定、不再训练</strong>：读入 Prompt → 逐个猜 next token → 输出答案。</p>
                 </div>
               </div>
-              <div class="clarify-box">
-                <strong>和你说的「推理训练」：</strong>行业里第三阶段通常叫<strong>推理（Inference）</strong>，不是「再训练一次」。若听到「推理训练」，多半是把 Inference 译混了，或指很新的研究（如测试时扩展算力），<strong>不是</strong>财务同事日常用的主流三分法。培训材料按<strong>预训练 → 后训练 → 推理</strong>理解即可。
+              <div class="card">
+                <h3>③ 推理阶段：从输入到输出（每次提问）</h3>
+                <ol class="chain-list">
+                  <li><span class="n">1</span><span><strong>切 token</strong> — Prompt + 上下文切成 token 序列。</span></li>
+                  <li><span class="n">2</span><span><strong>读入</strong> — 模型读入全部 token，计算下一个 token 的概率。</span></li>
+                  <li><span class="n">3</span><span><strong>选一个、循环</strong> — 选出下一个 token 接上，重复直到写完。</span></li>
+                  <li><span class="n">4</span><span><strong>输出</strong> — token 序列还原成你看到的文字。</span></li>
+                </ol>
+                <div class="gen-loop" style="margin-top:12px">
+                  <span class="dots">翻译示例 · Prompt 已读入 …</span>
+                  <span class="tok new">I</span><span class="tok new"> want</span><span class="tok new"> to</span><span class="tok new"> learn</span><span class="tok new"> English</span><span class="tok new">.</span>
+                </div>
               </div>
               <div class="card">
-                <h3>SFT 与 RLHF 的区别</h3>
+                <h3>后训练两步：SFT 与 RLHF 的区别</h3>
                 <p style="color:var(--muted);line-height:1.65;margin:0 0 12px;font-size:14px">
                   <strong style="color:var(--blue-deep)">SFT（Supervised Fine-Tuning，监督微调）</strong> = 照着<strong>标准答案示范</strong>学怎么做题（模仿）。<br>
                   <strong style="color:var(--violet)">RLHF（Reinforcement Learning from Human Feedback，人类反馈强化学习）</strong> = 多种都「说得通」时，学<strong>人更偏好哪一种</strong>（对齐偏好）。
@@ -910,44 +924,9 @@
               <div class="vs-row"><span>学什么</span><span>指令长什么样、回答格式对不对</span><span>哪种说法更自然 / 更安全</span></div>
               <div class="vs-row"><span>怎么学</span><span>人工写的「问→答」示范</span><span>人工比较多个答案好坏</span></div>
               <div class="vs-row"><span>翻译例子</span><span>学会：只输出译文、不添字</span><span>多种译法都对时，选更简洁自然的那句</span></div>
-            `
-          },
-          {
-            tab: "推理 Inference",
-            title: "第三阶段：推理（Inference）",
-            desc: "你发出 Prompt 之后发生的事——这是「使用」，不是「训练」。",
-            html: `
-              <p class="big-idea">推理阶段<strong>不会更新模型参数</strong>。预训练 + 后训练的能力已经「写进」参数里；现在只是把 Prompt 读入，然后<strong>一个 token 接一个 token 地生成</strong>答案。</p>
-              <div class="phase-block" style="margin-bottom:12px">
-                <div class="phase-head infer">第三阶段 · 推理 Inference（每次提问都会发生）</div>
-                <div class="phase-body">
-                  <ol class="chain-list">
-                    <li><span class="n">1</span><span><strong>切 token</strong> — 把你的 Prompt + 上下文切成 token 序列。</span></li>
-                    <li><span class="n">2</span><span><strong>读入</strong> — 模型读入目前所有 token，计算「下一个 token 各有多大概率」。</span></li>
-                    <li><span class="n">3</span><span><strong>选一个</strong> — 选出下一个 token，接到序列末尾。</span></li>
-                    <li><span class="n">4</span><span><strong>循环</strong> — 重复读入 → 猜下一个，直到写完或遇到结束标记。</span></li>
-                    <li><span class="n">5</span><span><strong>输出</strong> — token 序列还原成你看到的文字。</span></li>
-                  </ol>
-                </div>
-              </div>
-              <div class="card accent-blue">
-                <h3>生成过程示意（翻译任务）</h3>
-                <p style="margin:0 0 10px;font-size:13px;color:var(--muted)">Prompt 已读入后，模型逐个猜英文 token：</p>
-                <div class="gen-loop">
-                  <span class="dots">已读入 Prompt …</span>
-                  <span class="tok new">I</span><span class="tok new"> want</span><span class="tok new"> to</span><span class="tok new"> learn</span><span class="tok new"> English</span><span class="tok new">.</span>
-                  <span class="dots">→ 结束</span>
-                </div>
-              </div>
-              <div class="card-grid two">
-                <div class="card">
-                  <h3>三阶段对照</h3>
-                  <p><strong>预训练 / 后训练</strong>：改参数，出厂前完成。<br><strong>推理 Inference</strong>：参数固定，用户使用时才发生。</p>
-                </div>
-                <div class="card accent-green">
-                  <h3>前三阶段如何影响推理</h3>
-                  <p>预训练决定「懂不懂语言」；SFT 决定「听不听指令」；RLHF 决定「答得好不好」。<strong>推理时三者都已融入参数</strong>，共同影响每一步 next token 的猜测。</p>
-                </div>
+              <div class="card accent-green">
+                <h3>三阶段如何一起起作用</h3>
+                <p>预训练决定「懂不懂语言」；SFT 决定「听不听指令」；RLHF 决定「答得好不好」。进入<strong>推理</strong>时，前三者能力都已写入参数，共同影响每一步 next token 的猜测。</p>
               </div>
             `
           },
