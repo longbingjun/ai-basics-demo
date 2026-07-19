@@ -3,354 +3,97 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Case Study · Buy-Sell 成本还原协作实录</title>
+  <title>Case Study · Buy-Sell</title>
   <style>
     :root {
-      --bg: #f4f6fa;
-      --ink: #101827;
-      --muted: #647084;
-      --subtle: #eef2f8;
-      --line: #dbe3ef;
-      --paper: #ffffff;
-      --blue: #2155d9;
-      --blue-soft: #edf3ff;
-      --green: #0f766e;
-      --green-soft: #eaf8f5;
-      --amber: #a8560c;
-      --amber-soft: #fff5e8;
-      --shadow: 0 24px 70px rgba(16, 24, 39, 0.12);
-      --radius: 18px;
+      --bg: #f4f6fa; --ink: #101827; --muted: #647084; --subtle: #eef2f8; --line: #dbe3ef;
+      --blue: #2155d9; --blue-soft: #edf3ff; --green: #0f766e; --green-soft: #eaf8f5;
+      --amber: #a8560c; --amber-soft: #fff5e8; --shadow: 0 24px 70px rgba(16, 24, 39, 0.12); --radius: 18px;
     }
-
     * { box-sizing: border-box; }
-
     body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--ink);
+      margin: 0; min-height: 100vh; color: var(--ink);
       font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
-      background:
-        linear-gradient(135deg, rgba(33, 85, 217, 0.10), transparent 38%),
-        linear-gradient(315deg, rgba(15, 118, 110, 0.10), transparent 34%),
-        var(--bg);
+      background: linear-gradient(135deg, rgba(33,85,217,.08), transparent 40%), var(--bg);
     }
-
-    .app {
-      min-height: 100vh;
-      padding: 28px;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 18px;
-    }
-
+    .app { min-height: 100vh; padding: 20px 24px; display: grid; grid-template-rows: auto 1fr; gap: 14px; }
     header {
-      max-width: 1180px;
-      width: 100%;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 18px;
-      align-items: end;
+      max-width: 1140px; width: 100%; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
     }
-
-    .eyebrow { margin: 0 0 8px; color: var(--blue); font-size: 14px; font-weight: 700; }
-    h1 { margin: 0; font-size: 32px; line-height: 1.18; }
-    h3 { margin: 0 0 8px; font-size: 17px; }
-
-    .lead {
-      margin: 10px 0 0;
-      max-width: 780px;
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.7;
-    }
-
-    .goal-banner {
-      margin-top: 12px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      background: var(--green-soft);
-      color: #145142;
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 1.6;
-      max-width: 780px;
-    }
-
-    .controls { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
-
+    .eyebrow { margin: 0 0 4px; color: var(--blue); font-size: 13px; font-weight: 700; }
+    h1 { margin: 0; font-size: 26px; }
+    .controls { display: flex; gap: 8px; }
     a.home-link, button {
-      height: 40px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.92);
-      color: var(--ink);
-      padding: 0 14px;
-      font-size: 14px;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(16, 24, 39, 0.07);
+      height: 38px; border: 1px solid var(--line); border-radius: 10px;
+      background: #fff; padding: 0 14px; font-size: 14px; cursor: pointer;
+      box-shadow: 0 6px 16px rgba(16,24,39,.06);
     }
-
-    a.home-link {
-      display: inline-flex;
-      align-items: center;
-      color: var(--muted);
-      text-decoration: none;
-    }
-
-    button.primary { border-color: var(--blue); background: var(--blue); color: #fff; }
-    button:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    button:focus-visible, .nav-item:focus-visible {
-      outline: 3px solid rgba(33, 85, 217, 0.28);
-      outline-offset: 2px;
-    }
-
+    a.home-link { display: inline-flex; align-items: center; color: var(--muted); text-decoration: none; }
+    button.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+    button:disabled { opacity: .35; cursor: not-allowed; }
     main {
-      max-width: 1180px;
-      width: 100%;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 248px minmax(0, 1fr);
-      gap: 18px;
+      max-width: 1140px; width: 100%; margin: 0 auto;
+      display: grid; grid-template-columns: 200px 1fr; gap: 14px;
     }
-
     .sidebar, .slide {
-      background: rgba(255, 255, 255, 0.88);
-      border: 1px solid rgba(219, 227, 239, 0.92);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,.92); border: 1px solid rgba(219,227,239,.92);
+      border-radius: var(--radius); box-shadow: var(--shadow);
     }
-
-    .sidebar { padding: 14px; display: grid; align-content: start; gap: 8px; }
-
+    .sidebar { padding: 10px; display: grid; gap: 6px; align-content: start; }
     .nav-item {
-      width: 100%;
-      min-height: 68px;
-      border: 1px solid transparent;
-      border-radius: 14px;
-      background: transparent;
-      box-shadow: none;
-      text-align: left;
-      display: grid;
-      grid-template-columns: 34px 1fr;
-      gap: 10px;
-      align-items: center;
-      padding: 10px;
-      cursor: pointer;
+      border: 1px solid transparent; border-radius: 12px; background: transparent;
+      padding: 10px 12px; text-align: left; cursor: pointer; font-size: 13px; font-weight: 700;
     }
-
-    .nav-index {
-      width: 34px; height: 34px; border-radius: 50%;
-      display: grid; place-items: center;
-      background: var(--subtle); color: var(--muted); font-weight: 800;
-    }
-
-    .nav-title { display: block; font-size: 14px; font-weight: 800; color: var(--ink); margin-bottom: 3px; }
-    .nav-sub { display: block; color: var(--muted); font-size: 11px; line-height: 1.4; }
-
-    .nav-item.active { border-color: rgba(33, 85, 217, 0.28); background: var(--blue-soft); }
-    .nav-item.active .nav-index { background: var(--blue); color: #fff; }
-
-    .slide {
-      min-height: 700px;
-      padding: 28px 30px;
-      display: grid;
-      grid-template-rows: auto 1fr;
-      gap: 22px;
-    }
-
-    .slide-head {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 18px;
-      align-items: start;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--line);
-    }
-
+    .nav-item.active { background: var(--blue-soft); border-color: rgba(33,85,217,.25); color: var(--blue); }
+    .slide { padding: 22px 26px; min-height: 520px; display: grid; grid-template-rows: auto 1fr; gap: 16px; }
+    .slide-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
     .stage-label {
-      display: inline-flex; width: fit-content;
-      padding: 6px 11px; border-radius: 999px;
-      background: var(--blue-soft); color: var(--blue);
-      font-size: 13px; font-weight: 800; margin-bottom: 10px;
+      display: inline-block; padding: 4px 10px; border-radius: 999px;
+      background: var(--blue-soft); color: var(--blue); font-size: 12px; font-weight: 800; margin-bottom: 8px;
     }
-
-    .slide h2 { margin: 0; font-size: 28px; line-height: 1.22; }
-
-    .slide-desc {
-      margin: 8px 0 0;
-      color: var(--muted);
-      line-height: 1.68;
-      font-size: 15px;
-      max-width: 720px;
-    }
-
+    .slide h2 { margin: 0; font-size: 24px; }
+    .slide-desc { margin: 6px 0 0; color: var(--muted); font-size: 14px; max-width: 520px; }
     .progress {
-      min-width: 88px; height: 88px; border-radius: 50%;
+      width: 64px; height: 64px; border-radius: 50%; flex-shrink: 0;
       display: grid; place-items: center;
-      background: conic-gradient(var(--blue) var(--progress), #e7ecf5 0);
-      position: relative;
+      background: conic-gradient(var(--blue) var(--progress), #e7ecf5 0); position: relative;
     }
-
-    .progress::after {
-      content: ""; position: absolute; inset: 8px;
-      border-radius: 50%; background: var(--paper);
+    .progress::after { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: #fff; }
+    .progress span { position: relative; z-index: 1; font-weight: 900; font-size: 13px; }
+    .content { display: grid; align-content: start; gap: 12px; }
+    .diagram-card {
+      border: 1px solid var(--line); border-radius: 14px; background: #fbfcff;
+      padding: 16px; overflow-x: auto;
     }
-
-    .progress span { position: relative; z-index: 1; font-weight: 900; }
-
-    .content { display: grid; align-content: start; gap: 14px; }
-
-    .info-card, .diagram-card, .ai-tip {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: #fbfcff;
-      padding: 16px 18px;
+    .diagram-card .mermaid { display: flex; justify-content: center; }
+    .one-liner {
+      margin: 0; padding: 10px 14px; border-radius: 10px; background: var(--green-soft);
+      color: #145142; font-size: 14px; font-weight: 700; text-align: center;
     }
-
-    .info-card p, .diagram-card p {
-      margin: 0 0 8px;
-      color: var(--muted);
-      line-height: 1.68;
-      font-size: 14.5px;
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .chip {
+      padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 700;
+      border: 1px solid var(--line); background: #fff;
     }
-
-    .info-card p:last-child { margin-bottom: 0; }
-
-    .diagram-card { overflow-x: auto; }
-    .diagram-card .mermaid { display: flex; justify-content: center; min-height: 80px; }
-
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-      margin-top: 4px;
-    }
-
-    .data-table th, .data-table td {
-      border: 1px solid var(--line);
-      padding: 8px 10px;
-      text-align: left;
-      vertical-align: top;
-      line-height: 1.5;
-    }
-
-    .data-table th { background: var(--subtle); font-weight: 800; color: var(--ink); }
-    .data-table td { color: var(--muted); }
-    .data-table .hl { color: var(--blue); font-weight: 800; }
-
-    .trace-flow {
-      margin: 0;
-      padding: 14px 16px;
-      border-radius: 12px;
-      background: var(--subtle);
-      font-size: 13.5px;
-      line-height: 1.75;
-      color: var(--ink);
-      white-space: pre-wrap;
-    }
-
-    .level-list { display: grid; gap: 10px; }
-
-    .level-card {
-      display: grid;
-      grid-template-columns: 40px 1fr;
-      gap: 12px;
-      align-items: start;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #fbfcff;
-      padding: 14px 16px;
-    }
-
-    .level-num {
-      width: 40px; height: 40px; border-radius: 50%;
-      display: grid; place-items: center;
-      background: var(--blue-soft); color: var(--blue);
-      font-weight: 900; font-size: 15px;
-    }
-
-    .level-card p { margin: 0; color: var(--muted); line-height: 1.65; font-size: 14px; }
-
-    .callout {
-      border-radius: 14px;
-      padding: 14px 16px;
-      border: 1px solid rgba(168, 86, 12, 0.28);
-      background: var(--amber-soft);
-    }
-
-    .callout strong { color: var(--amber); display: block; margin-bottom: 6px; font-size: 14px; }
-    .callout p { margin: 0; color: #6b4c2a; line-height: 1.65; font-size: 14px; }
-
+    .chip.blue { background: var(--blue-soft); color: #1e3a8a; border-color: rgba(33,85,217,.2); }
+    .chip.green { background: var(--green-soft); color: #145142; border-color: rgba(15,118,110,.25); }
+    .chip.amber { background: var(--amber-soft); color: var(--amber); border-color: rgba(168,86,12,.25); }
     .ai-tip {
-      border-color: rgba(33, 85, 217, 0.22);
-      background: var(--blue-soft);
+      border: 1px dashed rgba(33,85,217,.35); border-radius: 12px; background: var(--blue-soft);
+      padding: 12px 14px; font-size: 13px; color: #1e3a8a; line-height: 1.55;
     }
-
-    .ai-tip h3 { color: #1e3a8a; font-size: 15px; margin-bottom: 10px; }
-    .ai-tip ul { margin: 0; padding-left: 18px; }
-    .ai-tip li { margin-bottom: 6px; line-height: 1.6; font-size: 14px; color: #1e3a8a; }
-    .ai-tip li:last-child { margin-bottom: 0; }
-
-    .review-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+    .ai-tip strong { display: block; margin-bottom: 4px; font-size: 12px; }
+    .callout {
+      padding: 12px 14px; border-radius: 12px; background: var(--amber-soft);
+      border: 1px solid rgba(168,86,12,.25); font-size: 13px; color: #6b4c2a; line-height: 1.55;
     }
-
-    .review-box {
-      border-radius: 14px;
-      padding: 14px 16px;
-      border: 1px solid var(--line);
-      background: #fff;
-    }
-
-    .review-box h4 { margin: 0 0 8px; font-size: 15px; }
-    .review-box.biz h4 { color: #1e3a8a; }
-    .review-box.chk h4 { color: #145142; }
-    .review-box ul { margin: 0; padding-left: 18px; }
-    .review-box li { font-size: 13.5px; line-height: 1.6; color: var(--muted); margin-bottom: 4px; }
-
-    .summary-table .data-table td:first-child { font-weight: 700; color: var(--ink); white-space: nowrap; }
-
-    .quote {
-      margin: 0;
-      padding: 12px 14px;
-      border-left: 4px solid var(--green);
-      background: var(--green-soft);
-      border-radius: 0 12px 12px 0;
-      color: #145142;
-      font-size: 15px;
-      font-weight: 700;
-      line-height: 1.6;
-    }
-
+    .callout b { color: var(--amber); }
     .hidden { display: none; }
-
-    footer.note {
-      max-width: 1180px;
-      margin: 0 auto;
-      width: 100%;
-      color: var(--muted);
-      font-size: 12px;
-      text-align: center;
-    }
-
-    @media (max-width: 1020px) {
-      .app { padding: 18px; }
-      header, main, .slide-head { grid-template-columns: 1fr; }
-      .controls { justify-content: flex-start; }
-      .sidebar { grid-template-columns: repeat(4, 1fr); }
-      .slide { min-height: auto; }
-      .review-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 640px) {
-      h1 { font-size: 24px; }
-      .slide h2 { font-size: 22px; }
-      .sidebar { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+      .sidebar { grid-template-columns: repeat(4, 1fr); display: grid; }
+      h1 { font-size: 22px; }
     }
   </style>
 </head>
@@ -358,21 +101,18 @@
   <div class="app">
     <header>
       <div>
-        <p class="eyebrow">Case Study · Buy-Sell 成本还原</p>
-        <h1>业务梳理 × AI 协作：一次真实项目的处理实录</h1>
-        <p class="lead">每月重复做的财务分析项目。讲清楚怎么拆环节、怎么跟老底稿核对、出问题怎么分类——以及 AI 在哪些环节真正帮上忙（加速试算、暴露规则缺口）。</p>
-        <p class="goal-banner">核心：先讲清业务流程再拆环节；业务定规矩，AI 帮整理和执行，老底稿当尺子</p>
+        <p class="eyebrow">Case Study</p>
+        <h1>Buy-Sell 成本还原 · 怎么拆、怎么用 AI</h1>
       </div>
       <div class="controls">
-        <a class="home-link" href="index.html">← 返回首页</a>
+        <a class="home-link" href="index.html">← 首页</a>
         <button id="prevBtn">上一页</button>
         <button id="nextBtn" class="primary">下一页</button>
       </div>
     </header>
 
     <main>
-      <nav id="nav" class="sidebar" aria-label="章节导航"></nav>
-
+      <nav id="nav" class="sidebar"></nav>
       <section class="slide">
         <div class="slide-head">
           <div>
@@ -382,290 +122,164 @@
           </div>
           <div id="progress" class="progress"><span id="progressText"></span></div>
         </div>
-
         <div class="content">
-          <!-- 0 开场 -->
+          <!-- 0 -->
           <div id="stage0" class="stage-pane">
-            <div class="info-card">
-              <h3>这份材料讲什么</h3>
-              <p>不是 AI 工具说明书，而是一次<strong>真实项目</strong>的处理实录：把多环节材料流转，还原成集团视角下可比的「真实材料消耗成本」。</p>
+            <div class="diagram-card">
+              <pre class="mermaid">
+flowchart LR
+  A[业务地图<br/>Part 1·2·3] --> B[子环节<br/>以 Part 2 为例]
+  B --> C[字段倒推<br/>越南一行]
+  C --> D[规划→试跑→对老底稿]
+  D --> E[出问题怎么办]
+              </pre>
             </div>
-            <div class="info-card">
-              <h3>你会看到</h3>
-              <p>① 业务上分几步（以 Part 2 转售价差拆环节为例）<br>
-                 ② 从 Part 3 最终表「一行」倒推字段从哪来<br>
-                 ③ 规划 → 试跑 → 对老底稿 → 处理异常 的完整路径<br>
-                 ④ 业务做法与 AI 用法如何一一对应</p>
-            </div>
-            <div class="quote">不是让 AI 替我们做财务判断，而是让 AI 在已确认的规则下稳定重复执行，并把还没确认的地方显式列出来。</div>
+            <p class="one-liner">业务定规矩 · AI 帮执行 · 老底稿当尺子</p>
           </div>
 
-          <!-- 1 背景 -->
+          <!-- 1 Part 123 -->
           <div id="stage1" class="stage-pane hidden">
-            <div class="info-card">
-              <h3>我们在还原什么</h3>
-              <p>材料在集团内部转售、集团转售给代工厂（Buy-Sell）、客供（CS）等链路里流转。<strong>账面成本 ≠ 集团想分析的真实消耗成本。</strong></p>
+            <div class="diagram-card">
+              <pre class="mermaid">
+flowchart TB
+  subgraph 可同时进行
+    direction LR
+    P1["Part 1<br/>缴库 + BOM 明细"]
+    P2["Part 2<br/>转售价差"]
+  end
+  P1 --> P3["Part 3<br/>价差传导 → 型号汇总"]
+  P2 --> P3
+  subgraph Part1内部也可并行
+    direction LR
+    A[本厂] --- B[国内立讯] --- C[越南]
+  end
+              </pre>
             </div>
-            <div class="info-card">
-              <h3>要回答的问题</h3>
-              <p style="font-size:16px;font-weight:700;color:var(--ink);">站在集团整体视角，这个产品真正消耗的材料成本应该是多少？</p>
+            <div class="chips">
+              <span class="chip blue">Part 1 → BOM + 缴库数量</span>
+              <span class="chip blue">Part 2 → 单位价差</span>
+              <span class="chip green">Part 3 → 两者接起来</span>
             </div>
-            <table class="data-table">
-              <thead>
-                <tr><th>大块</th><th>在干什么</th><th>依赖关系</th></tr>
-              </thead>
-              <tbody>
-                <tr><td class="hl">Part 2</td><td>算各品号/各渠道的单位价差</td><td>可与 Part 1 并行推进</td></tr>
-                <tr><td class="hl">Part 1</td><td>整理缴库/BOM 明细（含 CS 下钻）</td><td>可与 Part 2 并行推进</td></tr>
-                <tr><td class="hl">Part 3</td><td>把价差按 BOM 传到子件，再汇总到型号</td><td>需要 Part 1 + Part 2 口径稳定</td></tr>
-              </tbody>
-            </table>
+            <p class="one-liner">第一层拆分：先拆 Part 1 / 2 / 3，再拆每个 Part 里面的子步骤</p>
           </div>
 
-          <!-- 2 Part2拆分 -->
+          <!-- 2 Part2 sub -->
           <div id="stage2" class="stage-pane hidden">
             <div class="diagram-card">
               <pre class="mermaid">
 flowchart LR
-    A["2-1 正向单位成本<br/>销货明细"] --> B["2-2 底稿清洗+替换成本<br/>Buy-Sell底稿+mapping"]
-    B --> C["2-3 价差汇总<br/>国内/越南/品号综合"]
+  S1["2-1<br/>正向单价<br/>销货明细"] --> S2["2-2<br/>底稿清洗<br/>+ 替换成本"]
+  S2 --> S3["2-3<br/>价差汇总<br/>国内/越南/综合"]
               </pre>
             </div>
-            <table class="data-table">
-              <thead>
-                <tr><th>环节</th><th>在干什么</th><th>主要输入</th><th>主要产出</th></tr>
-              </thead>
-              <tbody>
-                <tr><td class="hl">2-1</td><td>算每个品号每月的「正向单价」</td><td>销货明细</td><td>正向单位成本表</td></tr>
-                <tr><td class="hl">2-2</td><td>筛行、补分类；越南成本行用正向单价×数量</td><td>Buy-Sell 底稿、mapping、2-1 产出</td><td>清洗后底稿</td></tr>
-                <tr><td class="hl">2-3</td><td>分组加总，算单位价差</td><td>2-2 产出</td><td>国内/越南/品号综合价差表</td></tr>
-              </tbody>
-            </table>
-            <div class="info-card">
-              <p><strong>为什么不要一口气做完：</strong>2-2 规则多（科目筛选、替换成本、汇率例外），和 2-3 混在一起很难核对。2-1 可先单独跟销货明细、跟手搓对清楚。<strong>Part 1 缴库 BOM 与 Part 2 价差计算可以分开、同时进行。</strong></p>
+            <div class="chips">
+              <span class="chip amber">Part 2 内部：必须 2-1 → 2-2 → 2-3</span>
+              <span class="chip green">Part 1 与 Part 2：可同时进行</span>
             </div>
             <div class="ai-tip">
-              <h3>本页 · AI 用法（环节拆分）</h3>
-              <ul>
-                <li>先口述完整流程，要求 AI <strong>只出环节拆分表，不写任何文件</strong></li>
-                <li>使用 <strong>Plan 模式</strong>（或写明「目前仅为方案规划阶段」），避免 AI 过早动手</li>
-                <li>让 AI 标出：哪些环节必须按顺序、哪些可以和 Part 1 并行</li>
-              </ul>
+              <strong>AI · 拆环节</strong>
+              Plan 模式 · 只出拆分图不写文件 · 标清「可并行 / 必须先后」
             </div>
           </div>
 
-          <!-- 3 字段倒推 越南 -->
+          <!-- 3 field trace -->
           <div id="stage3" class="stage-pane hidden">
-            <div class="info-card">
-              <h3>拆解诀窍：从最终表「一行」倒推</h3>
-              <p>Part 3 <strong>越南立讯</strong>明细里，一行<strong>叶子物料</strong>（示意）需要这些字段都齐，前面各环节必须就绪：</p>
+            <div class="diagram-card">
+              <pre class="mermaid">
+flowchart BT
+  ROW["Part 3 · 越南立讯 · 一行叶子料"]
+  ROW --> GAP["单位价差"]
+  ROW --> QTY["缴库数量"]
+  ROW --> BOM["用量 · 损耗 · 子件"]
+  GAP --> P2["← Part 2"]
+  QTY --> P1A["← Part 1 缴库"]
+  BOM --> P1B["← Part 1 BOM"]
+              </pre>
             </div>
-            <table class="data-table">
-              <thead>
-                <tr><th>字段</th><th>这一列代表什么</th><th>数据从哪来</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>SKU料号 / SKU名称</td><td>缴库的是哪个成品</td><td>Part 1 越南缴库清洗</td></tr>
-                <tr><td>子件代号(CS下拆)</td><td>BOM 最底层要算价差的料</td><td>Part 1 BOM 下钻 ← 核价单数据库</td></tr>
-                <tr><td class="hl">标准用量 / 损耗率</td><td>该子件用多少、损耗多少</td><td>Part 1 BOM 明细</td></tr>
-                <tr><td class="hl">缴库数量</td><td>该 SKU 当月缴库多少</td><td>Part 1 越南采购聚合</td></tr>
-                <tr><td class="hl">单位价差</td><td>该子件对应的价差</td><td>Part 2 越南立讯价差表（按品号等查）</td></tr>
-                <tr><td class="hl">含损价差</td><td>单位价差 × 用量 × 损耗系数</td><td>Part 3 计算规则（需业务确认）</td></tr>
-                <tr><td>价差来源</td><td>标明价差来自哪张 Part 2 表</td><td>Part 3 匹配逻辑</td></tr>
-              </tbody>
-            </table>
-            <pre class="trace-flow">单位价差       ← Part 2（必须先算好）
-BOM + 缴库数量 ← Part 1（必须先整理好）
-含损价差       ← 上面几列按确认规则计算
-→ 缺任何一环，这一行都填不齐 → 这就是环节拆分的依据</pre>
+            <p class="one-liner">从最终表一行倒推 → 缺哪块，就缺哪个 Part</p>
           </div>
 
-          <!-- 4 计划准备 -->
+          <!-- 4 workflow -->
           <div id="stage4" class="stage-pane hidden">
-            <div class="level-list">
-              <article class="level-card">
-                <div class="level-num">1</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">讲清背景与最终产出</h3><p>这件事图什么、输入是什么、最后要哪几张表。</p></div>
-              </article>
-              <article class="level-card">
-                <div class="level-num">2</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">拆环节 + 定输入输出</h3><p>每个环节：输入什么、输出长什么样、怎样算「做对了」（跟手搓对 / 业务确认的规则）。</p></div>
-              </article>
-              <article class="level-card">
-                <div class="level-num">3</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">方案定稿前做两类审查</h3><p>只改方案，不写文件、不改数据。</p></div>
-              </article>
+            <div class="diagram-card">
+              <pre class="mermaid">
+flowchart LR
+  P["① 规划<br/>只谈方案"] --> T["② 小样本<br/>~10条"]
+  T --> C["③ 对老底稿"]
+  C --> W["④ 写文档"]
+  C -.有问题.-> P
+              </pre>
             </div>
-            <div class="review-grid">
-              <div class="review-box biz">
-                <h4>业务审查</h4>
-                <ul>
-                  <li>口径全不全？Buy-Sell 和 CS 有没有混？</li>
-                  <li>边界案例有没有漏？</li>
-                </ul>
-              </div>
-              <div class="review-box chk">
-                <h4>复核与落地审查</h4>
-                <ul>
-                  <li>能否跟历史手搓对比？</li>
-                  <li>异常会不会单独列出、而不是静默跳过？</li>
-                  <li>换月份是否只换数据、不重写规则？</li>
-                </ul>
-              </div>
+            <div class="chips">
+              <span class="chip">业务审查：口径对不对</span>
+              <span class="chip">落地审查：能否复跑、异常可见</span>
             </div>
             <div class="ai-tip">
-              <h3>本页 · AI 用法（规划阶段）</h3>
-              <ul>
-                <li><strong>Plan 模式 / 规划约束：</strong>「目前仅为方案规划，不要生成文件」</li>
-                <li><strong>多轮确认：</strong>先框架 → 再环节 → 再每环节输入输出 → 再异常怎么处理</li>
-                <li><strong>逻辑修正：</strong>AI 易混淆 Buy-Sell 与 CS；用「引用 AI 原话 + 你的纠正 + 请按纠正后重述」</li>
-                <li><strong>换角色审查：</strong>同一方案分别做业务审查、复核与落地审查，只列问题和改法</li>
-                <li><strong>按环节新开对话：</strong>Part 2 定稿后，新对话只谈 2-1，避免前面规则干扰后面</li>
-              </ul>
+              <strong>AI · 规划与执行</strong>
+              Plan 模式 · 纠正 AI 理解 · 小样本再全量 · 换环节新开对话
             </div>
           </div>
 
-          <!-- 5 执行 -->
+          <!-- 5 problems -->
           <div id="stage5" class="stage-pane hidden">
-            <div class="level-list">
-              <article class="level-card">
-                <div class="level-num">①</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">小样本试跑（约 10 条）</h3><p>只跑少量记录，打开表看，或让 AI 用话说明：数据从哪来、怎么筛、怎么算。<strong>对了再用全部数据正式跑。</strong></p></div>
-              </article>
-              <article class="level-card">
-                <div class="level-num">②</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">跟历史手搓核对</h3><p>每月都有人工核算老底稿，是天然「尺子」。不符合预期先分类（见下一页），再决定怎么动。</p></div>
-              </article>
-              <article class="level-card">
-                <div class="level-num">③</div>
-                <div><h3 style="margin:0 0 6px;font-size:15px;">本环节结束 → 沉淀</h3><p>口径、输入输出、核对手搓结论写入文档；未拍板项进「待业务确认」清单。</p></div>
-              </article>
+            <div class="diagram-card">
+              <pre class="mermaid">
+flowchart TB
+  X[对不上老底稿]
+  X --> A["① 理解错了<br/>改核对方式"]
+  X --> B["② 规则未定<br/>待业务确认"]
+  X --> C["③ 缺匹配<br/>补规则如替代料"]
+              </pre>
             </div>
-            <div class="ai-tip">
-              <h3>本页 · AI 用法（执行阶段）</h3>
-              <ul>
-                <li><strong>小样本先行：</strong>「先只处理 N 条 / 几个品号，不要全量」</li>
-                <li><strong>让 AI 口述逻辑：</strong>「请说明每一列的数据来源和计算过程，不要贴代码」——方便业务一起听</li>
-                <li><strong>对话换页：</strong>换环节新开对话；太长时先让 AI 总结「已确认规则清单」再继续</li>
-                <li><strong>只读最新版本：</strong>明确「只看当前版本文件夹」，避免混用旧规则</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- 6 异常 + 汇率案例 -->
-          <div id="stage6" class="stage-pane hidden">
-            <table class="data-table">
-              <thead>
-                <tr><th>类型</th><th>典型情况</th><th>怎么处理</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="hl">① 理解偏差</td>
-                  <td>核对方式错了、误解「一行代表什么」</td>
-                  <td>让 AI 说明处理逻辑 → 你纠正 → 小样本重试</td>
-                </tr>
-                <tr>
-                  <td class="hl">② 规则未定</td>
-                  <td>两种老做法都说得通，业务还没拍板</td>
-                  <td>进「待业务确认」，不擅自选一种</td>
-                </tr>
-                <tr>
-                  <td class="hl">③ 缺匹配 / 需补规则</td>
-                  <td>源表对不上，或现有规则覆盖不到</td>
-                  <td>列异常明细；常需<strong>补充新规则</strong>（如替代料关系）</td>
-                </tr>
-              </tbody>
-            </table>
             <div class="callout">
-              <strong>实录：汇率折算——AI 加速试算，帮业务「发现」还缺一条规则</strong>
-              <p>Part 2 做越南立讯价差时，自动结果与手搓表对不上。快速重跑、逐品号对比差异后，业务才意识到：部分越南行是 <strong>USD 入账</strong>，不能当人民币直接加总，需要按<strong>当月财务入账汇率</strong>折算。这条规则最初不在方案里，是<strong>「算得快 → 对得上手搓 → 对不上就追问」</strong>的过程中才被识别并写进口径的。说明 AI 的价值不只是执行，还包括<strong>帮整个处理流程和规则更快补全</strong>。</p>
+              <b>实录 · 汇率折算</b><br>
+              越南价差对不上手搓 → 快速重跑找差异 → 发现 USD 行要按月汇率折算 → 规则补进方案。<br>
+              <b>AI 帮的是：算得快，差异早暴露，规则早补全。</b>
             </div>
             <div class="ai-tip">
-              <h3>本页 · AI 用法（异常处理）</h3>
-              <ul>
-                <li><strong>理解偏差：</strong>「你刚才为什么这样处理？」→ 指出错在哪一步 → 按新理解重做</li>
-                <li><strong>规则未定：</strong>让 AI 整理「待业务确认清单」：现象、影响范围、可选口径、建议找谁拍板</li>
-                <li><strong>缺匹配：</strong>让 AI 归类异常（缺核价单 / 缺替代料 / 缺 mapping），<strong>不要</strong>默认填数或静默跳过</li>
-              </ul>
+              <strong>AI · 异常</strong>
+              问清 AI 怎么算的 · 整理待确认清单 · 不默认填数
             </div>
           </div>
 
-          <!-- 7 协作 -->
-          <div id="stage7" class="stage-pane hidden">
-            <div class="info-card">
-              <h3>隐性习惯也是成本</h3>
-              <p>业务同事做表方式不统一：mapping、例外处理可能揉在一张大表里，不会主动写成规则说明。</p>
+          <!-- 6 summary -->
+          <div id="stage6" class="stage-pane hidden">
+            <div class="diagram-card">
+              <pre class="mermaid">
+flowchart LR
+  subgraph 业务
+    B1[定口径] --> B2[对老底稿] --> B3[拍板异常]
+  end
+  subgraph AI
+    A1[拆环节] --> A2[试跑核对] --> A3[写文档清单]
+  end
+  B1 -.-> A1
+  B2 -.-> A2
+  B3 -.-> A3
+              </pre>
             </div>
-            <div class="info-card">
-              <h3>做法</h3>
-              <p>• 跟老底稿对比，<strong>差异本身就是提问清单</strong><br>
-                 • 「为什么这样」写进文档，标确认人和日期<br>
-                 • 定不下来的进「待业务确认」，不硬写进自动步骤</p>
-            </div>
-            <div class="review-grid">
-              <div class="review-box biz">
-                <h4>AI 适合做的</h4>
-                <ul><li>扫表结构，列字段疑点，帮你问对问题</li><li>把口头解释整理成口径说明草稿，经你确认后归档</li></ul>
-              </div>
-              <div class="review-box chk">
-                <h4>AI 不适合做的</h4>
-                <ul><li>替业务决定「跟哪条口径」</li><li>对未确认规则默认填数或跳过</li></ul>
-              </div>
-            </div>
-          </div>
-
-          <!-- 8 总结 -->
-          <div id="stage8" class="stage-pane hidden">
-            <div class="summary-table">
-              <table class="data-table">
-                <thead>
-                  <tr><th>业务上要做的</th><th>AI 怎么配合</th><th>Buy-Sell 例子</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>讲清背景与产出</td><td>Plan 模式，多轮确认，不写文件</td><td>Part 2/3 目标表列名先对齐</td></tr>
-                  <tr><td>拆环节、定输入输出</td><td>字段倒推 + 依赖；分对话按环节深入</td><td>Part 2 三环节；越南一行倒推</td></tr>
-                  <tr><td>并行 vs 串行</td><td>让 AI 标依赖关系</td><td>Part 1 BOM 与 Part 2 价差可并行</td></tr>
-                  <tr><td>审查方案</td><td>业务审查 + 复核与落地审查；逻辑修正</td><td>待确认清单、时间口径对照</td></tr>
-                  <tr><td>小样本 → 全量</td><td>试跑 N 条；口述逻辑；再全量</td><td>Part 2 抽品号核对</td></tr>
-                  <tr><td>对老底稿</td><td>快速重跑、逐段对比差异</td><td>各 Part 手搓核对结论</td></tr>
-                  <tr><td>异常分类</td><td>纠正 / 清单 / 补规则</td><td>分桶核对、POP 规则、<strong>汇率折算</strong></td></tr>
-                  <tr><td>沉淀交接</td><td>按结构起草文档；可复用口径→文档 / skill</td><td>docs、待业务确认、品号解析 skill</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <p class="quote" style="margin-top:14px;">业务定规矩，AI 帮整理和执行，老底稿当尺子——算得快、对得上、对不上就追问，规则就在这个循环里越来越完整。</p>
+            <p class="one-liner">不是 AI 替财务判断 · 是 AI 让已确认的规则跑得稳、漏项看得见</p>
           </div>
         </div>
       </section>
     </main>
-
-    <footer class="note">Buy-Sell 成本还原 · 业务梳理与 AI 协作实录 · 左右键或按钮翻页</footer>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: "base",
-      themeVariables: {
-        primaryColor: "#edf3ff",
-        primaryTextColor: "#101827",
-        primaryBorderColor: "#2155d9",
-        lineColor: "#647084",
-        fontFamily: "Microsoft YaHei, PingFang SC, Segoe UI, Arial, sans-serif"
-      }
-    });
+    mermaid.initialize({ startOnLoad: true, theme: "base", themeVariables: {
+      primaryColor: "#edf3ff", primaryTextColor: "#101827", primaryBorderColor: "#2155d9",
+      lineColor: "#647084", fontFamily: "Microsoft YaHei, PingFang SC, sans-serif", fontSize: "14px"
+    }});
 
     const stages = [
-      { label: "第 1 页", title: "这份材料讲什么", desc: "真实项目实录：业务梳理与 AI 协作如何配合。", nav: "开场", sub: "1 分钟" },
-      { label: "第 2 页", title: "我们在还原什么", desc: "业务背景与 Part 1 / 2 / 3 的关系。", nav: "业务背景", sub: "三块分工" },
-      { label: "第 3 页", title: "Part 2 怎么拆环节", desc: "以转售价差为例：三环节必须按顺序；可与 Part 1 并行。", nav: "Part 2 拆分", sub: "环节示例" },
-      { label: "第 4 页", title: "从越南立讯「一行」倒推", desc: "Part 3 最终表字段 → 数据来源 → 环节依赖。", nav: "字段倒推", sub: "拆解诀窍" },
-      { label: "第 5 页", title: "计划准备：只规划、不动手", desc: "背景、环节、输入输出；业务审查 + 复核与落地审查。", nav: "计划准备", sub: "Plan 阶段" },
-      { label: "第 6 页", title: "计划执行：试跑 → 核对 → 沉淀", desc: "小样本、对老底稿、写文档。", nav: "计划执行", sub: "执行阶段" },
-      { label: "第 7 页", title: "出问题先分三类", desc: "理解偏差 / 规则未定 / 缺匹配需补规则；含汇率折算实录。", nav: "异常处理", sub: "三类 + 汇率" },
-      { label: "第 8 页", title: "和业务同事协作", desc: "差异即提问清单；AI 的分工边界。", nav: "业务协作", sub: "隐性习惯" },
-      { label: "第 9 页", title: "总结：业务 × AI", desc: "一张对照表收束全文。", nav: "总结", sub: "对照表" }
+      { nav: "导览", title: "怎么读这份材料", desc: "7 页，图为主。" },
+      { nav: "Part 1·2·3", title: "项目拆成三块", desc: "第一层：整项目环节。" },
+      { nav: "Part 2 子环节", title: "第二层：Part 2 再拆三步", desc: "子环节示例。" },
+      { nav: "字段倒推", title: "越南一行从哪来", desc: "倒推 = 拆分依据。" },
+      { nav: "四步做法", title: "规划 → 试跑 → 核对 → 沉淀", desc: "" },
+      { nav: "出问题", title: "先分三类", desc: "含汇率折算实录。" },
+      { nav: "总结", title: "业务 × AI", desc: "" }
     ];
 
     const nav = document.getElementById("nav");
@@ -677,42 +291,37 @@ BOM + 缴库数量 ← Part 1（必须先整理好）
     const progressText = document.getElementById("progressText");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
-
     let active = 0;
 
     function buildNav() {
-      nav.innerHTML = stages.map((s, i) => `
-        <button class="nav-item" data-index="${i}">
-          <span class="nav-index">${i + 1}</span>
-          <span><span class="nav-title">${s.nav}</span><span class="nav-sub">${s.sub}</span></span>
-        </button>
-      `).join("");
-      nav.querySelectorAll(".nav-item").forEach(el => {
-        el.addEventListener("click", () => setStage(Number(el.dataset.index)));
-      });
+      nav.innerHTML = stages.map((s, i) =>
+        `<button class="nav-item" data-i="${i}">${i + 1}. ${s.nav}</button>`
+      ).join("");
+      nav.querySelectorAll(".nav-item").forEach(b =>
+        b.addEventListener("click", () => setStage(+b.dataset.i))
+      );
     }
 
-    function setStage(index) {
-      active = Math.max(0, Math.min(index, stages.length - 1));
+    function setStage(i) {
+      active = Math.max(0, Math.min(i, stages.length - 1));
       const s = stages[active];
-      panes.forEach((p, i) => p.classList.toggle("hidden", i !== active));
-      nav.querySelectorAll(".nav-item").forEach((el, i) => el.classList.toggle("active", i === active));
-      stageLabel.textContent = s.label;
+      panes.forEach((p, j) => p.classList.toggle("hidden", j !== active));
+      nav.querySelectorAll(".nav-item").forEach((b, j) => b.classList.toggle("active", j === active));
+      stageLabel.textContent = `${active + 1} / ${stages.length}`;
       stageTitle.textContent = s.title;
       stageDesc.textContent = s.desc;
       progressText.textContent = `${active + 1}/${stages.length}`;
       progress.style.setProperty("--progress", `${((active + 1) / stages.length) * 100}%`);
-      prevBtn.disabled = active === 0;
+      prevBtn.disabled = !active;
       nextBtn.disabled = active === stages.length - 1;
     }
 
-    prevBtn.addEventListener("click", () => setStage(active - 1));
-    nextBtn.addEventListener("click", () => setStage(active + 1));
-    document.addEventListener("keydown", e => {
+    prevBtn.onclick = () => setStage(active - 1);
+    nextBtn.onclick = () => setStage(active + 1);
+    document.onkeydown = e => {
       if (e.key === "ArrowRight") setStage(active + 1);
       if (e.key === "ArrowLeft") setStage(active - 1);
-    });
-
+    };
     buildNav();
     setStage(0);
   </script>
