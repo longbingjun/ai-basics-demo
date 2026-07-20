@@ -1095,27 +1095,28 @@
             html: `
               <div class="sample-box">
                 <div class="label">你的指令（Prompt）</div>
-                <div class="text">用 shokz-product-sku 解析 SKU：B-CL120A-BK-TL</div>
+                <div class="text">用 shokz-product-sku 解析 SKU：S803-ST-BG-00-169</div>
               </div>
               <div class="card accent-violet">
                 <h3>Agent 按 Skill 做了什么</h3>
                 <p style="font-size:14px;line-height:1.65;color:var(--muted);margin:0">
                   ① 识别到「解析 SKU」→ 加载 <strong>shokz-product-sku</strong><br>
-                  ② 读 SKILL.md：<code style="font-size:12px">B-</code> 开头 → 物理性质 = <strong>裸机</strong>；按 <code style="font-size:12px">-</code> 分段取型号<br>
+                  ② 读 SKILL.md：<code style="font-size:12px">S803-</code> 整机格式 → 物理性质 = <strong>整机</strong>；按 <code style="font-size:12px">-</code> 分段（型号-大小-颜色-国家-客户）<br>
                   ③ 跑 <strong>parse_sku.py</strong>（规则固定的部分交给脚本）<br>
-                  ④ 产品线三级若 mapping 表对不上 → 标<strong>待确认</strong>，不擅自定论
+                  ④ 产品线三级、项目简称需查 mapping（S803 须先看 ST/MN）→ 对不上则标<strong>待确认</strong>
                 </p>
               </div>
               <div class="output-box">
                 <div class="label">最终产出（解析结果表）</div>
                 <table class="table-simple" style="background:#fff">
                   <tr><th>字段</th><th>结果</th><th>依据规则</th></tr>
-                  <tr><td>物理性质</td><td><strong>裸机</strong></td><td>SKU 以 B- 开头</td></tr>
-                  <tr><td>产品型号</td><td><strong>CL120A</strong></td><td>B- 后第一段</td></tr>
-                  <tr><td>产品系列</td><td><strong>CL12A</strong></td><td>型号去掉末位数字</td></tr>
-                  <tr><td>产品线（一级）</td><td><strong>通讯线</strong></td><td>型号 C 开头 → reference</td></tr>
-                  <tr><td>颜色段</td><td><strong>BK</strong></td><td>分段解析</td></tr>
-                  <tr><td>尾号段</td><td><strong>TL</strong></td><td>分段解析；业务含义待人工确认</td></tr>
+                  <tr><td>物理性质</td><td><strong>整机</strong></td><td>字母+3数字+减号（S803-…）</td></tr>
+                  <tr><td>产品型号</td><td><strong>S803</strong></td><td>第 1 段</td></tr>
+                  <tr><td>产品系列</td><td><strong>S80</strong></td><td>型号去掉末位数字</td></tr>
+                  <tr><td>产品线（一级）</td><td><strong>骨传导运动线</strong></td><td>型号 S 开头 → reference</td></tr>
+                  <tr><td>大小段</td><td><strong>ST</strong></td><td>第 2 段；S803 多为标准款</td></tr>
+                  <tr><td>颜色段</td><td><strong>BG</strong></td><td>第 3 段</td></tr>
+                  <tr><td>国家 / 客户段</td><td><strong>00 / 169</strong></td><td>第 4、5 段；三级产品线查 mapping</td></tr>
                 </table>
               </div>
               <div class="card">

@@ -203,14 +203,14 @@
 
     .content { display: grid; align-content: start; gap: 14px; }
 
-    .info-card, .diagram-card, .ai-tip {
+    .info-card, .ai-tip {
       border: 1px solid var(--line);
       border-radius: 16px;
       background: #fbfcff;
       padding: 16px 18px;
     }
 
-    .info-card p, .diagram-card p {
+    .info-card p {
       margin: 0 0 8px;
       color: var(--muted);
       line-height: 1.68;
@@ -218,9 +218,6 @@
     }
 
     .info-card p:last-child { margin-bottom: 0; }
-
-    .diagram-card { overflow-x: auto; }
-    .diagram-card .mermaid { display: flex; justify-content: center; min-height: 80px; }
 
     .data-table {
       width: 100%;
@@ -431,15 +428,6 @@
               <h3>解耦方法：从「最终表」倒推，对着字段问业务</h3>
               <p>拿着 Part 3 目标行（或手搓汇总表），<strong>逐列问</strong>：从哪来？业务实质是什么？依赖谁？缺了就算不出？——AI 帮你整理成字段依赖表。</p>
             </div>
-            <div class="diagram-card">
-              <pre class="mermaid">
-flowchart TB
-  T["锁定 Part 3 目标行"] --> F["列出字段"]
-  F --> Q["问业务：来源与实质"]
-  Q --> D["画依赖与先后顺序"]
-  D --> P["自然拆出 Part 1·2·3"]
-              </pre>
-            </div>
             <div class="info-card">
               <h3>实录 · 倒推一例（越南立讯 · 某叶子料一行）</h3>
             </div>
@@ -475,13 +463,6 @@ flowchart TB
 
           <!-- 3 Part 关系 -->
           <div id="stage2" class="stage-pane hidden">
-            <div class="diagram-card">
-              <pre class="mermaid">
-flowchart LR
-  P1["Part 1<br/>BOM+缴库<br/>三条清洗线"] --> P3["Part 3<br/>传导+型号汇总"]
-  P2["Part 2<br/>单位价差<br/>2-1→2-2→2-3"] --> P3
-              </pre>
-            </div>
             <div class="info-card">
               <p><strong>Part 1 与 Part 2 可并行</strong>（不同数据源、不同规则）。<strong>Part 3 必须等两者定稿</strong>。下面以 Part 2 为例，看「分步怎么和 AI、业务一起跑」——Part 1/3 用同一套节奏，只是规则来源不同。</p>
             </div>
@@ -560,15 +541,6 @@ flowchart LR
 
           <!-- 5 方法论 -->
           <div id="stage4" class="stage-pane hidden">
-            <div class="diagram-card">
-              <pre class="mermaid">
-flowchart LR
-  A["懂业务：还原什么"] --> B["倒推字段：拆 Part"]
-  B --> C["定关系：并行与顺序"]
-  C --> D["分步协作：试跑对老底稿"]
-  D --> E["异常清单 + 规则沉淀"]
-              </pre>
-            </div>
             <table class="data-table summary-table">
               <thead><tr><th>阶段</th><th>你要做的</th><th>AI</th><th>业务</th></tr></thead>
               <tbody>
@@ -588,20 +560,7 @@ flowchart LR
     <footer class="note">Buy-Sell 成本还原 · 业务梳理与 AI 协作实录 · 左右键或按钮翻页</footer>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: "base",
-      themeVariables: {
-        primaryColor: "#edf3ff",
-        primaryTextColor: "#101827",
-        primaryBorderColor: "#2155d9",
-        lineColor: "#647084",
-        fontFamily: "Microsoft YaHei, PingFang SC, Segoe UI, Arial, sans-serif"
-      }
-    });
-
     const stages = [
       { label: "第一步", title: "业务认知：还原什么？", desc: "Buy-Sell 为何还原；PCBA/包装/硅胶；一句话目标。", nav: "① 业务认知", sub: "还原对象" },
       { label: "第二步", title: "三条线 + 从结果表倒推", desc: "为何本厂/立讯/越南分线；逐字段问业务；为何拆 Part 1·2·3。", nav: "② 倒推解耦", sub: "字段+拆Part" },
